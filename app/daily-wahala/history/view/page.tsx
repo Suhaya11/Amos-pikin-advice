@@ -140,8 +140,8 @@ const TodaysWahalaOverview = () => {
         Today you have encoutered ${
           TodaysWahala(wahalas).length == 1
             ? `${TodaysWahala(wahalas).length} wahala which is caused by ${TodaysWahala(wahalas).at(0)?.causer == "Me" || TodaysWahala(wahalas).at(0)?.causer == "me" ? "you" : TodaysWahala(wahalas).at(0)?.causer} and its in ${TodaysWahala(wahalas).at(0)?.status} state`
-            : `wahala in which
-        2 of them where caused by you and the other one caused by wane`
+            : `${TodaysWahala(wahalas).length} wahala in which ${TodaysWahala(wahalas).some((wahala) => wahala.causer != `${/me/i}`) ? "All" : 4}
+         of them where caused by you and the other one caused by wane`
         } `
               : "Today ther's no Wahala encountered"}{" "}
           </p>
