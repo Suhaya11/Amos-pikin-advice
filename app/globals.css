@@ -35,3 +35,6 @@ body {
 .Input {
   @apply bg-white border-white border-2 p-1 text-black w-96/12;
 }
+.viewUnderWahalaSummary {
+  @apply border w-fit mx-auto p-2 rounded-2xl hover:bg-gray-600 hover:text-white;
+}

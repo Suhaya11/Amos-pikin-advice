@@ -181,3 +181,19 @@ export const TodaysWahala = (array: wahala[]): wahala[] =>
       ? item
       : null,
   );
+export const FindAllMeAsWahalaCouser = (wahalas: wahala[]): wahala[] =>
+  TodaysWahala(wahalas).filter(
+    (wahala) =>
+      wahala.causer == `me` ||
+      wahala.causer == "Me" ||
+      wahala.causer == "ME" ||
+      wahala.causer == "mE",
+  );
+export const findAllNotMeAsWahalaCauser = (wahalas: wahala[]): wahala[] =>
+  TodaysWahala(wahalas).filter(
+    (wahala) =>
+      wahala.causer != `me` &&
+      wahala.causer !== "Me" &&
+      wahala.causer !== "ME" &&
+      wahala.causer != "mE",
+  );
