@@ -9,12 +9,7 @@ import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumb
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 
 import React, { useEffect } from "react";
-import {
-  BiCheckbox,
-  BiChevronDown,
-  BiGift,
-  BiSolidCheckboxChecked,
-} from "react-icons/bi";
+
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 
 const HomePage = () => {
@@ -22,8 +17,8 @@ const HomePage = () => {
   const [ancikaKaida, setAncikaKaida] = React.useState<boolean>(true);
   const [referralCodeExist, setReferralCodeExist] = React.useState(false);
   const [referralCode, setReferralCode] = React.useState<string>("");
-  const [numberIsEnoughForSignUp, setNumberIsEnoughForSignUp] =
-    React.useState<boolean>(false);
+  // const [numberIsEnoughForSignUp, setNumberIsEnoughForSignUp] =
+  //   React.useState<boolean>(false);
   const [numberValue, setNumberValue] = React.useState<number | undefined>(
     9075898883,
   );
@@ -44,20 +39,23 @@ const HomePage = () => {
   );
   const [countSec, setCountSec] = React.useState<number>(6);
   const [countMin, setCountMin] = React.useState<number>(0);
-
-  const OTPCounter = () => {
+  const [noOfOtpReRequest, setNoOfOtpReRequest] = React.useState<number>(0);
+  const OTPCounter = async () => {
     setInterval(() => {
       setCountMin((prev) => (prev > 0 ? prev - 1 : 0));
       setCountSec((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
+    setTimeout(() => {
+      resetTime();
+    }, 10000);
   };
 
+  const resetTime = async function () {
+    setCountMin(1);
+    setCountSec(6);
+  };
   useEffect(() => {
     OTPCounter();
-    () => {
-      setCountMin(1);
-      setCountSec(4);
-    };
   }, []);
 
   const onOtpComleted = (userOTP: string): void => {
@@ -118,6 +116,11 @@ const HomePage = () => {
                           GoBackTo={() => setUserGaveConsent(false)}
                           progressBarAmount={9}
                         />
+                        <div className="absulute border w-6/12 ">
+                          otp from suhayaPoint fake learning bank disclose the
+                          otp to any one if you don't want to your accout your
+                          code is {generatedOtp} it will expire in 1 minute
+                        </div>
                         <div className="my-3 mx-auto  w-10/12 ">
                           <h2 className="font-bold">
                             Verify Your Phone Number
@@ -190,7 +193,7 @@ const HomePage = () => {
                                 className={
                                   countSec
                                     ? "w-fit p-3 bg-gray-400 text-white rounded-2xl font-bold pointer-events-none"
-                                    : "p-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-900 pointer-events-auto"
+                                    : "p-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-900 pointer-events-auto cursor-pointer active:p-1 active:bg-red-500"
                                 }
                               >
                                 Resend{" "}
