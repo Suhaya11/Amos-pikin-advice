@@ -2,16 +2,17 @@
 import AncikaKaida from "@/src/components/FakeAtmComponent/AncikaKaida";
 import BackNavigationForSignUp from "@/src/components/FakeAtmComponent/BackNavigationForSignUp";
 import GoToSignUp from "@/src/components/FakeAtmComponent/GoToSignUp";
-import Logo from "@/src/components/FakeAtmComponent/Logo";
+
 import NumberFieldInForm from "@/src/components/FakeAtmComponent/NumberFieldInForm";
-import Link from "next/link";
-import React from "react";
+import OtpInput from "@/src/components/FakeAtmComponent/OtpInput";
+import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumberVerifySignUp";
+import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
+
+import React, { useEffect } from "react";
 import {
-  BiArrowFromBottom,
   BiCheckbox,
   BiChevronDown,
   BiGift,
-  BiSolidCheckbox,
   BiSolidCheckboxChecked,
 } from "react-icons/bi";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
@@ -36,7 +37,36 @@ const HomePage = () => {
   const [userGaveConsent, setUserGaveConsent] = React.useState<boolean>(true);
   const maskNumberStart = (something: number | string): string =>
     `***${something.toString().split("").slice(-3).join("")}`;
-  const [otpValues, setOtpValue] = React.useState<number[]>([]);
+  // const [otpValues, setOtpValue] = React.useState<number[]>([]);
+  const [otpIsValid, setOtpIsValid] = React.useState<boolean>(false);
+  const [generatedOtp, setGeneratedOtp] = React.useState<string>(
+    Math.random().toString().split("").slice(2, 9).join(""),
+  );
+  const [countSec, setCountSec] = React.useState<number>(6);
+  const [countMin, setCountMin] = React.useState<number>(0);
+
+  const OTPCounter = () => {
+    setInterval(() => {
+      setCountMin((prev) => (prev > 0 ? prev - 1 : 0));
+      setCountSec((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+  };
+
+  useEffect(() => {
+    OTPCounter();
+    () => {
+      setCountMin(1);
+      setCountSec(4);
+    };
+  }, []);
+
+  const onOtpComleted = (userOTP: string): void => {
+    console.error(userOTP);
+    if (!isNaN(Number(userOTP)) && userOTP === generatedOtp)
+      setOtpIsValid(true);
+  };
+  // console.error("hhh", new Array(6).fill(Math.random()));
+
   return (
     <>
       {!goToSignup ? (
@@ -51,175 +81,36 @@ const HomePage = () => {
           ) : (
             <>
               {!agreedWithTheNumber && ancikaKaida && goToSignup ? (
-                <div>
-                  {" "}
-                  <BackNavigationForSignUp
-                    GoBackTo={() => setAncikaKaida(false)}
-                    progressBarAmount={3}
-                  />
-                  <div className="my-3 mx-auto w-10/12">
-                    <h2>
-                      <strong>What's your phone number?</strong>
-                    </h2>
-                    <p className="text-gray-500 text-sm">
-                      Enter the phone number you want use for this account
-                    </p>
-                  </div>
-                  <div className="my-2 mx-auto w-10/12 p-2 bg-white rounded-2xl">
-                    <NumberFieldInForm
-                      setNumberValue={setNumberValue}
-                      numberValue={numberValue}
-                    />
-                  </div>
-                  <div className="referralSpace ">
-                    <div className="flex gap-3">
-                      <BiGift
-                        size={50}
-                        className="inline-block bg-gray-100 p-2 rounded-2xl"
-                        fill="blue"
-                      />{" "}
-                      <span className="text-blue-500">Have referral code?</span>
-                    </div>
-                    <BiChevronDown
-                      className="inline-block"
-                      onClick={() => setReferralCodeExist(!referralCodeExist)}
-                    />
-                    {referralCodeExist && (
-                      <div className="w-full flex">
-                        <input
-                          value={referralCode}
-                          onChange={(e) =>
-                            setReferralCode(e.currentTarget.value)
-                          }
-                          type="text"
-                          name="referral"
-                          id="referral"
-                          placeholder="referral code (Optional)"
-                          className="bg-white p-2 rounded-2xl my-2 mx-auto w-10/12 focus:border-blue-700 focus:border outline-none"
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    onClick={() =>
-                      numberValue &&
-                      numberValue?.toString()?.length > 9 &&
-                      setAgreedWithNumber(true)
-                    }
-                    className={`absolute bottom-0 text-center w-10/12 my-3 left-10 p-3 rounded-xl ${numberValue && numberValue?.toString().trim().length > 9 ? "bg-blue-700 text-white" : "bg-gray-300 text-gray-500"}`}
-                  >
-                    <strong className="select-none">Next</strong>
-                  </div>
-                </div>
+                <PhoneNumberVerifySignUp
+                  setAgreedWithNumber={setAgreedWithNumber}
+                  setReferralCode={setReferralCode}
+                  referralCode={referralCode}
+                  setReferralCodeExist={setReferralCodeExist}
+                  referralCodeExist={referralCodeExist}
+                  setAncikaKaida={setAncikaKaida}
+                  setNumberValue={setNumberValue}
+                  numberValue={numberValue}
+                />
               ) : (
                 <>
                   {!userGaveConsent &&
                   agreedWithTheNumber &&
                   ancikaKaida &&
                   goToSignup ? (
-                    <div>
-                      <BackNavigationForSignUp
-                        GoBackTo={() => setAgreedWithNumber(false)}
-                        progressBarAmount={5}
-                      />
-                      <div className="w-10/12 my-3 mx-auto">
-                        <h2 className="font-bold">
-                          {" "}
-                          SuhayaPoint need your consent to continue
-                        </h2>
-                      </div>
-                      <div className="w-9/12 bg-white text-sm p-4 rounded-2xl my-3 mx-auto">
-                        <div className="grid  grid-cols-12 my-3">
-                          {termsAcepted ? (
-                            <BiSolidCheckboxChecked
-                              size={40}
-                              fill="blue"
-                              className="inline-block col-span-2 ml-2"
-                              onClick={() => setTermsAcepted(false)}
-                            />
-                          ) : (
-                            <BiCheckbox
-                              size={40}
-                              fill="gray"
-                              className="inline-block col-span-2 ml-2"
-                              onClick={() => setTermsAcepted(true)}
-                            />
-                          )}
-                          <span className="col-span-9 text-sm">
-                            {" "}
-                            I have read and agreed with{" "}
-                            <span className="font-bold text-blue-600 cursor-pointer">
-                              Terms and conditions
-                            </span>{" "}
-                            and{" "}
-                            <span className="font-bold  text-blue-600 cursor-pointer">
-                              Data privacy statements
-                            </span>
-                          </span>
-                        </div>
-                        <div className="grid  grid-cols-12 my-3">
-                          {agreedWithDataProcessingConsent ? (
-                            <BiSolidCheckboxChecked
-                              size={40}
-                              fill="blue"
-                              className="inline-block col-span-2 ml-2"
-                              onClick={() =>
-                                setAgreedwithDataProcessingConsent(false)
-                              }
-                            />
-                          ) : (
-                            <BiCheckbox
-                              size={40}
-                              fill="gray"
-                              className="inline-block col-span-2 ml-2"
-                              onClick={() =>
-                                setAgreedwithDataProcessingConsent(true)
-                              }
-                            />
-                          )}
-                          <span className="col-span-9">
-                            I have read and agree with the{" "}
-                            <span className="text-blue-500 font-bold">
-                              Data processing consent
-                            </span>
-                          </span>
-                        </div>
-                        <div className="grid  grid-cols-12">
-                          {wantToRecieveUpdates ? (
-                            <BiSolidCheckboxChecked
-                              size={40}
-                              fill="blue"
-                              className="inline-block col-span-2 ml-2"
-                              onClick={() => setWantToRecieveUpdates(false)}
-                            />
-                          ) : (
-                            <BiCheckbox
-                              size={40}
-                              fill="gray"
-                              className="inline-block col-span-2 ml-2"
-                              onClick={() => setWantToRecieveUpdates(true)}
-                            />
-                          )}
-                          <span className="col-span-9 ">
-                            I would like to recieve marketing and promotional
-                            information{" "}
-                            <span className="text-gray-500">(Optional)</span>
-                          </span>
-                        </div>
-                      </div>
-                      <div className="absolute w-10/12 bottom-0 left-13">
-                        <span
-                          onClick={() =>
-                            agreedWithDataProcessingConsent &&
-                            termsAcepted &&
-                            setUserGaveConsent(true)
-                          }
-                          className={`inline-block my-2 font-bold capitalize w-full text-center p-2 rounded-xl ${termsAcepted && agreedWithDataProcessingConsent ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-400"}`}
-                        >
-                          continue
-                        </span>
-                      </div>
-                    </div>
+                    <UserConsentPageOnSignUp
+                      setUserGaveConsent={setUserGaveConsent}
+                      wantToRecieveUpdates={wantToRecieveUpdates}
+                      setAgreedWithNumber={setAgreedWithNumber}
+                      setAgreedwithDataProcessingConsent={
+                        setAgreedwithDataProcessingConsent
+                      }
+                      agreedWithDataProcessingConsent={
+                        agreedWithDataProcessingConsent
+                      }
+                      setTermsAcepted={setTermsAcepted}
+                      setWantToRecieveUpdates={setWantToRecieveUpdates}
+                      termsAcepted={termsAcepted}
+                    />
                   ) : (
                     <>
                       <div>
@@ -239,7 +130,11 @@ const HomePage = () => {
                           </p>
 
                           <div className="w-full p-4 bg-white rounded-md">
-                            <div className="flex justify-around w-8/12 my-2 mx-auto">
+                            <OtpInput
+                              length={generatedOtp.toString().length}
+                              onOTPComplete={onOtpComleted}
+                            />
+                            {/* <div className="flex justify-around w-8/12 my-2 mx-auto">
                               <input
                                 type="text"
                                 className="otp_1 otp"
@@ -276,7 +171,7 @@ const HomePage = () => {
                                 className="otp_6 otp"
                                 autoFocus={otpValues.length == 5}
                               />
-                            </div>
+                            </div> */}
                             <div className=" w-10/12 my-4 mx-auto p-4 resendOTP  rounded-2xl text-xs flex justify-between">
                               <div className="flex gap-3">
                                 <BsFillExclamationCircleFill
@@ -288,15 +183,22 @@ const HomePage = () => {
                                   Did'nt recieved the code{" "}
                                 </span>
                               </div>
-                              <span className="w-fit  ">Resend ( 0:19)</span>
+                              <button
+                                onClick={() => {
+                                  OTPCounter();
+                                }}
+                                className={
+                                  countSec
+                                    ? "w-fit p-3 bg-gray-400 text-white rounded-2xl font-bold pointer-events-none"
+                                    : "p-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-900 pointer-events-auto"
+                                }
+                              >
+                                Resend{" "}
+                                {countSec
+                                  ? `(${countMin ? `${countMin}:` : ""}${countSec})`
+                                  : ""}
+                              </button>
                             </div>
-                            <input
-                              type="text"
-                              name=""
-                              id="otpT"
-                              className="border bg-white border-blue-500
-                             "
-                            />
                           </div>
                         </div>
                       </div>

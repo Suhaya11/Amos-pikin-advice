@@ -4,14 +4,7 @@ import NumberFieldInForm from "@/src/components/FakeAtmComponent/NumberFieldInFo
 import UsernameFieldInForm from "@/src/components/FakeAtmComponent/userNameFieldInForm";
 
 import React from "react";
-import {
-  BiFingerprint,
-  BiFlag,
-  BiLock,
-  BiPhone,
-  BiSolidUser,
-  BiUser,
-} from "react-icons/bi";
+import { BiFingerprint, BiPhone, BiUser } from "react-icons/bi";
 import { BsFillLockFill } from "react-icons/bs";
 
 const LoginPage = () => {

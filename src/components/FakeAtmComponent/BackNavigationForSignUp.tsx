@@ -9,6 +9,7 @@ const BackNavigationForSignUp = ({ GoBackTo, progressBarAmount }: myProps) => {
     <>
       <div className="flex justify-between text-blue-700">
         <BiSolidLeftArrowAlt
+          title="Back"
           size={40}
           className="cursor-pointer"
           onClick={GoBackTo}
