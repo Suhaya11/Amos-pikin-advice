@@ -4,8 +4,10 @@ import {
   Data,
   rating,
   status,
+  wahala,
 } from "@/src/components/data";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
@@ -27,7 +29,8 @@ const DailyWahala = () => {
   }, []);
   const handleSubmit = (currentData: Data | undefined = localData) => {
     if (currentData) {
-      currentData.daily_wahala?.push({
+      console.log(currentData);
+      const newData: wahala = {
         id: crypto.randomUUID(),
         name,
         decision,
@@ -36,7 +39,9 @@ const DailyWahala = () => {
         date,
         rating,
         status: problemStatus,
-      });
+      };
+      console.log("new DAta", newData);
+      currentData.daily_wahala?.push(newData);
       localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
     } else throw new Error("unable to connect to local db");
   };
@@ -83,16 +88,11 @@ const DailyWahala = () => {
       <h1 className="text-2xl uppercase title">daily wahala tracker </h1>
 
       <form
-        onSubmit={() => {
-          if (
-            name &&
-            description &&
-            rating &&
-            problemStatus &&
-            decision &&
-            causer
-          )
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (name && rating && problemStatus && causer)
             handleSubmit(localData);
+          redirect("/daily-wahala/history/view");
         }}
         className="flex rounded-2xl flex-row flex-wrap gap-5 border h-8/12 w-8/12 my-2 mx-auto bg-gray-600 p-2 text-white font-bold max-[400px]:w-11/12"
       >
@@ -112,6 +112,7 @@ const DailyWahala = () => {
             }}
             className="Input rounded-xl"
             placeholder="Name your wahala"
+            required={true}
           />
         </div>{" "}
         <div className="flex flex-row flex-wrap justify-center gap-2 my-3 w-full">
@@ -174,7 +175,7 @@ const DailyWahala = () => {
                   ? setDate(new Date(e.currentTarget.value))
                   : null
               }
-              contentEditable
+              required
             />
           </div>
           <div className="flex flex-row flex-wrap justify-around my-3 w-full">
@@ -217,15 +218,13 @@ const DailyWahala = () => {
           />
         </div>
         <div className="flex flex-row flex-wrap justify-end w-full">
-          <Link href={"/daily-wahala/history/view"}>
-            <input
-              type="submit"
-              name="name"
-              id="name"
-              value={"Record Wahala"}
-              className="rounded-xl border-2 p-2 mr-2 hover:bg-amber-50 hover:text-black"
-            />
-          </Link>
+          <input
+            type="submit"
+            name="name"
+            id="name"
+            value={"Record Wahala"}
+            className="rounded-xl border-2 p-2 mr-2 hover:bg-amber-50 hover:text-black"
+          />
         </div>
       </form>
     </div>

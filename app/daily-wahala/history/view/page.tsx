@@ -8,6 +8,7 @@ import {
   TodaysWahala,
   wahala,
 } from "@/src/components/data";
+import Link from "next/link";
 import React from "react";
 
 const TodaysWahalaOverview = () => {
@@ -125,28 +126,46 @@ const TodaysWahalaOverview = () => {
     CalculatedTodaysDate(new Date()) ===
       CalculateSavedDate(new Date(wahalas.at(-1)?.date!)),
   );
+  console.log(CalculatedTodaysDate(new Date()));
+  console.log(CalculateSavedDate(new Date(wahalas.at(-1)?.date!)));
 
   return (
     <div className="flex w-10/12 max-[400px]:w-11/12 shadow-md my-3 mx-auto shadow-fuchsia-700 rounded-2xl flex-wrap flex-row">
       <h1 className="title">Wahala analysis</h1>
-      <p className="w-full">
-        {TodaysWahala(wahalas).length
-          ? `
+      {TodaysWahala(wahalas).length > 0 ? (
+        <div className="w-full">
+          <p className="w-full">
+            {TodaysWahala(wahalas).length
+              ? `
         Today you have encoutered ${
           TodaysWahala(wahalas).length == 1
             ? `${TodaysWahala(wahalas).length} wahala which is caused by ${TodaysWahala(wahalas).at(0)?.causer == "Me" || TodaysWahala(wahalas).at(0)?.causer == "me" ? "you" : TodaysWahala(wahalas).at(0)?.causer} and its in ${TodaysWahala(wahalas).at(0)?.status} state`
             : `wahala in which
         2 of them where caused by you and the other one caused by wane`
         } `
-          : "Today ther's no Wahala encountered"}{" "}
-      </p>
-      <p className="w-full">
-        {TodaysWahala(wahalas).length > 1
-          ? ` Out of today's wahala 1 is difficult and solved , the other one is easy
+              : "Today ther's no Wahala encountered"}{" "}
+          </p>
+          <p className="w-full">
+            {TodaysWahala(wahalas).length > 1
+              ? ` Out of today's wahala 1 is difficult and solved , the other one is easy
       but unsolved and the last one is modarete and its in sovling state `
-          : `Today's single wahala which is ${TodaysWahala(wahalas).at(0)?.rating} and it's in 
+              : `Today's single wahala which is ${TodaysWahala(wahalas).at(0)?.rating} and it's in 
       ${TodaysWahala(wahalas).at(0)?.status} state`}
-      </p>
+          </p>
+        </div>
+      ) : (
+        <div className="w-full h-60">
+          <p className=" w-8/12 my-2 mx-auto">
+            Today ther's no any wahala recorded if theres any feel free to{" "}
+            <Link
+              className="underline text-blue-500"
+              href={"/daily-wahala/new"}
+            >
+              add now
+            </Link>
+          </p>
+        </div>
+      )}
     </div>
   );
 };
