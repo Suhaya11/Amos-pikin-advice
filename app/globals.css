@@ -75,3 +75,29 @@ strong {
 .resendOTP {
   background-color: rgba(0, 0, 255, 0.158);
 }
+.OtpNotification {
+  animation: slowlyShowNotification 60s ease-in 1 forwards;
+}
+@keyframes slowlyShowNotification {
+  0% {
+    top: -200px;
+  }
+  5% {
+    top: 100px;
+  }
+  7% {
+    top: 90px;
+  }
+  10% {
+    top: 100px;
+  }
+  48% {
+    top: 100px;
+  }
+  50% {
+    top: -200px;
+  }
+  100% {
+    top: -200px;
+  }
+}

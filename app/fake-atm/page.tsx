@@ -5,6 +5,7 @@ import GoToSignUp from "@/src/components/FakeAtmComponent/GoToSignUp";
 
 import NumberFieldInForm from "@/src/components/FakeAtmComponent/NumberFieldInForm";
 import OtpInput from "@/src/components/FakeAtmComponent/OtpInput";
+import OtpModal from "@/src/components/FakeAtmComponent/OtpModal";
 import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumberVerifySignUp";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 
@@ -35,27 +36,25 @@ const HomePage = () => {
   // const [otpValues, setOtpValue] = React.useState<number[]>([]);
   const [otpIsValid, setOtpIsValid] = React.useState<boolean>(false);
   const [generatedOtp, setGeneratedOtp] = React.useState<string>(
-    Math.random().toString().split("").slice(2, 9).join(""),
+    Math.random().toString().split("").slice(2, 8).join(""),
   );
   const [countSec, setCountSec] = React.useState<number>(6);
   const [countMin, setCountMin] = React.useState<number>(0);
   const [noOfOtpReRequest, setNoOfOtpReRequest] = React.useState<number>(0);
+  const [showOtpModal, setShowOtpModal] = React.useState<boolean>(false);
+
   const OTPCounter = async () => {
     setInterval(() => {
       setCountMin((prev) => (prev > 0 ? prev - 1 : 0));
       setCountSec((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    setTimeout(() => {
-      resetTime();
     }, 10000);
   };
 
-  const resetTime = async function () {
-    setCountMin(1);
-    setCountSec(6);
-  };
-  useEffect(() => {
-    OTPCounter();
+  React.useEffect(() => {
+    setShowOtpModal(true);
+    setTimeout(() => {
+      setShowOtpModal(false);
+    }, 7000);
   }, []);
 
   const onOtpComleted = (userOTP: string): void => {
@@ -116,11 +115,16 @@ const HomePage = () => {
                           GoBackTo={() => setUserGaveConsent(false)}
                           progressBarAmount={9}
                         />
-                        <div className="absulute border w-6/12 ">
-                          otp from suhayaPoint fake learning bank disclose the
-                          otp to any one if you don't want to your accout your
-                          code is {generatedOtp} it will expire in 1 minute
-                        </div>
+
+                        {showOtpModal && (
+                          <OtpModal
+                            setGenerateOtp={setGeneratedOtp}
+                            OTPCounter={OTPCounter}
+                            setCountMin={setCountMin}
+                            setCountSec={setCountSec}
+                            generatedOtp={generatedOtp}
+                          />
+                        )}
                         <div className="my-3 mx-auto  w-10/12 ">
                           <h2 className="font-bold">
                             Verify Your Phone Number
@@ -188,7 +192,10 @@ const HomePage = () => {
                               </div>
                               <button
                                 onClick={() => {
-                                  OTPCounter();
+                                  setShowOtpModal(true);
+                                  setTimeout(() => {
+                                    setShowOtpModal(false);
+                                  }, 8000);
                                 }}
                                 className={
                                   countSec
