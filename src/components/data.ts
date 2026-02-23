@@ -4,12 +4,14 @@ interface Data {
   atm_simulations?: atm_simulation;
   timeGreetings?: timeGreeting[];
 }
-interface decision {
+export interface decision {
+  id: string;
   todo: string;
   rank: number;
   reason?: string;
 }
-interface wahala {
+export interface wahala {
+  id: string;
   date: Date;
   reason: string;
   cause: string;
@@ -17,7 +19,8 @@ interface wahala {
   decision: string;
 }
 
-interface timeGreeting {
+export interface timeGreeting {
+  id: string;
   morning?: {
     time: Data;
     message: string;
@@ -35,18 +38,45 @@ interface timeGreeting {
 export const myData: Data = {
   decisions: [
     {
+      id: crypto.randomUUID(),
       todo: "Going to sallah",
-      rank: 100,
+      rank: 1000,
       reason: "becouse sallah is the biggest ibada to muslim",
     },
     {
+      id: crypto.randomUUID(),
       todo: "call friend ",
-      rank: 10,
+      rank: 100,
+      reason: "becouse its very important to be contacting each other",
+    },
+    {
+      id: crypto.randomUUID(),
+      todo: "Going to sallah 2",
+      rank: 109,
+      reason: "becouse sallah is the biggest ibada to muslim",
+    },
+    {
+      id: crypto.randomUUID(),
+      todo: "call friend 2",
+      rank: 108,
+      reason: "becouse its very important to be contacting each other",
+    },
+    {
+      id: crypto.randomUUID(),
+      todo: "Going to sallah 3",
+      rank: 170,
+      reason: "becouse sallah is the biggest ibada to muslim",
+    },
+    {
+      id: crypto.randomUUID(),
+      todo: "call friend 3",
+      rank: 107,
       reason: "becouse its very important to be contacting each other",
     },
   ],
   daily_wahala: [
     {
+      id: crypto.randomUUID(),
       date: new Date(),
       reason: "Our machine was spoiled",
       cause: "there was somethinsg wrong with it",

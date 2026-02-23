@@ -11,19 +11,21 @@ const Header = () => {
   console.log(viewprt);
   if (viewprt && viewprt < 451)
     return (
-      <header className="border flex justify-around p-4  w-full top-0">
+      <header className="border z-20 flex justify-around p-4  w-full top-0">
         <summary
           className={
             menuOpen
               ? "min-w-[451px]:absolute right-10 bg-brown-400"
-              : " relative text-right mr-19 absolute right-0 border"
+              : " relative text-right mr-19  right-0 border"
           }
           onClick={(e) => console.log(e)}
-          defaultChecked={true}
         >
           <details
-            className="absolute text-right"
-            onClick={() => (menuOpen ? setMenuOpen(false) : setMenuOpen(true))}
+            className="absolute text-right z-20 bg-violet-200"
+            onClick={(e) => {
+              menuOpen ? setMenuOpen(false) : setMenuOpen(true);
+              e.stopPropagation();
+            }}
           >
             {" "}
             <ul className="flex  flex-row max-w-[500px]:gap-4 gap-2 flex-wrap justify-around font-black mr-3 border ">
