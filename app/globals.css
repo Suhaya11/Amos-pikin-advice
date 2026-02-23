@@ -1,10 +1,18 @@
 @import "tailwindcss";
-*{
-
+* {
   box-sizing: border-box;
-  color:white;
+  color: black;
 }
-*::placeholder{
-color:gray;
-margin-left: 10px;
+*::placeholder {
+  color: gray;
+  margin-left: 10px;
+}
+.navLink {
+  @apply cursor-pointer bg-violet-200 p-2 rounded-xl text-left w-full;
+}
+.title {
+  @apply font-bold text-center uppercase my-3 mx-auto;
+}
+.container {
+  @apply max-w-10/12 my-2 mx-auto p-2 rounded-xl;
 }
