@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import React from "react";
 
 const Header = () => {
@@ -12,34 +13,35 @@ const Header = () => {
   if (viewprt && viewprt < 451)
     return (
       <header className="border z-20 flex justify-around p-4  w-full top-0">
-        <summary
-          className={
-            menuOpen
-              ? "min-w-[451px]:absolute right-10 bg-brown-400"
-              : " relative text-right mr-19  right-0 border"
-          }
-          onClick={(e) => console.log(e)}
+        <details
+          onToggle={() => {
+            menuOpen ? setMenuOpen(false) : setMenuOpen(true);
+          }}
+          className={!menuOpen ? "w-full text-right" : "text-right"}
         >
-          <details
-            className="absolute text-right z-20 bg-violet-200"
-            onClick={(e) => {
-              menuOpen ? setMenuOpen(false) : setMenuOpen(true);
-              e.stopPropagation();
-            }}
+          {" "}
+          <summary
+          // className={
+          //   menuOpen
+          //     ? "min-w-[451px]:absolute right-10 bg-brown-400"
+          //     : " relative text-right mr-19  right-0 border"
+          // }
           >
-            {" "}
-            <ul className="flex  flex-row max-w-[500px]:gap-4 gap-2 flex-wrap justify-around font-black mr-3 border ">
-              <li className="navLink">Home</li>
-              <li className="navLink">Decition maker</li>
-              <li className="navLink">Daily wahala tracker</li>{" "}
-              <li className="navLink">Fake ATM simulations</li>
-              <li className="navLink">Message translation</li>
-              <li className="navLink">time base behaviour app</li>
-              <li className="navLink">about me</li>
-              <li className="navLink">contact me</li>{" "}
-            </ul>
-          </details>
-        </summary>
+            Menu{" "}
+          </summary>
+          <ul className="flex  flex-row max-w-[500px]:gap-4 gap-2 flex-wrap justify-around font-black mr-3 border ">
+            <li className="navLink">Home</li>
+            <Link href={"/decision-maker"} className="navLink">
+              Decition maker
+            </Link>
+            <li className="navLink">Daily wahala tracker</li>{" "}
+            <li className="navLink">Fake ATM simulations</li>
+            <li className="navLink">Message translation</li>
+            <li className="navLink">time base behaviour app</li>
+            <li className="navLink">about me</li>
+            <li className="navLink">contact me</li>{" "}
+          </ul>
+        </details>
       </header>
     );
   if (viewprt && viewprt < 601)

@@ -1,3 +1,4 @@
+"use client";
 interface Data {
   decisions?: decision[];
   daily_wahala?: wahala[];
