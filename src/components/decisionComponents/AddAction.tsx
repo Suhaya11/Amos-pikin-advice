@@ -1,5 +1,7 @@
 "use client";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { addActionToMMR } from "@/src/actions/execute";
+import React, { useActionState } from "react";
 
 const AddAction = () => {
   const grades: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -9,7 +11,7 @@ const AddAction = () => {
   return (
     <div className="fixed top-0 w-screen  flex justify-between h-screen bg-emerald-700 left-0 opacity-100 ">
       <form
-        action=""
+        action={addActionToMMR}
         className=" max-md:w-9/12 mx-auto my-30 h-70 bg-amber-100 p-2 flex flex-row flex-wrap   rounded-2xl border-amber-50 border-6 drop-shadow-purple-500"
       >
         <div className="flex justify-around w-full  h-fit">

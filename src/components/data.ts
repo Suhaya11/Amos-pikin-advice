@@ -1,5 +1,5 @@
 "use client";
-interface Data {
+export interface Data {
   decisions?: decision[];
   daily_wahala?: wahala[];
   atm_simulations?: atm_simulation;
