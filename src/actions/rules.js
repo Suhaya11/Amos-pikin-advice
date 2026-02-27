@@ -8,8 +8,7 @@ export const AddActionSchema = z.object({
     .max(500, { message: "Reason must be less than 500 characters" })
     .optional(),
   grade: z
-    .number()
-    .int()
+    .string()
     .min(gradePattern.min, {
       message: `Grade must be at least ${gradePattern.min}`,
     })

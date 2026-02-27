@@ -1,9 +1,32 @@
 "use client";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
-import { addActionToMMR } from "@/src/actions/execute";
-import React, { useActionState } from "react";
+import { Data } from "../data";
+
+import React from "react";
 
 const AddAction = () => {
+  const [grade, setGrade] = React.useState<number>(10);
+  const [action, setAction] = React.useState<string>("");
+  const [reason, setReason] = React.useState<string>("");
+  const [currentData, setCurrentData] = React.useState<Data>();
+  React.useEffect(() => {
+    const localData = JSON.parse(localStorage.getItem("AmosIdeaApp") || "{}");
+    setCurrentData(localData);
+  }, []);
+
+  const addActionToMMR = async () => {
+    if (action && Number(grade) && reason) {
+      currentData?.decisions?.push({
+        id: crypto.randomUUID(),
+        todo: action,
+        reason,
+        rank: grade,
+      });
+
+      localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
+    }
+  };
+
   const grades: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   for (let i = 11; i < 101; i++) grades.push(i);
@@ -11,12 +34,20 @@ const AddAction = () => {
   return (
     <div className="fixed top-0 w-screen  flex justify-between h-screen bg-emerald-700 left-0 opacity-100 ">
       <form
-        action={addActionToMMR}
+        onSubmit={() => {
+          addActionToMMR();
+        }}
         className=" max-md:w-9/12 mx-auto my-30 h-70 bg-amber-100 p-2 flex flex-row flex-wrap   rounded-2xl border-amber-50 border-6 drop-shadow-purple-500"
       >
         <div className="flex justify-around w-full  h-fit">
           <label htmlFor="action">What to do:</label>{" "}
           <input
+            value={action}
+            onChange={(e) =>
+              e.currentTarget.value.length < 30
+                ? setAction(e.currentTarget.value)
+                : null
+            }
             type="text"
             name="action"
             id="action"
@@ -35,18 +66,26 @@ const AddAction = () => {
             name="reason"
             className="p-2 h-10 resize-none border bg-white outline-0 rounded-2xl w-8/12 border-white"
             id="reason"
+            value={reason}
+            onChange={(e) =>
+              e.currentTarget.value.length < 300
+                ? setReason(e.currentTarget.value)
+                : null
+            }
           ></textarea>
         </div>
         <div className="w-full">
           <label htmlFor="grade">Grade: </label>
           <select
+            value={grade}
+            onChange={(e) => setGrade(Number(e.currentTarget.value))}
             name="grade"
             id="grade"
             className="inline h-10 border bg-white outline-0 rounded-2xl  px-3 border-white"
           >
-            {grades.map((grade) => (
-              <option value={grade} key={grade}>
-                {grade}
+            {grades.map((agrade) => (
+              <option value={agrade} key={agrade}>
+                {agrade}
               </option>
             ))}
           </select>

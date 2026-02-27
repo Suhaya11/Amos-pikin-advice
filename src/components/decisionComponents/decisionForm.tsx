@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { decision, myData } from "../data";
+import { decision, myData, Data } from "../data";
 
 import { CgClose } from "react-icons/cg";
 
@@ -28,14 +28,27 @@ export const theData = [
   },
 ];
 const decisionForm = () => {
-  const { decisions } = myData;
+  const [decisions, setDecisions] = React.useState<
+    decision[] | undefined | null
+  >();
+
   const [choosed, setChoosed] = React.useState<decision[]>([]);
   const [decided, setDecided] = React.useState<decision>();
   const [emptyOptionMessage, setEmptyMessage] = React.useState<string>("");
   const addChoice = (action: decision) => {
     setChoosed([...choosed, action]);
   };
+  React.useEffect(() => {
+    const localData: Data = JSON.parse(
+      localStorage.getItem("AmosIdeaApp") || "{}",
+    );
+    if (typeof localData == typeof myData) {
+      setDecisions(localData.decisions);
 
+      console.log("decisions", localData);
+    }
+  }, []);
+  console.log("hhh", decisions);
   const removeChoice = (action: decision) =>
     setChoosed(choosed?.filter((item) => item.id !== action.id));
   const decidedFunc = (anArray: decision[]) => {
