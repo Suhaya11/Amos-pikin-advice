@@ -31,7 +31,7 @@ const decisionForm = () => {
   const [decisions, setDecisions] = React.useState<
     decision[] | undefined | null
   >();
-
+  const [addActionOpen, setAddActionOpen] = React.useState<boolean>(false);
   const [choosed, setChoosed] = React.useState<decision[]>([]);
   const [decided, setDecided] = React.useState<decision>();
   const [emptyOptionMessage, setEmptyMessage] = React.useState<string>("");
@@ -47,7 +47,7 @@ const decisionForm = () => {
 
       console.log("decisions", localData);
     }
-  }, []);
+  }, [addActionOpen]);
   console.log("hhh", decisions);
   const removeChoice = (action: decision) =>
     setChoosed(choosed?.filter((item) => item.id !== action.id));
@@ -110,7 +110,12 @@ const decisionForm = () => {
                 {decision.todo}
               </li>
             ))}
-            <li>last todo</li>
+            <li
+              className="list-none cursor-pointer border p-1 my-1 bg-blue-500 text-white font-bold text-center"
+              onClick={() => setAddActionOpen(true)}
+            >
+              Add Action
+            </li>
           </details>
 
           <div className="flex justify-end mr-8 ">
@@ -126,7 +131,12 @@ const decisionForm = () => {
           </div>
         </form>
       )}{" "}
-      <AddAction />
+      {addActionOpen && <AddAction setAddActionOpen={setAddActionOpen} />}
+      <div className="pointer-events-none absolute bottom-0 w-full animate-pulse  left-0 text-center text-red-500 font-bold uppercase p-2">
+        In the setting section I'll give user chance to a edit the range and
+        increment system for grade and other setings that I might realize that
+        they are important
+      </div>
     </>
   );
 };

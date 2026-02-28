@@ -3,8 +3,10 @@ import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { Data } from "../data";
 
 import React from "react";
-
-const AddAction = () => {
+type myProps = {
+  setAddActionOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const AddAction = ({ setAddActionOpen }: myProps) => {
   const [grade, setGrade] = React.useState<number>(10);
   const [action, setAction] = React.useState<string>("");
   const [reason, setReason] = React.useState<string>("");
@@ -15,7 +17,7 @@ const AddAction = () => {
   }, []);
 
   const addActionToMMR = async () => {
-    if (action && Number(grade) && reason) {
+    if (action && Number(grade)) {
       currentData?.decisions?.push({
         id: crypto.randomUUID(),
         todo: action,
@@ -24,6 +26,7 @@ const AddAction = () => {
       });
 
       localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
+      setAddActionOpen(false);
     }
   };
 
@@ -53,6 +56,7 @@ const AddAction = () => {
             id="action"
             placeholder="Name your action"
             className="border p-2 bg-white outline-0 rounded-2xl w-8/12 border-white h-10"
+            required
           />
         </div>
         <div className="w-full h-fit relative">
