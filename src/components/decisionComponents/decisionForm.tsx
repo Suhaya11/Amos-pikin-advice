@@ -6,6 +6,7 @@ import { CgClose } from "react-icons/cg";
 
 import Decided_Modal from "./Decision-Modal";
 import AddAction from "./AddAction";
+import { BiEdit, BiTrash } from "react-icons/bi";
 
 export const theData = [
   {
@@ -99,15 +100,28 @@ const decisionForm = () => {
             {decisions?.map((decision) => (
               <li
                 key={decision?.id}
-                className="list-none cursor-pointer border p-1 my-1"
+                className="list-none cursor-pointer border p-1 my-1 flex justify-around"
                 onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+                  e.stopPropagation();
                   const alradyExisted = choosed?.some(
                     (addedDecision) => decision.id === addedDecision.id,
                   );
-                  if (!alradyExisted) addChoice(decision);
+                  if (!alradyExisted) {
+                    addChoice(decision);
+                  }
                 }}
               >
-                {decision.todo}
+                {decision?.todo}{" "}
+                <span>
+                  <details
+                    className="absolute bg-blend-darken bg-gray-6 details-content:
+                  :bg-red-500"
+                  >
+                    <summary></summary>
+                    <BiEdit />
+                    <BiTrash />
+                  </details>
+                </span>
               </li>
             ))}
             <li

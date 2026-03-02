@@ -14,10 +14,18 @@ export interface decision {
 export interface wahala {
   id: string;
   date: Date;
-  reason: string;
-  cause: string;
-  reaction: string;
+  name: string;
+  causer: string;
+  status: "unsolved" | "solved" | "pending" | "solving" | "cannot solve";
   decision: string;
+  rating:
+    | "no thing"
+    | "very easy"
+    | "easy"
+    | "modarate"
+    | "difficult"
+    | "very difficult";
+  desctiption: string;
 }
 
 export interface timeGreeting {
@@ -79,12 +87,14 @@ export const myData: Data = {
     {
       id: crypto.randomUUID(),
       date: new Date(),
-      reason: "Our machine was spoiled",
-      cause: "there was somethinsg wrong with it",
-      reaction:
-        "i just resist and make sure that i found wayout before tomorrow",
+      name: "machine spoiled",
+
+      desctiption: "Our machine was spoiled",
+      causer: "Natural",
+      status: "unsolved",
       decision:
         "I'll make sure that my bycle were fine before the next data inshaAllah",
+      rating: "difficult",
     },
   ],
   atm_simulations: {
