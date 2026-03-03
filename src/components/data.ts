@@ -45,47 +45,47 @@ export interface timeGreeting {
 }
 
 export const myData: Data = {
-  decisions: [
-    {
-      id: crypto.randomUUID(),
-      todo: "Going to sallah",
-      rank: 1000,
-      reason: "becouse sallah is the biggest ibada to muslim",
-    },
-    {
-      id: crypto.randomUUID(),
-      todo: "call friend ",
-      rank: 100,
-      reason: "becouse its very important to be contacting each other",
-    },
-    {
-      id: crypto.randomUUID(),
-      todo: "Going to sallah 2",
-      rank: 109,
-      reason: "becouse sallah is the biggest ibada to muslim",
-    },
-    {
-      id: crypto.randomUUID(),
-      todo: "call friend 2",
-      rank: 108,
-      reason: "becouse its very important to be contacting each other",
-    },
-    {
-      id: crypto.randomUUID(),
-      todo: "Going to sallah 3",
-      rank: 170,
-      reason: "becouse sallah is the biggest ibada to muslim",
-    },
-    {
-      id: crypto.randomUUID(),
-      todo: "call friend 3",
-      rank: 107,
-      reason: "becouse its very important to be contacting each other",
-    },
-  ],
+  // decisions: [
+  //   {
+  //     id: crypto.randomUUID(),
+  //     todo: "Going to sallah",
+  //     rank: 1000,
+  //     reason: "becouse sallah is the biggest ibada to muslim",
+  //   },
+  //   {
+  //     id: crypto.randomUUID(),
+  //     todo: "call friend ",
+  //     rank: 100,
+  //     reason: "becouse its very important to be contacting each other",
+  //   },
+  //   {
+  //     id: crypto.randomUUID(),
+  //     todo: "Going to sallah 2",
+  //     rank: 109,
+  //     reason: "becouse sallah is the biggest ibada to muslim",
+  //   },
+  //   {
+  //     id: crypto.randomUUID(),
+  //     todo: "call friend 2",
+  //     rank: 108,
+  //     reason: "becouse its very important to be contacting each other",
+  //   },
+  //   {
+  //     id: crypto.randomUUID(),
+  //     todo: "Going to sallah 3",
+  //     rank: 170,
+  //     reason: "becouse sallah is the biggest ibada to muslim",
+  //   },
+  //   {
+  //     id: crypto.randomUUID(),
+  //     todo: "call friend 3",
+  //     rank: 107,
+  //     reason: "becouse its very important to be contacting each other",
+  //   },
+  // ],
   daily_wahala: [
     {
-      id: crypto.randomUUID(),
+      id: "crypto.randomUUID()",
       date: new Date(),
       name: "machine spoiled",
 
