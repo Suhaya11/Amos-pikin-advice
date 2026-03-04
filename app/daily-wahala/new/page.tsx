@@ -41,7 +41,9 @@ const DailyWahala = () => {
       localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
     }
   };
-  const speakInputLetters = (e: React.InputEvent<HTMLInputElement>): void => {
+  const speakInputLetters = (
+    e: React.InputEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ): void => {
     speechSynthesis.cancel();
     speechSynthesis.speak(
       new SpeechSynthesisUtterance(
@@ -49,8 +51,12 @@ const DailyWahala = () => {
       ),
     );
   };
-  const decRating = () => (ratingNum > 0 ? setRatingNum(ratingNum - 1) : null);
-  const incRating = () => (ratingNum < 6 ? setRatingNum(ratingNum + 1) : null);
+  const decRating = () => {
+    ratingNum > 0 ? setRatingNum(ratingNum - 1) : null;
+  };
+  const incRating = () => {
+    ratingNum < 6 ? setRatingNum(ratingNum + 1) : null;
+  };
   useEffect(() => {
     if (ratingNum === 0) setRating("no thing");
     else if (ratingNum === 1) setRating("very easy");
@@ -59,8 +65,12 @@ const DailyWahala = () => {
     else if (ratingNum === 4) setRating("difficult");
     else if (ratingNum === 5) setRating("very difficult");
   }, [ratingNum]);
-  const decStatus = () => (statusNum > 0 ? setStatusNum(ratingNum - 1) : null);
-  const incStatus = () => (statusNum < 5 ? setStatusNum(ratingNum + 1) : null);
+  const decStatus = () => {
+    statusNum > 0 ? setStatusNum(statusNum - 1) : null;
+  };
+  const incStatus = () => {
+    if (statusNum < 5) setStatusNum(statusNum + 1);
+  };
   useEffect(() => {
     if (statusNum === 0) setProblemStatus("cannot solve");
     else if (statusNum === 1) setProblemStatus("unsolved");
@@ -109,6 +119,7 @@ const DailyWahala = () => {
             Description
           </label>
           <textarea
+            onInputCapture={(e) => speakInputLetters(e)}
             value={description}
             onChange={(e) =>
               e.currentTarget.value.length < 101 &&
@@ -132,8 +143,8 @@ const DailyWahala = () => {
               id="name"
               className="rounded-xl rounded-l-none bg-white border-white border-2 p-1 text-black inline-block "
             >
-              <BiChevronUp />
-              <BiChevronDown />
+              <BiChevronUp onClick={incRating} />
+              <BiChevronDown onClick={decRating} />
             </span>
           </div>
         </div>
@@ -175,6 +186,7 @@ const DailyWahala = () => {
             who couse it
           </label>
           <input
+            onInputCapture={(e) => speakInputLetters(e)}
             onChange={(els) =>
               els.currentTarget.value.length < 101 &&
               setCouser(els.currentTarget.value)

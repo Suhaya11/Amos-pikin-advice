@@ -6,6 +6,23 @@
   color: gray;
   margin-left: 10px;
 }
+
+@layer base {
+  @media (width <= 400px) {
+    html {
+      font-size: 70%;
+    }
+  }
+}
+@media (max-width<= 400px) {
+  /* Reduce all rem-based sizes by ~12.5% (from 16px to 14px) */
+  @layer base {
+    html {
+      font-size: 47.5%;
+    }
+  }
+}
+
 .navLink {
   @apply cursor-pointer bg-violet-200 p-2 rounded-xl text-left w-full;
 }
