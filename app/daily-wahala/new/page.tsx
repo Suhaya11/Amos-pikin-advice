@@ -1,6 +1,7 @@
 "use client";
 import { Data } from "@/src/components/data";
-import React from "react";
+import React, { useEffect } from "react";
+import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
 const DailyWahala = () => {
   const [name, setName] = React.useState<string>("");
@@ -19,7 +20,8 @@ const DailyWahala = () => {
   const [description, setDiscription] = React.useState<string>("");
   const [causer, setCouser] = React.useState<string>("Me");
   const [localData, setLocalData] = React.useState<Data>();
-
+  const [ratingNum, setRatingNum] = React.useState<number>(0);
+  const [statusNum, setStatusNum] = React.useState<number>(0);
   React.useEffect(() => {
     const localStora = localStorage.getItem("AmosIdeaApp");
     if (localStora) setLocalData(JSON.parse(localStora));
@@ -39,6 +41,33 @@ const DailyWahala = () => {
       localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
     }
   };
+  const speakInputLetters = (e: React.InputEvent<HTMLInputElement>): void => {
+    speechSynthesis.cancel();
+    speechSynthesis.speak(
+      new SpeechSynthesisUtterance(
+        e.currentTarget.value.toString().split("").at(-1)?.toString() || "",
+      ),
+    );
+  };
+  const decRating = () => (ratingNum > 0 ? setRatingNum(ratingNum - 1) : null);
+  const incRating = () => (ratingNum < 6 ? setRatingNum(ratingNum + 1) : null);
+  useEffect(() => {
+    if (ratingNum === 0) setRating("no thing");
+    else if (ratingNum === 1) setRating("very easy");
+    else if (ratingNum === 2) setRating("easy");
+    else if (ratingNum === 3) setRating("modarate");
+    else if (ratingNum === 4) setRating("difficult");
+    else if (ratingNum === 5) setRating("very difficult");
+  }, [ratingNum]);
+  const decStatus = () => (statusNum > 0 ? setStatusNum(ratingNum - 1) : null);
+  const incStatus = () => (statusNum < 5 ? setStatusNum(ratingNum + 1) : null);
+  useEffect(() => {
+    if (statusNum === 0) setProblemStatus("cannot solve");
+    else if (statusNum === 1) setProblemStatus("unsolved");
+    else if (statusNum === 2) setProblemStatus("pending");
+    else if (statusNum === 3) setProblemStatus("solving");
+    else if (statusNum === 4) setProblemStatus("solved");
+  }, [statusNum]);
   return (
     <div>
       <h1 className="text-2xl uppercase title">daily wahala tracker </h1>
@@ -55,7 +84,7 @@ const DailyWahala = () => {
           )
             handleSubmit(localData);
         }}
-        className="flex rounded-2xl flex-row flex-wrap gap-5 border h-8/12 w-8/12 my-2 mx-auto bg-gray-600 p-2 text-white font-bold"
+        className="flex rounded-2xl flex-row flex-wrap gap-5 border h-8/12 w-8/12 my-2 mx-auto bg-gray-600 p-2 text-white font-bold max-[400px]:w-11/12"
       >
         <div className="flex flex-row flex-wrap justify-around my-3 w-full">
           <label className="p-1" htmlFor="name">
@@ -66,10 +95,11 @@ const DailyWahala = () => {
             name="name"
             id="name"
             value={name}
-            onChange={(e) =>
+            onInputCapture={(e) => speakInputLetters(e)}
+            onChange={(e) => {
               e.currentTarget.value.length < 30 &&
-              setName(e.currentTarget.value)
-            }
+                setName(e.currentTarget.value);
+            }}
             className="rounded-xl bg-white border-white border-2 p-1 text-black"
             placeholder="Name your wahala"
           />
@@ -94,59 +124,34 @@ const DailyWahala = () => {
           <label className="p-1" htmlFor="name">
             Rating
           </label>
-          <div className="inline-block w-8/12">
-            <p className="rounded-xl rounded-r-none bg-white border-white border-2 p-1 text-black inline-block w-6/12">
+          <div className=" w-8/12 flex ">
+            <p className="rounded-xl rounded-r-none bg-white border-white border-2 p-1 text-black inline-block w-10/12">
               {rating}
             </p>
-            <input
-              min={0}
-              max={5}
-              type="number"
-              defaultValue={3}
-              name="name"
+            <span
               id="name"
-              className="rounded-xl  rounded-l-none bg-white border-white border-2 p-1 text-white select-none focus:p-1 outline-0"
-              onChange={(e) => {
-                if (e.currentTarget.valueAsNumber === 0) setRating("no thing");
-                else if (e.currentTarget.valueAsNumber === 1)
-                  setRating("very easy");
-                else if (e.currentTarget.valueAsNumber === 2) setRating("easy");
-                else if (e.currentTarget.valueAsNumber === 3)
-                  setRating("modarate");
-                else if (e.currentTarget.valueAsNumber === 4)
-                  setRating("difficult");
-                else setRating("very difficult");
-              }}
-            />
+              className="rounded-xl rounded-l-none bg-white border-white border-2 p-1 text-black inline-block "
+            >
+              <BiChevronUp />
+              <BiChevronDown />
+            </span>
           </div>
         </div>
         <div className="flex flex-row flex-wrap justify-around my-3 w-full">
           <label className="p-1" htmlFor="problemStatus">
             Status
           </label>
-          <div className="inline-block w-8/12">
-            <p className="rounded-xl rounded-r-none bg-white border-white border-2 p-1 text-black inline-block w-6/12">
+          <div className="flex w-8/12">
+            <p className="rounded-xl rounded-r-none bg-white border-white border-2 p-1 text-black inline-block w-10/12">
               {problemStatus}
             </p>
-            <input
-              min={0}
-              max={4}
-              type="number"
-              name="problemStatus"
-              id="problemStatus"
-              className="rounded-xl select-none text-white rounded-l-none bg-white border-white border-2 p-1  focus:p-1 outline-0"
-              onChange={(e) => {
-                if (e.currentTarget.valueAsNumber === 0)
-                  setProblemStatus("unsolved");
-                else if (e.currentTarget.valueAsNumber === 1)
-                  setProblemStatus("pending");
-                else if (e.currentTarget.valueAsNumber === 2)
-                  setProblemStatus("solving");
-                else if (e.currentTarget.valueAsNumber === 3)
-                  setProblemStatus("solved");
-                else setProblemStatus("cannot solve");
-              }}
-            />
+            <span
+              id="name"
+              className="rounded-xl rounded-l-none bg-white border-white border-2 p-1 text-black inline-block "
+            >
+              <BiChevronUp onClick={() => incStatus()} />
+              <BiChevronDown onClick={() => decStatus()} />
+            </span>
           </div>
           <div className="flex flex-row flex-wrap justify-around my-3 w-full">
             <label className="p-1" htmlFor="name">

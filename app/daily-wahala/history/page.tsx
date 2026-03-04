@@ -38,11 +38,25 @@ const WahalTrackerHomePage = () => {
     const queryLocalStorage = localStorage.getItem("AmosIdeaApp");
     if (queryLocalStorage) {
       const localData: Data = JSON.parse(queryLocalStorage);
-      // if (localData?.daily_wahala) setWahalas(myData.daily_wahala as wahala[]);
+      if (localData?.daily_wahala) setWahalas(myData.daily_wahala as wahala[]);
     }
   }, []);
-  const sayLaud = (text: string) =>
+  const sayLaud = (text: string) => {
+    speechSynthesis.cancel();
     speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+    setSpeechStarted(false);
+  };
+
+  React.useEffect(
+    () =>
+      console.log(
+        "speacking: ",
+        speechSynthesis.speaking,
+        "paused",
+        speechSynthesis.paused,
+      ),
+    [speechStarted],
+  );
 
   return (
     <div>
@@ -72,7 +86,11 @@ const WahalTrackerHomePage = () => {
                 className=" right-4"
                 title="Read summary of this wahala laudly"
                 onClick={() => {
-                  if (!speechSynthesis.speaking)
+                  if (speechSynthesis.paused) {
+                    speechSynthesis.resume();
+                    setSpeechStarted(true);
+                  } else {
+                    speechSynthesis.cancel();
                     speechSynthesis.speak(
                       new SpeechSynthesisUtterance(`
               Oh! user this here's breakdown of this wahala. Name. ${wahala.name} . which occured on ${new Date(wahala.date).toDateString()} .  discription of this wahala is. ${wahala.desctiption}
@@ -88,8 +106,9 @@ const WahalTrackerHomePage = () => {
               
               `),
                     );
-                  else if (speechSynthesis.paused) speechSynthesis.resume();
-                  setSpeechStarted(true);
+
+                    setSpeechStarted(true);
+                  }
                 }}
               />
             )}
@@ -101,10 +120,8 @@ const WahalTrackerHomePage = () => {
           >
             {wahala.name}
           </h1>
-          <h3
-            onClick={(e) => loudReading && sayLaud(e.currentTarget.textContent)}
-            className=" right-2 text-right mr-3  top-14 font-bold hover:p-1 w w-full"
-          >
+
+          <h3 className=" right-2 text-right mr-3  top-14 font-bold w-full">
             {new Date(wahala.date).getDate() === new Date().getDate() &&
             new Date(wahala.date).getMonth() === new Date().getMonth() &&
             new Date(wahala.date).getFullYear() === new Date().getFullYear() ? (
@@ -112,7 +129,7 @@ const WahalTrackerHomePage = () => {
                 onClick={(e) =>
                   loudReading && sayLaud(e.currentTarget.textContent)
                 }
-                className="mask-b-from-80% mask-l-from-90 border-3  p-1 rounded-md"
+                className="mask-b-from-80% mask-l-from-90 border-3  hover:p-2 p-1 rounded-md"
               >
                 Today
               </span>
@@ -126,7 +143,7 @@ const WahalTrackerHomePage = () => {
                 new Date(wahala.date).getMonth() === new Date().getMonth() &&
                 new Date(wahala.date).getFullYear() ===
                   new Date().getFullYear() ? (
-                  <span className="mask-b-from-80% mask-l-from-90 border-3  p-1 rounded-md">
+                  <span className="mask-b-from-80% mask-l-from-90 border-3 hover:p-2 p-1 rounded-md">
                     Yesterday
                   </span>
                 ) : (
@@ -134,7 +151,7 @@ const WahalTrackerHomePage = () => {
                     onClick={(e) =>
                       loudReading && sayLaud(e.currentTarget.textContent)
                     }
-                    className="mask-b-from-80% mask-l-from-90 border-3  p-1 rounded-md"
+                    className="mask-b-from-80% mask-l-from-90 border-3  hover:p-2 p-1 rounded-md"
                   >
                     {new Date(wahala?.date)?.getDate()}/
                     {new Date(wahala.date)?.getMonth()}/

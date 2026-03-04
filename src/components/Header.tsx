@@ -18,7 +18,9 @@ const Header = () => {
             menuOpen ? setMenuOpen(false) : setMenuOpen(true);
           }}
           className={
-            !menuOpen ? "w-full text-right" : "text-right absolute bg-gray-50"
+            !menuOpen
+              ? "w-full text-right"
+              : "text-right absolute bg-gray-50 z-30"
           }
         >
           {" "}
