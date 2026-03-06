@@ -2,7 +2,6 @@
 import WahalaCard from "@/src/components/Daily-wahalaComponents/WahalaCard";
 import { Data, myData, wahala } from "@/src/components/data";
 import React from "react";
-import { BiPause, BiPlay, BiStop, BiVolumeFull } from "react-icons/bi";
 
 const WahalTrackerHomePage = () => {
   const [wahalas, setWahalas] = React.useState<wahala[]>([

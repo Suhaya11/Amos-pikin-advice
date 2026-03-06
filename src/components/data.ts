@@ -11,20 +11,27 @@ export interface decision {
   rank: number;
   reason?: string;
 }
+export type rating =
+  | "difficult"
+  | "very difficult"
+  | "modarate"
+  | "easy"
+  | "very easy"
+  | "no thing";
+export type status =
+  | "unsolved"
+  | "solved"
+  | "pending"
+  | "solving"
+  | "cannot solve";
 export interface wahala {
   id: string;
   date: Date;
   name: string;
   causer: string;
-  status: "unsolved" | "solved" | "pending" | "solving" | "cannot solve";
+  status: status;
   decision: string;
-  rating:
-    | "no thing"
-    | "very easy"
-    | "easy"
-    | "modarate"
-    | "difficult"
-    | "very difficult";
+  rating: rating;
   desctiption: string;
 }
 

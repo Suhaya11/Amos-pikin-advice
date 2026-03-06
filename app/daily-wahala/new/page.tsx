@@ -1,21 +1,12 @@
 "use client";
-import { Data } from "@/src/components/data";
+import { Data, rating, status } from "@/src/components/data";
 import React, { useEffect } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
 const DailyWahala = () => {
   const [name, setName] = React.useState<string>("");
-  const [rating, setRating] = React.useState<
-    | "difficult"
-    | "very difficult"
-    | "modarate"
-    | "easy"
-    | "very easy"
-    | "no thing"
-  >("modarate");
-  const [problemStatus, setProblemStatus] = React.useState<
-    "solved" | "unsolved" | "cannot solve" | "solving" | "pending"
-  >("unsolved");
+  const [rating, setRating] = React.useState<rating>("modarate");
+  const [problemStatus, setProblemStatus] = React.useState<status>("unsolved");
   const [decision, setDecision] = React.useState<string>("");
   const [description, setDiscription] = React.useState<string>("");
   const [date, setDate] = React.useState<Date>(new Date());
