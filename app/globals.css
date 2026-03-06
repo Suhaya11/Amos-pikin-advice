@@ -1,5 +1,5 @@
 @import "tailwindcss";
-* {
+body {
   box-sizing: border-box;
 }
 *::placeholder {
@@ -10,7 +10,7 @@
 @layer base {
   @media (width <= 400px) {
     html {
-      font-size: 70%;
+      font-size: 80%;
     }
   }
 }
@@ -31,4 +31,7 @@
 }
 .container {
   @apply max-w-10/12 my-2 mx-auto p-2 rounded-xl;
+}
+.Input {
+  @apply bg-white border-white border-2 p-1 text-black w-96/12;
 }
