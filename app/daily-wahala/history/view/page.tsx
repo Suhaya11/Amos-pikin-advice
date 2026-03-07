@@ -105,7 +105,17 @@ const TodaysWahalaOverview = () => {
           .toString()
       );
   };
-  return <div>{AnalyseWahala(wahalas, "rating", "modarate")}</div>;
+  return (
+    <div className="flex w-10/12 max-[400px]:w-11/12 shadow-md my-3 mx-auto shadow-fuchsia-700 rounded-2xl flex-wrap flex-row">
+      <h1 className="title">Wahala analysis</h1>
+      <p>
+        Today you have encoutered 3 wahala in which 2 of them where caused by
+        you and the other one caused by wane{" "}
+      </p>
+      Out of today's wahala 1 is difficult and solved , the other one is easy
+      but unsolved and the last one is modarete and its in sovling state
+    </div>
+  );
 };
 
 export default TodaysWahalaOverview;
