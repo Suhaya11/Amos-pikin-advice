@@ -1,5 +1,10 @@
 "use client";
-import { Data, rating, status } from "@/src/components/data";
+import {
+  CalculatedTodaysDate,
+  Data,
+  rating,
+  status,
+} from "@/src/components/data";
 import React, { useEffect } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
@@ -32,7 +37,7 @@ const DailyWahala = () => {
         status: problemStatus,
       });
       localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
-    }
+    } else throw new Error("unable to connect to local db");
   };
   const speakInputLetters = (
     e: React.InputEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -71,6 +76,7 @@ const DailyWahala = () => {
     else if (statusNum === 3) setProblemStatus("solving");
     else if (statusNum === 4) setProblemStatus("solved");
   }, [statusNum]);
+  console.log(CalculatedTodaysDate(new Date()));
   return (
     <div>
       <h1 className="text-2xl uppercase title">daily wahala tracker </h1>

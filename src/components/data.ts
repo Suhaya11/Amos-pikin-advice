@@ -170,3 +170,5 @@ interface atm_simulation {
     ];
   };
 }
+export const CalculatedTodaysDate = (date: Date): string =>
+  `${new Date(date).getDate()}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
