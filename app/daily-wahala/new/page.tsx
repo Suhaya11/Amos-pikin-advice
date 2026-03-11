@@ -5,6 +5,7 @@ import {
   rating,
   status,
 } from "@/src/components/data";
+import Link from "next/link";
 import React, { useEffect } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
 
@@ -76,7 +77,7 @@ const DailyWahala = () => {
     else if (statusNum === 3) setProblemStatus("solving");
     else if (statusNum === 4) setProblemStatus("solved");
   }, [statusNum]);
-  console.log(CalculatedTodaysDate(new Date()));
+
   return (
     <div>
       <h1 className="text-2xl uppercase title">daily wahala tracker </h1>
@@ -169,7 +170,7 @@ const DailyWahala = () => {
               id="date"
               className=" bg-amber-50 text-black p-2 outline-0 rounded-2xl "
               onChange={(e) =>
-                new Date(e.currentTarget.value)
+                new Date(e.currentTarget.value)?.getDate()
                   ? setDate(new Date(e.currentTarget.value))
                   : null
               }
@@ -216,13 +217,15 @@ const DailyWahala = () => {
           />
         </div>
         <div className="flex flex-row flex-wrap justify-end w-full">
-          <input
-            type="submit"
-            name="name"
-            id="name"
-            value={"Record Wahala"}
-            className="rounded-xl border-2 p-2 mr-2 hover:bg-amber-50 hover:text-black"
-          />
+          <Link href={"/daily-wahala/history/view"}>
+            <input
+              type="submit"
+              name="name"
+              id="name"
+              value={"Record Wahala"}
+              className="rounded-xl border-2 p-2 mr-2 hover:bg-amber-50 hover:text-black"
+            />
+          </Link>
         </div>
       </form>
     </div>

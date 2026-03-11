@@ -1,9 +1,11 @@
 "use client";
 import {
   CalculatedTodaysDate,
+  CalculateSavedDate,
   Data,
   rating,
   status,
+  TodaysWahala,
   wahala,
 } from "@/src/components/data";
 import React from "react";
@@ -114,25 +116,37 @@ const TodaysWahalaOverview = () => {
   const calculateNumberOfCauser = (
     array: wahala[],
     str: "me" | "Me" | string,
-  ): number =>
-    array?.filter(
-      (wahala) =>
-        CalculatedTodaysDate(new Date()) == CalculatedTodaysDate(wahala.date),
-    ).length;
+  ): number => array?.filter((wahala) => wahala.causer == wahala.causer).length;
   console.log(CalculatedTodaysDate(wahalas.at(-1)?.date!));
   console.log(new Date(wahalas.at(-1)?.date!));
   console.log(new Date());
+  console.error(
+    "hhh",
+    CalculatedTodaysDate(new Date()) ===
+      CalculateSavedDate(new Date(wahalas.at(-1)?.date!)),
+  );
 
   return (
     <div className="flex w-10/12 max-[400px]:w-11/12 shadow-md my-3 mx-auto shadow-fuchsia-700 rounded-2xl flex-wrap flex-row">
       <h1 className="title">Wahala analysis</h1>
-      <p>
-        Today you have encoutered {calculateNumberOfCauser(wahalas, "Me")}{" "}
-        wahala in which 2 of them where caused by you and the other one caused
-        by wane{" "}
+      <p className="w-full">
+        {TodaysWahala(wahalas).length
+          ? `
+        Today you have encoutered ${
+          TodaysWahala(wahalas).length == 1
+            ? `${TodaysWahala(wahalas).length} wahala which is caused by ${TodaysWahala(wahalas).at(0)?.causer == "Me" || TodaysWahala(wahalas).at(0)?.causer == "me" ? "you" : TodaysWahala(wahalas).at(0)?.causer} and its in ${TodaysWahala(wahalas).at(0)?.status} state`
+            : `wahala in which
+        2 of them where caused by you and the other one caused by wane`
+        } `
+          : "Today ther's no Wahala encountered"}{" "}
       </p>
-      Out of today's wahala 1 is difficult and solved , the other one is easy
-      but unsolved and the last one is modarete and its in sovling state
+      <p className="w-full">
+        {TodaysWahala(wahalas).length > 1
+          ? ` Out of today's wahala 1 is difficult and solved , the other one is easy
+      but unsolved and the last one is modarete and its in sovling state `
+          : `Today's single wahala which is ${TodaysWahala(wahalas).at(0)?.rating} and it's in 
+      ${TodaysWahala(wahalas).at(0)?.status} state`}
+      </p>
     </div>
   );
 };

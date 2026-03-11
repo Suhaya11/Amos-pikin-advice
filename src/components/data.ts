@@ -171,4 +171,13 @@ interface atm_simulation {
   };
 }
 export const CalculatedTodaysDate = (date: Date): string =>
+  `${new Date(date).getDate() - 1}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
+console.log(CalculatedTodaysDate(new Date()));
+export const CalculateSavedDate = (date: Date): string =>
   `${new Date(date).getDate()}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
+export const TodaysWahala = (array: wahala[]): wahala[] =>
+  array.filter((item) =>
+    CalculateSavedDate(item.date) === CalculatedTodaysDate(new Date())
+      ? item
+      : null,
+  );
