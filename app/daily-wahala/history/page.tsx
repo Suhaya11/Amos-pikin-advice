@@ -1,6 +1,7 @@
 "use client";
 import { Data, myData, wahala } from "@/src/components/data";
 import React from "react";
+import { BiPrinter } from "react-icons/bi";
 
 const DailyWahalaTrackingComponent = () => {
   const [wahalas, setWahalas] = React.useState<wahala[]>([
@@ -66,10 +67,15 @@ const DailyWahalaTrackingComponent = () => {
       return "Yesterday";
     else return new Date(date).toLocaleDateString();
   };
+
   return (
     <>
       <main className="from-violet-400 to-red-300 bg-linear-to-l py-4 ">
-        <h2 className="title">Wahala Summary</h2>
+        <BiPrinter
+          className="absolute right-10 text-3xl text-white hover:p-1  w-fit"
+          onClick={() => window.print()}
+        />
+        <h2 className="title">Wahala History</h2>
         <div
           className="max-[400px]:w-full w-full my-2 mx-auto
          "

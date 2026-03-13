@@ -6,7 +6,7 @@ import {
   status,
   wahala,
 } from "@/src/components/data";
-import Link from "next/link";
+
 import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 import { BiChevronDown, BiChevronUp } from "react-icons/bi";
@@ -19,14 +19,31 @@ const DailyWahala = () => {
   const [description, setDiscription] = React.useState<string>("");
   const [date, setDate] = React.useState<Date>(new Date());
   const [causer, setCouser] = React.useState<string>("Me");
-  const [localData, setLocalData] = React.useState<Data>();
+  const [localData, setLocalData] = React.useState<Data>({
+    decisions: [],
+    daily_wahala: [],
+    atm_simulations: {},
+    timeGreetings: [],
+  });
   const [ratingNum, setRatingNum] = React.useState<number>(0);
   const [statusNum, setStatusNum] = React.useState<number>(0);
 
   React.useEffect(() => {
     const localStora = localStorage.getItem("AmosIdeaApp");
     if (localStora) setLocalData(JSON.parse(localStora));
+    // else
+    //   localStorage.setItem(
+    //     "AmosIdeaApp",
+    //     JSON.stringify({
+    //       decisions: [],
+    //       daily_wahala: [],
+    //       atm_simulations: {},
+    //       timeGreetings: [],
+    //     }),
+    //   );
+    localStorage.clear();
   }, []);
+
   const handleSubmit = (currentData: Data | undefined = localData) => {
     if (currentData) {
       console.log(currentData);

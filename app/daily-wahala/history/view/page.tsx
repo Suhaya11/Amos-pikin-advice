@@ -64,64 +64,64 @@ const TodaysWahalaOverview = () => {
       if (localData?.daily_wahala?.length) setWahalas(localData.daily_wahala);
     }
   }, []);
-  const [pageToPring, setPageToPring] = React.useState<HTMLDocument>(
-    window.document,
-  );
-  const AnalyseWahala = (
-    wahalas: wahala[],
-    field: "rating" | "status" | "causer",
-    value: rating | status,
-  ): string | undefined => {
-    //let continue from here next time now I'm sleepy
+  // const [pageToPring, setPageToPring] = React.useState<HTMLDocument>(
+  //   window.document,
+  // );
+  // const AnalyseWahala = (
+  //   wahalas: wahala[],
+  //   field: "rating" | "status" | "causer",
+  //   value: rating | status,
+  // ): string | undefined => {
+  //   //let continue from here next time now I'm sleepy
 
-    if (
-      (field === "rating" && value == "difficult") ||
-      "very difficult" ||
-      "modarate" ||
-      "easy" ||
-      "very easy" ||
-      "no thing"
-    ) {
-      console.log(
-        "filtered",
-        wahalas.filter((wahala) => wahala.rating === value).slice(0, -1),
-      );
-      return (
-        wahalas
-          .filter((wahala) => wahala.rating === value)
-          .map((w) => w.name)
-          .slice(0, -1)
-          .join(", ") +
-        " and " +
-        wahalas
-          .filter((wahala) => wahala.rating === value)
-          .map((w) => w.name)
-          .slice(-1)
-          .toString()
-      );
-    } else if (
-      (field === "status" && value == "unsolved") ||
-      "solved" ||
-      "pending" ||
-      "solving" ||
-      "cannot solve"
-    )
-      return (
-        wahalas
-          .map((wahala) => (wahala.rating === value ? wahala : null))
-          .slice(0, -2)
-          .join(", ") +
-        " and " +
-        wahalas
-          .map((wahala) => (wahala.rating === value ? wahala : null))
-          .slice(-1)
-          .toString()
-      );
-  };
-  const calculateNumberOfCauser = (
-    array: wahala[],
-    str: "me" | "Me" | string,
-  ): number => array?.filter((wahala) => wahala.causer == wahala.causer).length;
+  //   if (
+  //     (field === "rating" && value == "difficult") ||
+  //     "very difficult" ||
+  //     "modarate" ||
+  //     "easy" ||
+  //     "very easy" ||
+  //     "no thing"
+  //   ) {
+  //     console.log(
+  //       "filtered",
+  //       wahalas.filter((wahala) => wahala.rating === value).slice(0, -1),
+  //     );
+  //     return (
+  //       wahalas
+  //         .filter((wahala) => wahala.rating === value)
+  //         .map((w) => w.name)
+  //         .slice(0, -1)
+  //         .join(", ") +
+  //       " and " +
+  //       wahalas
+  //         .filter((wahala) => wahala.rating === value)
+  //         .map((w) => w.name)
+  //         .slice(-1)
+  //         .toString()
+  //     );
+  //   } else if (
+  //     (field === "status" && value == "unsolved") ||
+  //     "solved" ||
+  //     "pending" ||
+  //     "solving" ||
+  //     "cannot solve"
+  //   )
+  //     return (
+  //       wahalas
+  //         .map((wahala) => (wahala.rating === value ? wahala : null))
+  //         .slice(0, -2)
+  //         .join(", ") +
+  //       " and " +
+  //       wahalas
+  //         .map((wahala) => (wahala.rating === value ? wahala : null))
+  //         .slice(-1)
+  //         .toString()
+  //     );
+  // };
+  // // const calculateNumberOfCauser = (
+  //   array: wahala[],
+  //   str: "me" | "Me" | string,
+  // ): number => array?.filter((wahala) => wahala.causer == wahala.causer).length;
   // console.log(CalculatedTodaysDate(wahalas.at(-1)?.date!));
   // console.log(new Date(wahalas.at(-1)?.date!));
   // console.log(new Date());
