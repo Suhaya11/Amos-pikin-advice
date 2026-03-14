@@ -38,3 +38,6 @@ body {
 .viewUnderWahalaSummary {
   @apply border w-fit mx-auto p-2 rounded-2xl hover:bg-gray-600 hover:text-white;
 }
+.servicesBoxUnderFakeAtmDashbord {
+  @apply p-4 rounded-xl cursor-pointer  bg-white w-11/48 text-center;
+}
