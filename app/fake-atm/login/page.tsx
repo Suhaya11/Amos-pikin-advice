@@ -1,15 +1,23 @@
+"use client";
 import React from "react";
-import { BiFlag, BiLock, BiPhone, BiUser } from "react-icons/bi";
 import {
-  BsFillLockFill,
-  BsFillPhoneFill,
-  BsFillTelephoneXFill,
-} from "react-icons/bs";
+  BiFingerprint,
+  BiFlag,
+  BiLock,
+  BiPhone,
+  BiSolidUser,
+  BiUser,
+} from "react-icons/bi";
+import { BsFillLockFill } from "react-icons/bs";
 
 const LoginPage = () => {
+  const [wantToLoginwithPhoneNumber, setWantToLoginwithPhoneNumber] =
+    React.useState<boolean>(false);
+  const [startedTypingNumber, setStartedTypingNumber] =
+    React.useState<boolean>(true);
   return (
     <div>
-      <div className="flex justify-between relative border">
+      <div className="flex justify-between relative ">
         <div className="bg-blue-600 absolute uppercase px-3 select-none text-white font-extrabold text-7xl p-2 rounded-3xl ml-3 mt-2">
           s
         </div>{" "}
@@ -21,27 +29,85 @@ const LoginPage = () => {
           </span>
         </div>
       </div>
-      <div className="absolute bottom-0 border w-full">
-        <h1 className="title">Log in to your account</h1>
-        <div className="flex gap-4 w-10/12 my-2 mx-auto border ">
+      <div className="absolute bottom-0  w-full">
+        <h1 className="w-10/12  my-2 mx-auto uppercase font-extrabold">
+          Log in to your account
+        </h1>
+        <div className="flex gap-4 w-10/12 my-2 mx-auto  ">
           <span>login with</span>
-          <span className="bg-blue-600 cursor-pointer rounded-3xl p-2 text-white ">
-            <BiPhone fill="white" className="inline-block" /> Phone
+          <span
+            onClick={() => setWantToLoginwithPhoneNumber(true)}
+            className={`${wantToLoginwithPhoneNumber ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-300"} cursor-pointer rounded-3xl font-bold p-2 `}
+          >
+            <BiPhone className="inline-block" /> Phone
           </span>
-          <span className="bg-gray-100 p-2 rounded-3xl cursor-pointer text-gray-300">
+          <span
+            onClick={() => setWantToLoginwithPhoneNumber(false)}
+            className={`${wantToLoginwithPhoneNumber ? "bg-gray-100 text-gray-400" : "bg-blue-600 text-white"} p-2 rounded-3xl cursor-pointer font-bold`}
+          >
             {" "}
-            <BiUser className="inline-block " /> USername
+            <BiUser className="inline-block " /> Username
           </span>{" "}
         </div>
-        <div className="bg-gray-100 rounded-2xl w-10/12 my-2 mx-auto flex gap-2">
-          <span className="rounded border w-3/12 p-2">NG</span>
-          <span>+234</span>
-          <input
-            type="text"
-            name="number"
-            id="number"
-            placeholder="Phone number"
-          />
+        {wantToLoginwithPhoneNumber ? (
+          <div className="bg-gray-100 rounded-xl w-10/12 my-2 mx-auto flex gap-2">
+            <span className="rounded-full border  p-2">NG</span>
+            <input type="text" placeholder="+234" className="w-2/24" />
+            <input
+              type="text"
+              name="number"
+              id="number"
+              placeholder="Phone number"
+            />
+          </div>
+        ) : (
+          <div
+            className={`${startedTypingNumber ? "border-blue-500 border" : ""} bg-gray-100 relative rounded-xl w-8/12 my-2 mx-auto p-4 flex gap-2`}
+          >
+            <span>
+              <BiSolidUser size={30} className="inline-block" />{" "}
+              <span
+                className={`absolute  ${startedTypingNumber ? " top-0 text-xs" : "text-gray-400 "} select-none pointer-events-none`}
+              >
+                Username
+              </span>{" "}
+              <input
+                type="tel"
+                name=""
+                id=""
+                className="outline-none cursor-pointer"
+                onFocus={() => setStartedTypingNumber(true)}
+                onBlur={(e) =>
+                  !e.currentTarget.value && setStartedTypingNumber(false)
+                }
+              />
+            </span>
+          </div>
+        )}
+        <div className="flex justify-between w-10/12 my-3 mx-auto">
+          <span className="w-7/12 cursor-pointer bg-blue-600 p-3 text-center text-white font-bold rounded-xl">
+            Next
+          </span>{" "}
+          <span className="w-3/12  text-center ">
+            <BiFingerprint
+              size={60}
+              fill="blue"
+              className="my-0 mx-auto bg-blue-100 p-2 rounded-2xl  cursor-pointer"
+            />
+          </span>
+        </div>
+        <div>
+          <p className="capitalize text-center text-blue-600 cursor-pointer">
+            change my phone number
+          </p>
+        </div>
+        <div className="w-10/12 my-3 mx-auto">
+          <p className="text-center">
+            Licenased by the{" "}
+            <strong className="capitalize">sulaiman haladu yau</strong> and
+            insured by <strong>the advice of Amospikin the tech popet</strong>{" "}
+            read my <strong>privacy policy</strong>
+          </p>
         </div>
       </div>
     </div>

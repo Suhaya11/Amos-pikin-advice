@@ -22,7 +22,9 @@ body {
     }
   }
 }
-
+body {
+  cursor: default;
+}
 .navLink {
   @apply cursor-pointer bg-violet-200 p-2 rounded-xl text-left w-full;
 }
@@ -40,4 +42,7 @@ body {
 }
 .servicesBoxUnderFakeAtmDashbord {
   @apply p-4 rounded-xl cursor-pointer  bg-white w-11/48 text-center;
+}
+strong {
+  @apply capitalize cursor-pointer;
 }
