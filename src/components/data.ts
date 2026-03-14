@@ -104,72 +104,110 @@ export const myData: Data = {
       rating: "difficult",
     },
   ],
-  atm_simulations: {
-    income: {
-      transactions: [
-        {
-          amount: 39,
-          sender: {
-            name: "sani haladu",
-            acc_number: 2299292992,
-            transac_string: `${new Date().getTime()}`,
-          },
-          time: new Date(),
+  atm_simulations: [
+    {
+      user: {
+        income: {
+          transactions: [
+            {
+              amount: 39,
+              sender: {
+                name: "sani haladu",
+                acc_number: 2299292992,
+                transac_string: `${new Date().getTime()}`,
+              },
+              time: new Date(),
+            },
+          ],
+          total: 209,
         },
-      ],
-      total: 209,
-    },
-    spent: {
-      transactions: [
-        {
-          amount: 333,
-          reciever: {
-            name: "sulaiman haladu",
-            acc_number: 2223252471,
-            transac_string: `${new Date().getTime()}suhaya`,
-          },
-          time: new Date(),
+        spent: {
+          transactions: [
+            {
+              amount: 333,
+              reciever: {
+                name: "sulaiman haladu",
+                acc_number: 2223252471,
+                transac_string: `${new Date().getTime()}suhaya`,
+              },
+              time: new Date(),
+            },
+          ],
+          total: 3333,
         },
-      ],
-      total: 3333,
+      },
     },
-  },
+    {
+      user: {
+        income: {
+          transactions: [
+            {
+              amount: 39,
+              sender: {
+                name: "sani haladu",
+                acc_number: 2299292992,
+                transac_string: `${new Date().getTime()}`,
+              },
+              time: new Date(),
+            },
+          ],
+          total: 209,
+        },
+        spent: {
+          transactions: [
+            {
+              amount: 333,
+              reciever: {
+                name: "sulaiman haladu",
+                acc_number: 2223252471,
+                transac_string: `${new Date().getTime()}suhaya`,
+              },
+              time: new Date(),
+            },
+          ],
+          total: 3333,
+        },
+      },
+    },
+  ],
 };
-
-interface atm_simulation {
-  income?: {
-    transactions?: [
-      {
-        amount: number;
-        sender: {
-          name: string;
-          acc_number: number | string;
-          transac_string: string;
-        };
-        time: Date;
-        reason?: string;
-        other?: string | number;
-      },
-    ];
-    total: number;
+export type user = {
+  user: {
+    income?: {
+      transactions?: [
+        {
+          amount: number;
+          sender: {
+            name: string;
+            acc_number: number | string;
+            transac_string: string;
+          };
+          time: Date;
+          reason?: string;
+          other?: string | number;
+        },
+      ];
+      total: number;
+    };
+    spent?: {
+      total: number;
+      transactions: [
+        {
+          amount: number;
+          reciever: {
+            name: string;
+            acc_number: number | string;
+            transac_string: string;
+          };
+          time: Date;
+          reason?: string;
+          other?: string | number;
+        },
+      ];
+    };
   };
-  spent?: {
-    total: number;
-    transactions: [
-      {
-        amount: number;
-        reciever: {
-          name: string;
-          acc_number: number | string;
-          transac_string: string;
-        };
-        time: Date;
-        reason?: string;
-        other?: string | number;
-      },
-    ];
-  };
-}
+};
+type atm_simulation = user[];
 export const CalculatedTodaysDate = (date: Date): string =>
   `${new Date(date).getDate() - 1}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
 console.log(CalculatedTodaysDate(new Date()));
@@ -197,3 +235,10 @@ export const findAllNotMeAsWahalaCauser = (wahalas: wahala[]): wahala[] =>
       wahala.causer !== "ME" &&
       wahala.causer != "mE",
   );
+export const masker = (text: string): string => {
+  const myArray: "*"[] = [];
+  for (let index = 0; index < text.length; index++) {
+    myArray.push("*");
+  }
+  return myArray.join("");
+};
