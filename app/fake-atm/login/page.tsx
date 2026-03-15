@@ -1,5 +1,8 @@
 "use client";
 import Logo from "@/src/components/FakeAtmComponent/Logo";
+import NumberFieldInForm from "@/src/components/FakeAtmComponent/NumberFieldInForm";
+import UsernameFieldInForm from "@/src/components/FakeAtmComponent/userNameFieldInForm";
+
 import React from "react";
 import {
   BiFingerprint,
@@ -16,6 +19,7 @@ const LoginPage = () => {
     React.useState<boolean>(false);
   const [startedTypingNumber, setStartedTypingNumber] =
     React.useState<boolean>(true);
+  const [numberValue, setNumberValue] = React.useState<number | undefined>();
   return (
     <div>
       <div className="flex justify-between relative ">
@@ -51,40 +55,15 @@ const LoginPage = () => {
           </span>{" "}
         </div>
         {wantToLoginwithPhoneNumber ? (
-          <div className="bg-gray-100 rounded-xl w-10/12 my-2 mx-auto flex gap-2">
-            <span className="rounded-full border  p-2">NG</span>
-            <input type="text" placeholder="+234" className="w-2/24" />
-            <input
-              type="text"
-              name="number"
-              id="number"
-              placeholder="Phone number"
-              className="outline-none"
-            />
-          </div>
+          <NumberFieldInForm
+            numberValue={numberValue}
+            setNumberValue={setNumberValue}
+          />
         ) : (
-          <div
-            className={`${startedTypingNumber ? "border-blue-500 border" : ""} bg-gray-100 relative rounded-xl w-8/12 my-2 mx-auto p-4 flex gap-2`}
-          >
-            <span>
-              <BiSolidUser size={30} className="inline-block" />{" "}
-              <span
-                className={`absolute  ${startedTypingNumber ? " top-0 text-xs" : "text-gray-400 "} select-none pointer-events-none`}
-              >
-                Username
-              </span>{" "}
-              <input
-                type="tel"
-                name=""
-                id=""
-                className="outline-none cursor-pointer"
-                onFocus={() => setStartedTypingNumber(true)}
-                onBlur={(e) =>
-                  !e.currentTarget.value && setStartedTypingNumber(false)
-                }
-              />
-            </span>
-          </div>
+          <UsernameFieldInForm
+            setStartedTypingNumber={setStartedTypingNumber}
+            startedTypingNumber={startedTypingNumber}
+          />
         )}
         <div className="flex justify-between w-10/12 my-3 mx-auto">
           <span className="w-7/12 cursor-pointer bg-blue-600 p-3 text-center text-white font-bold rounded-xl">
