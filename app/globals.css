@@ -46,3 +46,21 @@ body {
 strong {
   @apply capitalize cursor-pointer;
 }
+.fakeLearningBank {
+  @apply text-sm text-gray-600 left-40 absolute top-12;
+  letter-spacing: 3px;
+}
+.loginHomePage {
+  background: rgba(23, 6, 255, 0.096);
+  padding: 10px;
+  display: inline-block;
+  padding-inline: 3em;
+  color: blue;
+}
+.signupHomePage {
+  background: rgb(23, 6, 255);
+  padding: 10px;
+  display: inline-block;
+  padding-inline: 3em;
+  color: rgb(255, 255, 255);
+}

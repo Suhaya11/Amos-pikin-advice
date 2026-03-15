@@ -104,9 +104,95 @@ export const myData: Data = {
       rating: "difficult",
     },
   ],
-  atm_simulations: [
-    {
-      user: {
+  atm_simulations: {
+    currentUSer: {
+      loginInfo: {
+        username: "suhaya",
+        password: "dd",
+        securityQuestion1: {
+          question: "a",
+          answer: "b",
+        },
+        securityQuestion2: {
+          question: "c",
+          answer: "d",
+        },
+      },
+      cardInfo: {
+        cardNo: "20200202002020",
+        cardHolder: "suhaya",
+        cardPin: "1111",
+        cardBalance: {
+          income: 209,
+          spent: 1000,
+        },
+        bankName: "suhayaBank",
+        code: 234,
+      },
+      bankDatails: {
+        acc_bank: "suhayaBank",
+        acc_no: 22222222,
+        acc_name: "suhaya",
+      },
+      income: {
+        transactions: [
+          {
+            amount: 39,
+            sender: {
+              name: "sani haladu",
+              acc_number: 2299292992,
+              transac_string: `${new Date().getTime()}`,
+            },
+            time: new Date(),
+          },
+        ],
+        total: 209,
+      },
+      spent: {
+        transactions: [
+          {
+            amount: 333,
+            reciever: {
+              name: "sulaiman haladu",
+              acc_number: 2223252471,
+              transac_string: `${new Date().getTime()}suhaya`,
+            },
+            time: new Date(),
+          },
+        ],
+        total: 3333,
+      },
+    },
+    users: [
+      {
+        loginInfo: {
+          username: "suhaya",
+          password: "dd",
+          securityQuestion1: {
+            question: "a",
+            answer: "b",
+          },
+          securityQuestion2: {
+            question: "c",
+            answer: "d",
+          },
+        },
+        cardInfo: {
+          cardNo: "20200202002020",
+          cardHolder: "suhaya",
+          cardPin: "1111",
+          cardBalance: {
+            income: 209,
+            spent: 1000,
+          },
+          bankName: "suhayaBank",
+          code: 234,
+        },
+        bankDatails: {
+          acc_bank: "suhayaBank",
+          acc_no: 22222222,
+          acc_name: "suhaya",
+        },
         income: {
           transactions: [
             {
@@ -136,78 +222,75 @@ export const myData: Data = {
           total: 3333,
         },
       },
-    },
-    {
-      user: {
-        income: {
-          transactions: [
-            {
-              amount: 39,
-              sender: {
-                name: "sani haladu",
-                acc_number: 2299292992,
-                transac_string: `${new Date().getTime()}`,
-              },
-              time: new Date(),
-            },
-          ],
-          total: 209,
-        },
-        spent: {
-          transactions: [
-            {
-              amount: 333,
-              reciever: {
-                name: "sulaiman haladu",
-                acc_number: 2223252471,
-                transac_string: `${new Date().getTime()}suhaya`,
-              },
-              time: new Date(),
-            },
-          ],
-          total: 3333,
-        },
-      },
-    },
-  ],
+    ],
+  }!,
 };
 export type user = {
-  user: {
-    income?: {
-      transactions?: [
-        {
-          amount: number;
-          sender: {
-            name: string;
-            acc_number: number | string;
-            transac_string: string;
-          };
-          time: Date;
-          reason?: string;
-          other?: string | number;
-        },
-      ];
-      total: number;
+  income?: {
+    transactions?: [
+      {
+        amount: number;
+        sender: {
+          name: string;
+          acc_number: number | string;
+          transac_string: string;
+        };
+        time: Date;
+        reason?: string;
+        other?: string | number;
+      },
+    ];
+    total: number;
+  };
+  spent?: {
+    total: number;
+    transactions: [
+      {
+        amount: number;
+        reciever: {
+          name: string;
+          acc_number: number | string;
+          transac_string: string;
+        };
+        time: Date;
+        reason?: string;
+        other?: string | number;
+      },
+    ];
+  };
+  bankDatails: {
+    acc_no: number;
+    acc_name: string;
+    acc_bank: string;
+  };
+  loginInfo: {
+    password: string;
+    username: string;
+    securityQuestion1: {
+      question: string;
+      answer: string | number;
     };
-    spent?: {
-      total: number;
-      transactions: [
-        {
-          amount: number;
-          reciever: {
-            name: string;
-            acc_number: number | string;
-            transac_string: string;
-          };
-          time: Date;
-          reason?: string;
-          other?: string | number;
-        },
-      ];
+    securityQuestion2: {
+      question: string;
+      answer: string | number;
+    };
+  };
+  cardInfo?: {
+    cardNo: string;
+    cardPin: string;
+    cardHolder: string;
+    code: number;
+    bankName: string;
+    cardBalance?: {
+      income: number;
+      spent: number;
     };
   };
 };
-type atm_simulation = user[];
+type atm_simulation = {
+  currentUSer?: user;
+  users?: user[];
+};
 export const CalculatedTodaysDate = (date: Date): string =>
   `${new Date(date).getDate() - 1}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
 console.log(CalculatedTodaysDate(new Date()));

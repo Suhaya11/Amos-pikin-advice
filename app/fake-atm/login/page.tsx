@@ -1,4 +1,5 @@
 "use client";
+import Logo from "@/src/components/FakeAtmComponent/Logo";
 import React from "react";
 import {
   BiFingerprint,
@@ -18,9 +19,9 @@ const LoginPage = () => {
   return (
     <div>
       <div className="flex justify-between relative ">
-        <div className="bg-blue-600 absolute uppercase px-3 select-none text-white font-extrabold text-7xl p-2 rounded-3xl ml-3 mt-2">
-          s
-        </div>{" "}
+        <div className="absolute">
+          <Logo />
+        </div>
         <div className="flex flex-wrap flex-row justify-end absolute right-0 top-4">
           <span className="w-full text-right mr-10">lost your phone?</span>{" "}
           <span className="text-blue-600 cursor-pointer hover:text-blue-800 w-full text-right mr-10">
@@ -58,6 +59,7 @@ const LoginPage = () => {
               name="number"
               id="number"
               placeholder="Phone number"
+              className="outline-none"
             />
           </div>
         ) : (
