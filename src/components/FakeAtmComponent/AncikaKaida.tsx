@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   BiFile,
@@ -12,7 +13,13 @@ type myProps = {
 const AncikaKaida = ({ setAncikaKaida, setGotoSignup }: myProps) => {
   return (
     <div>
-      <BiSolidLeftArrowAlt size={40} onClick={() => setGotoSignup(false)} />
+      <BiSolidLeftArrowAlt
+        size={40}
+        onClick={() => {
+          setGotoSignup(false);
+          setAncikaKaida(false);
+        }}
+      />
 
       <div className="w-11/12 my-2 mx-auto ">
         {" "}

@@ -15,7 +15,7 @@ const BackNavigationForSignUp = ({ GoBackTo, progressBarAmount }: myProps) => {
         />
         <span className="cursor-pointer">Need Help?</span>
       </div>
-      <div className=" border-gray-500 bg-gray-200">
+      <div className=" border-gray-500 bg-gray-200 w-full">
         <div className={`w-${progressBarAmount}/12 border-blue-700 border-2`}>
           {" "}
         </div>

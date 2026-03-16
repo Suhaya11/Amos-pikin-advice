@@ -20,13 +20,12 @@ const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
       </select>
       <input
         type="tel"
-        value={numberValue?.toString()}
+        value={numberValue && numberValue}
         name="text"
         id="number"
         placeholder="Phone number"
         className="outline-none"
         onChange={(r) => {
-          console.log("mh", Number(r.currentTarget.value));
           if (
             Number(r.currentTarget.value) &&
             r.currentTarget.value.length < 11
