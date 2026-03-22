@@ -35,32 +35,34 @@ const HomePage = () => {
     `***${something.toString().split("").slice(-3).join("")}`;
   // const [otpValues, setOtpValue] = React.useState<number[]>([]);
   const [otpIsValid, setOtpIsValid] = React.useState<boolean>(false);
+  const [wrongOtp, setWrongOtp] = React.useState<boolean>(false);
   const [generatedOtp, setGeneratedOtp] = React.useState<string>(
     Math.random().toString().split("").slice(2, 8).join(""),
   );
-  const [countSec, setCountSec] = React.useState<number>(6);
-  const [countMin, setCountMin] = React.useState<number>(0);
+  const [countSec, setCountSec] = React.useState<number>(60);
+  const [countMin, setCountMin] = React.useState<number>(1);
   const [noOfOtpReRequest, setNoOfOtpReRequest] = React.useState<number>(0);
   const [showOtpModal, setShowOtpModal] = React.useState<boolean>(false);
 
   const OTPCounter = async () => {
     setInterval(() => {
-      setCountMin((prev) => (prev > 0 ? prev - 1 : 0));
-      setCountSec((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 10000);
+      setCountMin((prev) => (prev > 0 ? prev - 1 : prev));
+      setCountSec((prev) => (prev > 0 ? prev - 1 : prev));
+    }, 1000);
   };
 
   React.useEffect(() => {
     setShowOtpModal(true);
     setTimeout(() => {
       setShowOtpModal(false);
-    }, 7000);
+    }, 60000);
   }, []);
 
   const onOtpComleted = (userOTP: string): void => {
     console.error(userOTP);
     if (!isNaN(Number(userOTP)) && userOTP === generatedOtp)
       setOtpIsValid(true);
+    else setWrongOtp(true);
   };
   // console.error("hhh", new Array(6).fill(Math.random()));
 
@@ -110,38 +112,41 @@ const HomePage = () => {
                     />
                   ) : (
                     <>
-                      <div>
-                        <BackNavigationForSignUp
-                          GoBackTo={() => setUserGaveConsent(false)}
-                          progressBarAmount={9}
-                        />
-
-                        {showOtpModal && (
-                          <OtpModal
-                            setGenerateOtp={setGeneratedOtp}
-                            OTPCounter={OTPCounter}
-                            setCountMin={setCountMin}
-                            setCountSec={setCountSec}
-                            generatedOtp={generatedOtp}
+                      {!otpIsValid ? (
+                        <div>
+                          <BackNavigationForSignUp
+                            GoBackTo={() => setUserGaveConsent(false)}
+                            progressBarAmount={9}
                           />
-                        )}
-                        <div className="my-3 mx-auto  w-10/12 ">
-                          <h2 className="font-bold">
-                            Verify Your Phone Number
-                          </h2>
-                          <p className="text-gray-500">
-                            We've set a 6 digit code to{" "}
-                            {maskNumberStart(numberValue!)} {". "} Check your
-                            SMS <br />
-                            and enter it here.
-                          </p>
 
-                          <div className="w-full p-4 bg-white rounded-md">
-                            <OtpInput
-                              length={generatedOtp.toString().length}
-                              onOTPComplete={onOtpComleted}
+                          {showOtpModal && (
+                            <OtpModal
+                              countMin={countMin}
+                              countSec={countSec}
+                              setGenerateOtp={setGeneratedOtp}
+                              OTPCounter={OTPCounter}
+                              setCountMin={setCountMin}
+                              setCountSec={setCountSec}
+                              generatedOtp={generatedOtp}
                             />
-                            {/* <div className="flex justify-around w-8/12 my-2 mx-auto">
+                          )}
+                          <div className="my-3 mx-auto  w-10/12 ">
+                            <h2 className="font-bold">
+                              Verify Your Phone Number
+                            </h2>
+                            <p className="text-gray-500">
+                              We've set a 6 digit code to{" "}
+                              {maskNumberStart(numberValue!)} {". "} Check your
+                              SMS <br />
+                              and enter it here.
+                            </p>
+
+                            <div className="w-full p-4 bg-white rounded-md">
+                              <OtpInput
+                                length={generatedOtp.toString().length}
+                                onOTPComplete={onOtpComleted}
+                              />
+                              {/* <div className="flex justify-around w-8/12 my-2 mx-auto">
                               <input
                                 type="text"
                                 className="otp_1 otp"
@@ -179,39 +184,53 @@ const HomePage = () => {
                                 autoFocus={otpValues.length == 5}
                               />
                             </div> */}
-                            <div className=" w-10/12 my-4 mx-auto p-4 resendOTP  rounded-2xl text-xs flex justify-between">
-                              <div className="flex gap-3">
-                                <BsFillExclamationCircleFill
-                                  fill="blue"
-                                  size={20}
-                                  className="inline-block"
-                                />
-                                <span className=" inline-block pt-1">
-                                  Did'nt recieved the code{" "}
-                                </span>
-                              </div>
-                              <button
-                                onClick={() => {
-                                  setShowOtpModal(true);
-                                  setTimeout(() => {
+                              <div className=" w-10/12 my-4 mx-auto p-4 resendOTP  rounded-2xl text-xs flex justify-between">
+                                <div className="flex gap-3">
+                                  <BsFillExclamationCircleFill
+                                    fill="blue"
+                                    size={20}
+                                    className="inline-block"
+                                  />
+                                  <span className=" inline-block pt-1">
+                                    Did'nt recieved the code{" "}
+                                  </span>
+                                </div>
+                                <button
+                                  onClick={() => {
                                     setShowOtpModal(false);
-                                  }, 8000);
-                                }}
-                                className={
-                                  countSec
-                                    ? "w-fit p-3 bg-gray-400 text-white rounded-2xl font-bold pointer-events-none"
-                                    : "p-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-900 pointer-events-auto cursor-pointer active:p-1 active:bg-red-500"
-                                }
-                              >
-                                Resend{" "}
-                                {countSec
-                                  ? `(${countMin ? `${countMin}:` : ""}${countSec})`
-                                  : ""}
-                              </button>
+                                    setShowOtpModal(true);
+                                    setWrongOtp(false);
+                                    setTimeout(() => {
+                                      setShowOtpModal(false);
+                                    }, 60000);
+                                  }}
+                                  className={
+                                    countSec
+                                      ? "w-fit p-3 bg-gray-400 text-white rounded-2xl font-bold pointer-events-none"
+                                      : "p-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-900 pointer-events-auto cursor-pointer active:p-1 active:bg-red-500"
+                                  }
+                                >
+                                  Resend{" "}
+                                  {countSec
+                                    ? `(${countMin ? `${countMin}:` : ""}${countSec})`
+                                    : ""}
+                                </button>
+                              </div>
+                              {wrongOtp && (
+                                <p className="text-center text-red-700 animate-pulse">
+                                  Invalid or expired OTP{" "}
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>
-                      </div>
+                      ) : (
+                        <>
+                          <div className="text-red-600 text-9xl">
+                            kwankwasiyya amana
+                          </div>
+                        </>
+                      )}
                     </>
                   )}
                 </>

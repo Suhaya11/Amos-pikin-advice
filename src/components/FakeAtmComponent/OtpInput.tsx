@@ -40,6 +40,7 @@ const OtpInput = ({ length, onOTPComplete }: myProps) => {
     // focus on the last box or the next empty one
     const nexIndex = data.length < length ? data.length : data.length - 1;
     inputRefs.current[nexIndex].focus();
+    onOTPComplete(NewOtp.join(""));
   };
 
   return (

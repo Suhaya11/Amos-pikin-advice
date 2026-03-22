@@ -3,6 +3,8 @@ type myProps = {
   generatedOtp: string;
   setCountMin: React.Dispatch<React.SetStateAction<number>>;
   setCountSec: React.Dispatch<React.SetStateAction<number>>;
+  countMin: number;
+  countSec: number;
   OTPCounter(): void;
   setGenerateOtp: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -11,12 +13,12 @@ const OtpModal = (props: myProps) => {
     props.setGenerateOtp(
       Math.random().toString().split("").slice(2, 8).join(""),
     );
-    props.setCountMin(1);
-    props.setCountSec(6);
+    if (!props.countMin) props.setCountMin(1);
+    if (!props.countSec) props.setCountSec(60);
     props.OTPCounter();
     setTimeout(() => {
       props.OTPCounter();
-    }, 10000);
+    }, 1);
   }, []);
 
   return (
