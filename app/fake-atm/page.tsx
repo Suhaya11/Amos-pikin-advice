@@ -2,16 +2,23 @@
 import AncikaKaida from "@/src/components/FakeAtmComponent/AncikaKaida";
 import BackNavigationForSignUp from "@/src/components/FakeAtmComponent/BackNavigationForSignUp";
 import GoToSignUp from "@/src/components/FakeAtmComponent/GoToSignUp";
+import LongNextButton from "@/src/components/FakeAtmComponent/LongNextButton";
 
 import NumberFieldInForm from "@/src/components/FakeAtmComponent/NumberFieldInForm";
 import OtpInput from "@/src/components/FakeAtmComponent/OtpInput";
 import OtpModal from "@/src/components/FakeAtmComponent/OtpModal";
 import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumberVerifySignUp";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
+import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
+import { Verify } from "crypto";
 
 import React, { useEffect } from "react";
+import { BiEnvelope, BiMessage, BiMessageAlt } from "react-icons/bi";
 
-import { BsFillExclamationCircleFill } from "react-icons/bs";
+import {
+  BsFillEnvelopeFill,
+  BsFillExclamationCircleFill,
+} from "react-icons/bs";
 
 const HomePage = () => {
   const [goToSignup, setGotoSignup] = React.useState<boolean>(true);
@@ -33,8 +40,9 @@ const HomePage = () => {
   const [userGaveConsent, setUserGaveConsent] = React.useState<boolean>(true);
   const maskNumberStart = (something: number | string): string =>
     `***${something.toString().split("").slice(-3).join("")}`;
-  // const [otpValues, setOtpValue] = React.useState<number[]>([]);
-  const [otpIsValid, setOtpIsValid] = React.useState<boolean>(false);
+  // const [otpValues, setOtpValue] = React.useState<string[]>([]);
+  const [otpIsValid, setOtpIsValid] = React.useState<boolean>(true);
+
   const [wrongOtp, setWrongOtp] = React.useState<boolean>(false);
   const [generatedOtp, setGeneratedOtp] = React.useState<string>(
     Math.random().toString().split("").slice(2, 8).join(""),
@@ -47,10 +55,14 @@ const HomePage = () => {
   const OTPCounter = async () => {
     setInterval(() => {
       setCountMin((prev) => (prev > 0 ? prev - 1 : prev));
-      setCountSec((prev) => (prev > 0 ? prev - 1 : prev));
     }, 1000);
   };
 
+  const reduceSec = () => {
+    setInterval(() => {
+      setCountSec((prev) => (prev > 0 ? prev - 1 : prev));
+    }, 1000);
+  };
   React.useEffect(() => {
     setShowOtpModal(true);
     setTimeout(() => {
@@ -121,6 +133,7 @@ const HomePage = () => {
 
                           {showOtpModal && (
                             <OtpModal
+                              reduceSec={reduceSec}
                               countMin={countMin}
                               countSec={countSec}
                               setGenerateOtp={setGeneratedOtp}
@@ -223,12 +236,11 @@ const HomePage = () => {
                               )}
                             </div>
                           </div>
+                          {/* <LongNextButton actionToDo={onOtpComleted()}/> */}
                         </div>
                       ) : (
                         <>
-                          <div className="text-red-600 text-9xl">
-                            kwankwasiyya amana
-                          </div>
+                          <VerifyEmail setOtpIsValid={setOtpIsValid} />
                         </>
                       )}
                     </>

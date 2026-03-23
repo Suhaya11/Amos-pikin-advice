@@ -7,6 +7,7 @@ type myProps = {
   countSec: number;
   OTPCounter(): void;
   setGenerateOtp: React.Dispatch<React.SetStateAction<string>>;
+  reduceSec(): void;
 };
 const OtpModal = (props: myProps) => {
   React.useEffect(() => {
@@ -15,6 +16,7 @@ const OtpModal = (props: myProps) => {
     );
     if (!props.countMin) props.setCountMin(1);
     if (!props.countSec) props.setCountSec(60);
+    else props.reduceSec();
     props.OTPCounter();
     setTimeout(() => {
       props.OTPCounter();

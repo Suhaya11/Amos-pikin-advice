@@ -37,6 +37,7 @@ const OtpInput = ({ length, onOTPComplete }: myProps) => {
       if (!isNaN(Number(char))) NewOtp[index] = char;
     });
     setOtp(NewOtp);
+
     // focus on the last box or the next empty one
     const nexIndex = data.length < length ? data.length : data.length - 1;
     inputRefs.current[nexIndex].focus();

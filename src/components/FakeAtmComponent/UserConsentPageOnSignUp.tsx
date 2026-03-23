@@ -1,6 +1,7 @@
 import React from "react";
 import { BiCheckbox, BiSolidCheckboxChecked } from "react-icons/bi";
 import BackNavigationForSignUp from "./BackNavigationForSignUp";
+import LongNextButton from "./LongNextButton";
 type myProps = {
   setAgreedWithNumber: React.Dispatch<React.SetStateAction<boolean>>;
   setTermsAcepted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -109,18 +110,17 @@ const UserConsentPageOnSignUp = ({
           </span>
         </div>
       </div>
-      <div className="absolute w-10/12 bottom-0 left-13">
-        <span
-          onClick={() =>
-            agreedWithDataProcessingConsent &&
-            termsAcepted &&
-            setUserGaveConsent(true)
-          }
-          className={`inline-block my-2 font-bold capitalize w-full text-center p-2 rounded-xl ${termsAcepted && agreedWithDataProcessingConsent ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-400"}`}
-        >
-          continue
-        </span>
-      </div>
+
+      <LongNextButton
+        actionText="Continue"
+        termsAcepted={termsAcepted}
+        agreedWithDataProcessingConsent={agreedWithDataProcessingConsent}
+        actionToDo={() =>
+          agreedWithDataProcessingConsent &&
+          termsAcepted &&
+          setUserGaveConsent(true)
+        }
+      />
     </div>
   );
 };
