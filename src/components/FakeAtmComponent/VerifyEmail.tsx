@@ -7,6 +7,9 @@ import BackNavigationForSignUp from "./BackNavigationForSignUp";
 import React from "react";
 type myProps = {
   setOtpIsValid: React.Dispatch<React.SetStateAction<boolean>>;
+  emailValue: string;
+  setEmailValue: React.Dispatch<React.SetStateAction<string>>;
+  setEmailAdded: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const VerifyEmail = (props: myProps) => {
   return (
@@ -31,6 +34,8 @@ const VerifyEmail = (props: myProps) => {
               id="email"
               className="outline-none"
               placeholder="Email address"
+              value={props.emailValue}
+              onChange={(e) => props.setEmailValue(e.currentTarget.value)}
             />
           </div>
         </div>
@@ -48,7 +53,34 @@ const VerifyEmail = (props: myProps) => {
           </div>
         </div>
       </div>
-      <LongNextButton actionText="Next" actionToDo={() => {}} />
+      <LongNextButton
+        actionText="Next"
+        actionToDo={() => {
+          if (
+            props.emailValue != "" &&
+            props.emailValue.includes("@") &&
+            props.emailValue.toLocaleLowerCase().endsWith(".com") &&
+            !props.emailValue.includes("@.") &&
+            !props.emailValue.includes(".@")
+          )
+            props.setEmailAdded(true);
+        }}
+        termsAcepted={true}
+        agreedWithDataProcessingConsent={
+          props.emailValue != "" &&
+          props.emailValue.includes("@") &&
+          props.emailValue.toLocaleLowerCase().endsWith(".com") &&
+          !props.emailValue.includes("@.") &&
+          !props.emailValue.includes(".@")
+        }
+        optionalElememt={
+          <h3 className="text-center my-3">
+            <span className=" font-bold cursor-pointer hover:underline text-blue-600 ">
+              I dont have an email
+            </span>
+          </h3>
+        }
+      />
     </div>
   );
 };

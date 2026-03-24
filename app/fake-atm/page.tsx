@@ -10,14 +10,22 @@ import OtpModal from "@/src/components/FakeAtmComponent/OtpModal";
 import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumberVerifySignUp";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
-import { Verify } from "crypto";
 
 import React, { useEffect } from "react";
-import { BiEnvelope, BiMessage, BiMessageAlt } from "react-icons/bi";
+import {
+  BiArrowFromLeft,
+  BiArrowToLeft,
+  BiLeftArrowAlt,
+  BiPhoneCall,
+  BiRightArrow,
+  BiRightArrowAlt,
+  BiSolidLeftArrowAlt,
+} from "react-icons/bi";
 
 import {
-  BsFillEnvelopeFill,
+  BsFillBackspaceFill,
   BsFillExclamationCircleFill,
+  BsFillTelephoneFill,
 } from "react-icons/bs";
 
 const HomePage = () => {
@@ -51,7 +59,8 @@ const HomePage = () => {
   const [countMin, setCountMin] = React.useState<number>(1);
   const [noOfOtpReRequest, setNoOfOtpReRequest] = React.useState<number>(0);
   const [showOtpModal, setShowOtpModal] = React.useState<boolean>(false);
-
+  const [emailValue, setEmailValue] = React.useState<string>("");
+  const [emailAdded, setEmailAdded] = React.useState<boolean>(true);
   const OTPCounter = async () => {
     setInterval(() => {
       setCountMin((prev) => (prev > 0 ? prev - 1 : prev));
@@ -240,7 +249,68 @@ const HomePage = () => {
                         </div>
                       ) : (
                         <>
-                          <VerifyEmail setOtpIsValid={setOtpIsValid} />
+                          {!emailAdded ? (
+                            <VerifyEmail
+                              setOtpIsValid={setOtpIsValid}
+                              emailValue={emailValue}
+                              setEmailValue={setEmailValue}
+                              setEmailAdded={setEmailAdded}
+                            />
+                          ) : (
+                            <>
+                              <div>
+                                <div className="flex justify-between text-blue-700">
+                                  <BiSolidLeftArrowAlt
+                                    title="Back"
+                                    size={40}
+                                    className="cursor-pointer"
+                                    onClick={() => setEmailAdded(false)}
+                                  />
+                                  <span className="cursor-pointer mr-4 resendOTP p-2 rounded-2xl">
+                                    <BsFillTelephoneFill className="inline-block" />{" "}
+                                    {maskNumberStart(numberValue!)}
+                                  </span>
+                                </div>
+                                <main>
+                                  <h2 className="title">Setup your passcode</h2>
+                                  <p className="text-sm text-gray-500 text-center">
+                                    Enter a 6 digit passcode
+                                  </p>
+                                  <OtpInput
+                                    length={6}
+                                    onOTPComplete={() => {}}
+                                  />
+                                  <div>
+                                    <div className="flex mt-30 my-4 mx-auto w-10/12 justify-around">
+                                      <span className={"keyStroke"}>1</span>
+                                      <span className={"keyStroke"}>2</span>
+
+                                      <span className={"keyStroke"}>3</span>
+                                    </div>
+                                    <div className="flex my-4 mx-auto w-10/12 justify-around">
+                                      <span className={"keyStroke"}>4</span>
+                                      <span className={"keyStroke"}>5</span>
+                                      <span className={"keyStroke"}>6</span>
+                                    </div>
+                                    <div className="flex my-4 mx-auto w-10/12 justify-around">
+                                      <span className={"keyStroke"}>7</span>
+                                      <span className={"keyStroke"}>8</span>
+                                      <span className={"keyStroke"}>9</span>
+                                    </div>
+                                    <div className="flex my-4 mx-auto w-10/12 justify-around">
+                                      <span className={"keyStroke"}>
+                                        <BsFillBackspaceFill />
+                                      </span>
+                                      <span className={"keyStroke"}>0</span>
+                                      <span className={"keyStroke"}>
+                                        <BiRightArrowAlt />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </main>
+                              </div>
+                            </>
+                          )}
                         </>
                       )}
                     </>

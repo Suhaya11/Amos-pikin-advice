@@ -101,3 +101,6 @@ strong {
     top: -200px;
   }
 }
+.keyStroke {
+  @apply cursor-pointer p-3 font-bold text-2xl select-none;
+}
