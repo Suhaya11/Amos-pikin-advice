@@ -1,6 +1,7 @@
 "use client";
 import AncikaKaida from "@/src/components/FakeAtmComponent/AncikaKaida";
 import BackNavigationForSignUp from "@/src/components/FakeAtmComponent/BackNavigationForSignUp";
+import ConfirmPasscode from "@/src/components/FakeAtmComponent/ConfirmPasscode";
 import GoToSignUp from "@/src/components/FakeAtmComponent/GoToSignUp";
 import LongNextButton from "@/src/components/FakeAtmComponent/LongNextButton";
 
@@ -9,6 +10,7 @@ import OtpInput from "@/src/components/FakeAtmComponent/OtpInput";
 import OtpModal from "@/src/components/FakeAtmComponent/OtpModal";
 import PasscodeSetupPage from "@/src/components/FakeAtmComponent/PasscodeSetupPage";
 import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumberVerifySignUp";
+import PinCreationPage from "@/src/components/FakeAtmComponent/PinCreationPage";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
 
@@ -50,6 +52,10 @@ const HomePage = () => {
   const [emailValue, setEmailValue] = React.useState<string>("");
   const [emailAdded, setEmailAdded] = React.useState<boolean>(true);
   const [passcodeValue, setPasscodeValue] = React.useState("");
+  const [passcodeInserted, setPasscodeInserted] =
+    React.useState<boolean>(false);
+  const [passcodeIsConfirmed, setPasscodeIsConfirmed] =
+    React.useState<boolean>(true);
   const OTPCounter = async () => {
     setInterval(() => {
       setCountMin((prev) => (prev > 0 ? prev - 1 : prev));
@@ -247,13 +253,40 @@ const HomePage = () => {
                             />
                           ) : (
                             <>
-                              <PasscodeSetupPage
-                                passcodeValue={passcodeValue}
-                                setPasscodeValue={setPasscodeValue}
-                                maskNumberStart={maskNumberStart}
-                                setEmailAdded={setEmailAdded}
-                                numberValue={numberValue}
-                              />
+                              {!passcodeIsConfirmed ? (
+                                <>
+                                  {!passcodeInserted ? (
+                                    <PasscodeSetupPage
+                                      setPasscodeInserted={setPasscodeInserted}
+                                      passcodeValue={passcodeValue}
+                                      setPasscodeValue={setPasscodeValue}
+                                      maskNumberStart={maskNumberStart}
+                                      setEmailAdded={setEmailAdded}
+                                      numberValue={numberValue}
+                                    />
+                                  ) : (
+                                    <ConfirmPasscode
+                                      setPasscodeInserted={setPasscodeInserted}
+                                      passcodeValue={passcodeValue}
+                                      setPasscodeValue={setPasscodeValue}
+                                      maskNumberStart={maskNumberStart}
+                                      setEmailAdded={setEmailAdded}
+                                      numberValue={numberValue}
+                                      otpCompleted={(text: string) => {
+                                        if (
+                                          passcodeValue &&
+                                          passcodeValue === text
+                                        )
+                                          setPasscodeIsConfirmed(true);
+                                      }}
+                                    />
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  <PinCreationPage />
+                                </>
+                              )}
                             </>
                           )}
                         </>

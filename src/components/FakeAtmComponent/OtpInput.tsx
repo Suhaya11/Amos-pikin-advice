@@ -6,7 +6,12 @@ type myProps = {
 };
 const OtpInput = ({ length, onOTPComplete }: myProps) => {
   const [otp, setOtp] = React.useState<string[]>(new Array(length).fill(""));
+
   const inputRefs = React.useRef<HTMLInputElement[]>([]);
+
+  React.useEffect(() => {
+    setOtp(new Array(length).fill(""));
+  }, []);
   const handleChange = (value: string, index: number) => {
     if (isNaN(Number(value))) return; // donot take what is not number
 

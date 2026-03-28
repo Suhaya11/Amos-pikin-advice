@@ -9,9 +9,10 @@ type myProps = {
   passcodeValue: string;
   setPasscodeValue: React.Dispatch<React.SetStateAction<string>>;
   setEmailAdded: React.Dispatch<React.SetStateAction<boolean>>;
+  otpCompleted(text: string): void;
   setPasscodeInserted: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const PasscodeSetupPage = (props: myProps) => {
+const ConfirmPasscode = (props: myProps) => {
   const [defaultKeybord, setDefaultKeybord] = React.useState(false);
   return (
     <div>
@@ -20,7 +21,7 @@ const PasscodeSetupPage = (props: myProps) => {
           title="Back"
           size={40}
           className="cursor-pointer"
-          onClick={() => props.setEmailAdded(false)}
+          onClick={() => props.setPasscodeInserted(false)}
         />
         <span className="cursor-pointer mr-4 resendOTP p-2 rounded-2xl">
           <BsFillTelephoneFill className="inline-block" />{" "}
@@ -28,18 +29,11 @@ const PasscodeSetupPage = (props: myProps) => {
         </span>
       </div>
       <main>
-        <h2 className="title">: "Setup your passcode"</h2>
+        <h2 className="title">Confirm your passcode</h2>
         <p className="text-sm text-gray-500 text-center">
-          Enter a 6 digit passcode
+          Confirm your 6 digit passcode
         </p>
-        <OtpInput
-          length={6}
-          onOTPComplete={(text: string) => {
-            props.setPasscodeValue(text);
-            props.setPasscodeInserted(true);
-            console.error("function called !");
-          }}
-        />
+        <OtpInput length={6} onOTPComplete={props.otpCompleted} />
         {defaultKeybord && (
           <div>
             <div className="flex mt-30 my-4 mx-auto w-10/12 justify-around">
@@ -74,4 +68,4 @@ const PasscodeSetupPage = (props: myProps) => {
   );
 };
 
-export default PasscodeSetupPage;
+export default ConfirmPasscode;
