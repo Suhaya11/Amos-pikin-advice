@@ -25,7 +25,6 @@ const OtpInput = ({ length, onOTPComplete }: myProps) => {
     }
     /// trigger callback when all fields are filled
     if (newOtp.every((value) => value != "")) {
-      console.error("OTP completed");
       onOTPComplete(newOtp.join(""));
     }
   };
@@ -55,7 +54,7 @@ const OtpInput = ({ length, onOTPComplete }: myProps) => {
         <input
           className="otp_1 otp"
           key={index}
-          type="text"
+          type="tel"
           inputMode="numeric"
           autoComplete="one-time-code"
           value={digit}

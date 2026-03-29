@@ -56,6 +56,8 @@ const HomePage = () => {
     React.useState<boolean>(false);
   const [passcodeIsConfirmed, setPasscodeIsConfirmed] =
     React.useState<boolean>(true);
+  const [userPin, setUserPin] = React.useState<string>("");
+  const [doneWithPin, setDoneWithPin] = React.useState<boolean>(false);
   const OTPCounter = async () => {
     setInterval(() => {
       setCountMin((prev) => (prev > 0 ? prev - 1 : prev));
@@ -284,7 +286,18 @@ const HomePage = () => {
                                 </>
                               ) : (
                                 <>
-                                  <PinCreationPage />
+                                  {!doneWithPin ? (
+                                    <PinCreationPage
+                                      userPin={userPin}
+                                      setUserPin={setUserPin}
+                                      setDoneWithPin={setDoneWithPin}
+                                    />
+                                  ) : (
+                                    <div className="text-9xl text-pink-500">
+                                      {" "}
+                                      DONE WITH PIN NOW
+                                    </div>
+                                  )}
                                 </>
                               )}
                             </>
