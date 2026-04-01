@@ -1,10 +1,18 @@
 "use client";
+
 import React from "react";
 type myProps = {
   length: number;
   onOTPComplete(someText: string): void;
+  setOTPCount?: React.Dispatch<React.SetStateAction<number>>;
+  setOtpCompleted?: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const OtpInput = ({ length, onOTPComplete }: myProps) => {
+const OtpInput = ({
+  length,
+  onOTPComplete,
+  setOTPCount,
+  setOtpCompleted,
+}: myProps) => {
   const [otp, setOtp] = React.useState<string[]>(new Array(length).fill(""));
 
   const inputRefs = React.useRef<HTMLInputElement[]>([]);
@@ -26,12 +34,16 @@ const OtpInput = ({ length, onOTPComplete }: myProps) => {
     /// trigger callback when all fields are filled
     if (newOtp.every((value) => value != "")) {
       onOTPComplete(newOtp.join(""));
+      setOtpCompleted && setOtpCompleted(true);
+      inputRefs.current[index].blur();
     }
   };
   const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     /// Move to previous input on backspace if current is empty
-    if (e.key === "Backspace" && !otp[index] && index > 0)
+    if (e.key === "Backspace" && !otp[index] && index > 0 && index < length) {
       inputRefs.current[index - 1]?.focus();
+      setOtpCompleted && setOtpCompleted(false);
+    }
   };
   const handlePaste = (e: React.ClipboardEvent) => {
     e.preventDefault();
@@ -54,16 +66,20 @@ const OtpInput = ({ length, onOTPComplete }: myProps) => {
         <input
           className="otp_1 otp"
           key={index}
-          type="tel"
+          type="password"
           inputMode="numeric"
           autoComplete="one-time-code"
           value={digit}
           ref={(el) => {
             if (el) inputRefs.current[index] = el;
           }}
-          onChange={(e) => handleChange(e.currentTarget.value, index)}
+          onChange={(e) => {
+            setOTPCount && setOTPCount(index);
+            handleChange(e.currentTarget.value, index);
+          }}
           onKeyDown={(e) => handleKeyDown(e, index)}
           onPaste={handlePaste}
+          required
         />
       ))}
     </div>

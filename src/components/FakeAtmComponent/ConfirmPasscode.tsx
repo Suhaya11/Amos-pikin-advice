@@ -1,11 +1,16 @@
 "use client";
 import React from "react";
 import { BiRightArrowAlt, BiSolidLeftArrowAlt } from "react-icons/bi";
-import { BsFillBackspaceFill, BsFillTelephoneFill } from "react-icons/bs";
+import {
+  BsFillBackspaceFill,
+  BsFillExclamationCircleFill,
+  BsFillTelephoneFill,
+} from "react-icons/bs";
 import OtpInput from "./OtpInput";
 type myProps = {
   maskNumberStart(numb: number): string;
   numberValue: number | undefined;
+  passcodeNotSame: boolean;
   passcodeValue: string;
   setPasscodeValue: React.Dispatch<React.SetStateAction<string>>;
   setEmailAdded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,6 +39,15 @@ const ConfirmPasscode = (props: myProps) => {
           Confirm your 6 digit passcode
         </p>
         <OtpInput length={6} onOTPComplete={props.otpCompleted} />
+        {props.passcodeNotSame && (
+          <p className="text-center animate-pulse text-red-600">
+            Passorword mismatch{" "}
+            <BsFillExclamationCircleFill
+              fill="red"
+              className="inline animate-pulse"
+            />
+          </p>
+        )}
         {defaultKeybord && (
           <div>
             <div className="flex mt-30 my-4 mx-auto w-10/12 justify-around">

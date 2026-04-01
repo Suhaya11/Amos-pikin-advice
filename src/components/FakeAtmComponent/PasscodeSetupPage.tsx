@@ -28,7 +28,7 @@ const PasscodeSetupPage = (props: myProps) => {
         </span>
       </div>
       <main>
-        <h2 className="title">: "Setup your passcode"</h2>
+        <h2 className="title">Setup your passcode</h2>
         <p className="text-sm text-gray-500 text-center">
           Enter a 6 digit passcode
         </p>

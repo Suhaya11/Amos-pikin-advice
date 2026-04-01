@@ -1,11 +1,10 @@
 "use client";
 import AncikaKaida from "@/src/components/FakeAtmComponent/AncikaKaida";
 import BackNavigationForSignUp from "@/src/components/FakeAtmComponent/BackNavigationForSignUp";
+import Biometrics from "@/src/components/FakeAtmComponent/Biometrics";
 import ConfirmPasscode from "@/src/components/FakeAtmComponent/ConfirmPasscode";
 import GoToSignUp from "@/src/components/FakeAtmComponent/GoToSignUp";
-import LongNextButton from "@/src/components/FakeAtmComponent/LongNextButton";
 
-import NumberFieldInForm from "@/src/components/FakeAtmComponent/NumberFieldInForm";
 import OtpInput from "@/src/components/FakeAtmComponent/OtpInput";
 import OtpModal from "@/src/components/FakeAtmComponent/OtpModal";
 import PasscodeSetupPage from "@/src/components/FakeAtmComponent/PasscodeSetupPage";
@@ -14,32 +13,30 @@ import PinCreationPage from "@/src/components/FakeAtmComponent/PinCreationPage";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
 
-import React, { useEffect } from "react";
+import React from "react";
 
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 
 const HomePage = () => {
-  const [goToSignup, setGotoSignup] = React.useState<boolean>(true);
-  const [ancikaKaida, setAncikaKaida] = React.useState<boolean>(true);
+  const [goToSignup, setGotoSignup] = React.useState<boolean>(false);
+  const [ancikaKaida, setAncikaKaida] = React.useState<boolean>(false);
   const [referralCodeExist, setReferralCodeExist] = React.useState(false);
   const [referralCode, setReferralCode] = React.useState<string>("");
   // const [numberIsEnoughForSignUp, setNumberIsEnoughForSignUp] =
   //   React.useState<boolean>(false);
-  const [numberValue, setNumberValue] = React.useState<number | undefined>(
-    9075898883,
-  );
+  const [numberValue, setNumberValue] = React.useState<number | undefined>();
   const [agreedWithTheNumber, setAgreedWithNumber] =
-    React.useState<boolean>(true);
+    React.useState<boolean>(false);
   const [termsAcepted, setTermsAcepted] = React.useState<boolean>(false);
   const [agreedWithDataProcessingConsent, setAgreedwithDataProcessingConsent] =
     React.useState<boolean>(false);
   const [wantToRecieveUpdates, setWantToRecieveUpdates] =
     React.useState<boolean>(false);
-  const [userGaveConsent, setUserGaveConsent] = React.useState<boolean>(true);
+  const [userGaveConsent, setUserGaveConsent] = React.useState<boolean>(false);
   const maskNumberStart = (something: number | string): string =>
     `***${something.toString().split("").slice(-3).join("")}`;
   // const [otpValues, setOtpValue] = React.useState<string[]>([]);
-  const [otpIsValid, setOtpIsValid] = React.useState<boolean>(true);
+  const [otpIsValid, setOtpIsValid] = React.useState<boolean>(false);
 
   const [wrongOtp, setWrongOtp] = React.useState<boolean>(false);
   const [generatedOtp, setGeneratedOtp] = React.useState<string>(
@@ -50,12 +47,13 @@ const HomePage = () => {
   const [noOfOtpReRequest, setNoOfOtpReRequest] = React.useState<number>(0);
   const [showOtpModal, setShowOtpModal] = React.useState<boolean>(false);
   const [emailValue, setEmailValue] = React.useState<string>("");
-  const [emailAdded, setEmailAdded] = React.useState<boolean>(true);
+  const [emailAdded, setEmailAdded] = React.useState<boolean>(false);
   const [passcodeValue, setPasscodeValue] = React.useState("");
   const [passcodeInserted, setPasscodeInserted] =
     React.useState<boolean>(false);
   const [passcodeIsConfirmed, setPasscodeIsConfirmed] =
-    React.useState<boolean>(true);
+    React.useState<boolean>(false);
+  const [passcodeNotSame, setPasscodeNotSame] = React.useState(false);
   const [userPin, setUserPin] = React.useState<string>("");
   const [doneWithPin, setDoneWithPin] = React.useState<boolean>(false);
   const OTPCounter = async () => {
@@ -268,6 +266,7 @@ const HomePage = () => {
                                     />
                                   ) : (
                                     <ConfirmPasscode
+                                      passcodeNotSame={passcodeNotSame}
                                       setPasscodeInserted={setPasscodeInserted}
                                       passcodeValue={passcodeValue}
                                       setPasscodeValue={setPasscodeValue}
@@ -280,6 +279,7 @@ const HomePage = () => {
                                           passcodeValue === text
                                         )
                                           setPasscodeIsConfirmed(true);
+                                        else setPasscodeNotSame(true);
                                       }}
                                     />
                                   )}
@@ -293,10 +293,7 @@ const HomePage = () => {
                                       setDoneWithPin={setDoneWithPin}
                                     />
                                   ) : (
-                                    <div className="text-9xl text-pink-500">
-                                      {" "}
-                                      DONE WITH PIN NOW
-                                    </div>
+                                    <Biometrics />
                                   )}
                                 </>
                               )}
