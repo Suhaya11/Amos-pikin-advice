@@ -1,7 +1,9 @@
+"use client";
 import React from "react";
 import BackNavigationForSignUp from "./BackNavigationForSignUp";
 import NumberFieldInForm from "./NumberFieldInForm";
 import { BiChevronDown, BiGift } from "react-icons/bi";
+import { Data, myData, user } from "../data";
 type myProps = {
   setAncikaKaida: React.Dispatch<React.SetStateAction<boolean>>;
   setNumberValue: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -22,6 +24,18 @@ const PhoneNumberVerifySignUp = ({
   numberValue,
   setReferralCodeExist,
 }: myProps) => {
+  const [numberExist, setNumberExist] = React.useState<boolean>(false);
+  const [users, setUsers] = React.useState<user[]>([]);
+  React.useEffect(() => {
+    localStorage.setItem("AmosIdeaApp", JSON.stringify(myData));
+    const query = localStorage.getItem("AmosIdeaApp");
+    if (query) {
+      const data: Data = JSON.parse(query);
+      console.log(data);
+      setUsers(data.atm_simulations?.users || []);
+    }
+  }, []);
+
   return (
     <div>
       {" "}
@@ -42,6 +56,12 @@ const PhoneNumberVerifySignUp = ({
           setNumberValue={setNumberValue}
           numberValue={numberValue}
         />
+
+        <p
+          className={`${numberExist ? "text-red-500" : "text-white"} font-serif animate-pulse text-center w-10/12 my-2 mx-auto`}
+        >
+          Number Already Exist
+        </p>
       </div>
       <div className="referralSpace ">
         <div className="flex gap-3">
@@ -71,11 +91,20 @@ const PhoneNumberVerifySignUp = ({
         )}
       </div>
       <div
-        onClick={() =>
-          numberValue &&
-          numberValue?.toString()?.length > 9 &&
-          setAgreedWithNumber(true)
-        }
+        onClick={() => {
+          if (
+            numberValue &&
+            numberValue?.toString()?.length > 8 &&
+            !users.some((usr) => usr.loginInfo.phoneNumber === numberValue)
+          )
+            setAgreedWithNumber(true);
+          else if (
+            numberValue &&
+            users.some((usr) => usr?.loginInfo?.phoneNumber === numberValue)
+          )
+            setNumberExist(true);
+          else null;
+        }}
         className={`absolute bottom-0 text-center w-10/12 my-3 left-10 p-3 rounded-xl ${numberValue && numberValue?.toString().trim().length > 9 ? "bg-blue-700 text-white" : "bg-gray-300 text-gray-500"}`}
       >
         <strong className="select-none">Next</strong>

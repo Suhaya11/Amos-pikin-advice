@@ -7,6 +7,7 @@ import GoToSignUp from "@/src/components/FakeAtmComponent/GoToSignUp";
 
 import OtpInput from "@/src/components/FakeAtmComponent/OtpInput";
 import OtpModal from "@/src/components/FakeAtmComponent/OtpModal";
+import OTPVerify from "@/src/components/FakeAtmComponent/OTPVerify";
 import PasscodeSetupPage from "@/src/components/FakeAtmComponent/PasscodeSetupPage";
 import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumberVerifySignUp";
 import PinCreationPage from "@/src/components/FakeAtmComponent/PinCreationPage";
@@ -44,7 +45,7 @@ const HomePage = () => {
   );
   const [countSec, setCountSec] = React.useState<number>(60);
   const [countMin, setCountMin] = React.useState<number>(1);
-  const [noOfOtpReRequest, setNoOfOtpReRequest] = React.useState<number>(0);
+  // const [noOfOtpReRequest, setNoOfOtpReRequest] = React.useState<number>(0);
   const [showOtpModal, setShowOtpModal] = React.useState<boolean>(false);
   const [emailValue, setEmailValue] = React.useState<string>("");
   const [emailAdded, setEmailAdded] = React.useState<boolean>(false);
@@ -67,15 +68,8 @@ const HomePage = () => {
       setCountSec((prev) => (prev > 0 ? prev - 1 : prev));
     }, 1000);
   };
-  React.useEffect(() => {
-    setShowOtpModal(true);
-    setTimeout(() => {
-      setShowOtpModal(false);
-    }, 60000);
-  }, []);
 
   const onOtpComleted = (userOTP: string): void => {
-    console.error(userOTP);
     if (!isNaN(Number(userOTP)) && userOTP === generatedOtp)
       setOtpIsValid(true);
     else setWrongOtp(true);
@@ -147,99 +141,17 @@ const HomePage = () => {
                               generatedOtp={generatedOtp}
                             />
                           )}
-                          <div className="my-3 mx-auto  w-10/12 ">
-                            <h2 className="font-bold">
-                              Verify Your Phone Number
-                            </h2>
-                            <p className="text-gray-500">
-                              We've set a 6 digit code to{" "}
-                              {maskNumberStart(numberValue!)} {". "} Check your
-                              SMS <br />
-                              and enter it here.
-                            </p>
-
-                            <div className="w-full p-4 bg-white rounded-md">
-                              <OtpInput
-                                length={generatedOtp.toString().length}
-                                onOTPComplete={onOtpComleted}
-                              />
-                              {/* <div className="flex justify-around w-8/12 my-2 mx-auto">
-                              <input
-                                type="text"
-                                className="otp_1 otp"
-                                autoFocus={otpValues.length == 0}
-                                onChange={(e) =>
-                                  setOtpValue([
-                                    ...otpValues,
-                                    Number(e.currentTarget.value),
-                                  ])
-                                }
-                              />
-                              <input
-                                type="text"
-                                className="otp_2 otp"
-                                autoFocus={otpValues.length == 1}
-                              />
-                              <input
-                                type="text"
-                                className="otp_3 otp"
-                                autoFocus={otpValues.length == 2}
-                              />
-                              <input
-                                type="text"
-                                className="otp_4 otp"
-                                autoFocus={otpValues.length == 3}
-                              />
-                              <input
-                                type="text"
-                                className="otp_5 otp"
-                                autoFocus={otpValues.length == 4}
-                              />
-                              <input
-                                type="text"
-                                className="otp_6 otp"
-                                autoFocus={otpValues.length == 5}
-                              />
-                            </div> */}
-                              <div className=" w-10/12 my-4 mx-auto p-4 resendOTP  rounded-2xl text-xs flex justify-between">
-                                <div className="flex gap-3">
-                                  <BsFillExclamationCircleFill
-                                    fill="blue"
-                                    size={20}
-                                    className="inline-block"
-                                  />
-                                  <span className=" inline-block pt-1">
-                                    Did'nt recieved the code{" "}
-                                  </span>
-                                </div>
-                                <button
-                                  onClick={() => {
-                                    setShowOtpModal(false);
-                                    setShowOtpModal(true);
-                                    setWrongOtp(false);
-                                    setTimeout(() => {
-                                      setShowOtpModal(false);
-                                    }, 60000);
-                                  }}
-                                  className={
-                                    countSec
-                                      ? "w-fit p-3 bg-gray-400 text-white rounded-2xl font-bold pointer-events-none"
-                                      : "p-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-900 pointer-events-auto cursor-pointer active:p-1 active:bg-red-500"
-                                  }
-                                >
-                                  Resend{" "}
-                                  {countSec
-                                    ? `(${countMin ? `${countMin}:` : ""}${countSec})`
-                                    : ""}
-                                </button>
-                              </div>
-                              {wrongOtp && (
-                                <p className="text-center text-red-700 animate-pulse">
-                                  Invalid or expired OTP{" "}
-                                </p>
-                              )}
-                            </div>
-                          </div>
+                          <OTPVerify
+                            numberValue={numberValue}
+                            onOtpComleted={onOtpComleted}
+                            countMin={countMin}
+                            countSec={countSec}
+                            maskNumberStart={maskNumberStart}
+                            wrongOtp={wrongOtp}
+                            setWrongOtp={setWrongOtp}
+                            setShowOtpModal={setShowOtpModal}
+                            generatedOtp={generatedOtp}
+                          />
                           {/* <LongNextButton actionToDo={onOtpComleted()}/> */}
                         </div>
                       ) : (

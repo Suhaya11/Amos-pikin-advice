@@ -107,6 +107,7 @@ export const myData: Data = {
   atm_simulations: {
     currentUSer: {
       loginInfo: {
+        phoneNumber: 9075898883,
         username: "suhaya",
         password: "dd",
         securityQuestion1: {
@@ -167,6 +168,7 @@ export const myData: Data = {
       {
         loginInfo: {
           username: "suhaya",
+          phoneNumber: 9075898883,
           password: "dd",
           securityQuestion1: {
             question: "a",
@@ -225,6 +227,7 @@ export const myData: Data = {
     ],
   }!,
 };
+
 export type user = {
   income?: {
     transactions?: [
@@ -264,6 +267,7 @@ export type user = {
     acc_bank: string;
   };
   loginInfo: {
+    phoneNumber: number;
     password: string;
     username: string;
     securityQuestion1: {

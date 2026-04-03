@@ -37,7 +37,6 @@ const PasscodeSetupPage = (props: myProps) => {
           onOTPComplete={(text: string) => {
             props.setPasscodeValue(text);
             props.setPasscodeInserted(true);
-            console.error("function called !");
           }}
         />
         {defaultKeybord && (

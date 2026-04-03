@@ -19,8 +19,8 @@ const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
         <option value="KN">+064</option>
       </select>
       <input
-        type="tel"
-        value={numberValue && numberValue}
+        type="number"
+        value={numberValue ?? ""}
         name="text"
         id="number"
         placeholder="Phone number"
