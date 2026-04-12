@@ -1,27 +1,36 @@
 "use client";
 import CredictValidationHeader from "@/src/components/FakeAtmComponent/CredictValidationHeader";
+import NINVerificationPage from "@/src/components/FakeAtmComponent/NINVerificationPage";
 import React from "react";
-import { BiFile, BiFileBlank, BiPaperPlane } from "react-icons/bi";
-import {
-  BsExclamation,
-  BsExclamationCircleFill,
-  BsShieldExclamation,
-} from "react-icons/bs";
+import { BiFile, BiFileBlank, BiPaperPlane, BiSolidBank } from "react-icons/bi";
+import { BsExclamationCircleFill } from "react-icons/bs";
 
 const page = () => {
-  const [decidedWhatToVerify, setDecideWhatToVerify] = React.useState(false);
+  const [verifyWithNIN, setVerifyWithNIN] = React.useState<boolean>(true);
+  const [decidedWhatToVerify, setDecideWhatToVerify] = React.useState(true);
+  const [ninNumber, setNinNumber] = React.useState<string>("");
   return (
     <div className="">
       {!decidedWhatToVerify ? (
         <div>
-          <CredictValidationHeader withBackward={false} stage={1} />
+          <CredictValidationHeader
+            backwardAction={() => {}}
+            withBackward={false}
+            stage={1}
+          />
           <div className="w-10/12 my-2 mx-auto">
             <h2 className="font-bold text-xl">Select an option</h2>
             <p className="text-gray-600 my-2">
               Select the type of ID to validate
             </p>
           </div>
-          <div className="w-10/12 my-2 mx-auto bg-white p-4 rounded-2xl">
+          <div
+            onClick={() => {
+              setDecideWhatToVerify(true);
+              setVerifyWithNIN(true);
+            }}
+            className="w-10/12 my-2 mx-auto bg-white p-4 rounded-2xl"
+          >
             <BiFile
               size={80}
               fill="black"
@@ -36,8 +45,13 @@ const page = () => {
               Dial *346# on your registered number
             </p>
           </div>
-          <div className="w-10/12 my-2 mx-auto bg-white p-4 rounded-2xl">
-            <BiFile
+          <div
+            onClick={() => {
+              setDecideWhatToVerify(true);
+            }}
+            className="w-10/12 my-2 mx-auto bg-white p-4 rounded-2xl"
+          >
+            <BiSolidBank
               size={80}
               fill="black"
               opacity={0.8}
@@ -51,7 +65,7 @@ const page = () => {
               Dial *565*0# on your registered number
             </p>
           </div>
-          <div className="resendOTP p-2 my-2 mx-auto flex justify-around">
+          <div className="resendOTP p-2 my-2 mx-auto flex justify-around w-10/12 rounded-2xl">
             <BsExclamationCircleFill
               size={60}
               fill="blue"
@@ -64,7 +78,18 @@ const page = () => {
           </div>
         </div>
       ) : (
-        <></>
+        <>
+          {verifyWithNIN ? (
+            <>
+              <NINVerificationPage
+                setNinNumber={setNinNumber}
+                ninNumber={ninNumber}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+        </>
       )}
     </div>
   );
