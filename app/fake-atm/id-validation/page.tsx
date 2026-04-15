@@ -2,7 +2,7 @@
 import CredictValidationHeader from "@/src/components/FakeAtmComponent/CredictValidationHeader";
 import NINVerificationPage from "@/src/components/FakeAtmComponent/NINVerificationPage";
 import React from "react";
-import { BiFile, BiFileBlank, BiPaperPlane, BiSolidBank } from "react-icons/bi";
+import { BiFile, BiSolidBank } from "react-icons/bi";
 import { BsExclamationCircleFill } from "react-icons/bs";
 
 const page = () => {

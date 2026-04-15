@@ -107,6 +107,8 @@ export const myData: Data = {
   atm_simulations: {
     currentUSer: {
       loginInfo: {
+        nin: "44444444444",
+        bvn: "333",
         phoneNumber: 9075898883,
         username: "suhaya",
         password: "dd",
@@ -169,6 +171,8 @@ export const myData: Data = {
         loginInfo: {
           username: "suhaya",
           phoneNumber: 9075898883,
+          bvn: "444",
+          nin: "333",
           password: "dd",
           securityQuestion1: {
             question: "a",
@@ -270,6 +274,8 @@ export type user = {
     phoneNumber: number;
     password: string;
     username: string;
+    nin: string;
+    bvn: string;
     securityQuestion1: {
       question: string;
       answer: string | number;
@@ -328,4 +334,24 @@ export const masker = (text: string): string => {
     myArray.push("*");
   }
   return myArray.join("");
+};
+
+export const alradyExist = (
+  dataToCheck: Data = myData,
+  text: string,
+  whatToCheck?: "nin" | "bvn" | "phone",
+): boolean | undefined => {
+  if (whatToCheck === "nin") {
+    console.error("hhhh");
+    return dataToCheck.atm_simulations?.users?.some(
+      (user) => user.loginInfo.nin === text,
+    );
+  } else if (whatToCheck === "bvn")
+    return dataToCheck.atm_simulations?.users?.some(
+      (user) => user.loginInfo.bvn === text,
+    );
+  else if (whatToCheck === "phone")
+    return dataToCheck.atm_simulations?.users?.some(
+      (user) => user.loginInfo.phoneNumber.toString() === text,
+    );
 };

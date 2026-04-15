@@ -2,11 +2,15 @@ import React from "react";
 import CredictValidationHeader from "./CredictValidationHeader";
 import NINInput from "./NINInput";
 import LongNextButton from "./LongNextButton";
+import { alradyExist, myData } from "../data";
 type myProps = {
   ninNumber: string;
   setNinNumber: React.Dispatch<React.SetStateAction<string>>;
 };
 const NINVerificationPage = ({ ninNumber, setNinNumber }: myProps) => {
+  const checkForNin = () => {
+    !alradyExist(myData, ninNumber, "nin") && console.error("problem no de");
+  };
   return (
     <div>
       <CredictValidationHeader
@@ -21,7 +25,7 @@ const NINVerificationPage = ({ ninNumber, setNinNumber }: myProps) => {
       </div>
       <LongNextButton
         actionText="Next"
-        actionToDo={() => {}}
+        actionToDo={checkForNin}
         agreedWithDataProcessingConsent
         termsAcepted={ninNumber.length === 11}
       />
