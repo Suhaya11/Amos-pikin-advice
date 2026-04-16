@@ -1,11 +1,11 @@
 "use client";
+import { alradyExist, Data, user } from "@/src/components/data";
 import AncikaKaida from "@/src/components/FakeAtmComponent/AncikaKaida";
 import BackNavigationForSignUp from "@/src/components/FakeAtmComponent/BackNavigationForSignUp";
 import Biometrics from "@/src/components/FakeAtmComponent/Biometrics";
 import ConfirmPasscode from "@/src/components/FakeAtmComponent/ConfirmPasscode";
 import GoToSignUp from "@/src/components/FakeAtmComponent/GoToSignUp";
 
-import OtpInput from "@/src/components/FakeAtmComponent/OtpInput";
 import OtpModal from "@/src/components/FakeAtmComponent/OtpModal";
 import OTPVerify from "@/src/components/FakeAtmComponent/OTPVerify";
 import PasscodeSetupPage from "@/src/components/FakeAtmComponent/PasscodeSetupPage";
@@ -13,10 +13,9 @@ import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumb
 import PinCreationPage from "@/src/components/FakeAtmComponent/PinCreationPage";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
+import { Questrial } from "next/font/google";
 
 import React from "react";
-
-import { BsFillExclamationCircleFill } from "react-icons/bs";
 
 const HomePage = () => {
   const [goToSignup, setGotoSignup] = React.useState<boolean>(false);
@@ -57,6 +56,56 @@ const HomePage = () => {
   const [passcodeNotSame, setPasscodeNotSame] = React.useState(false);
   const [userPin, setUserPin] = React.useState<string>("");
   const [doneWithPin, setDoneWithPin] = React.useState<boolean>(false);
+  const addUserFunction = () => {
+    const user: user = {
+      bankDatails: {
+        acc_no: numberValue!,
+        acc_name: "",
+        acc_bank: "suhayaPoing",
+      },
+      loginInfo: {
+        phoneNumber: numberValue!,
+        password: passcodeValue,
+        username: "",
+        nin: "",
+        bvn: "",
+        securityQuestion1: {
+          question: "whats your name",
+          answer: "suhaya",
+        },
+        securityQuestion2: {
+          question: "how old are you",
+          answer: 24,
+        },
+      },
+    };
+
+    const query = localStorage.getItem("AmosIdeaApp");
+    if (!query) {
+      const AmosIdeaApp: Data = {
+        atm_simulations: {
+          users: [user],
+          currentUSer: user,
+        },
+        daily_wahala: [],
+        timeGreetings: [],
+        decisions: [],
+      };
+      localStorage.setItem("AmosIdeaApp", JSON.stringify(AmosIdeaApp));
+    } else {
+      const currentData: Data = JSON.parse(query);
+      if (!alradyExist(currentData, numberValue?.toString()!, "phone")) {
+        const newData: Data = {
+          ...currentData,
+          atm_simulations: {
+            currentUSer: user,
+            users: [...currentData.atm_simulations?.users!, user],
+          },
+        };
+        localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));
+      }
+    }
+  };
   const OTPCounter = async () => {
     setInterval(() => {
       setCountMin((prev) => (prev > 0 ? prev - 1 : prev));
@@ -205,7 +254,7 @@ const HomePage = () => {
                                       setDoneWithPin={setDoneWithPin}
                                     />
                                   ) : (
-                                    <Biometrics />
+                                    <Biometrics addUserFunction={() => {}} />
                                   )}
                                 </>
                               )}

@@ -9,7 +9,10 @@ import {
 
 import Link from "next/link";
 import { BiX } from "react-icons/bi";
-const Biometrics = () => {
+type myProps = {
+  addUserFunction(): void;
+};
+const Biometrics = ({ addUserFunction }: myProps) => {
   const [userWantBiometrics, setUserWantBiometrics] =
     React.useState<boolean>(false);
   return (
@@ -72,7 +75,7 @@ const Biometrics = () => {
           </p>
           <div className="flex justify-end p-4">
             <button className="p-2 border bg-white text-blue-700 font-bold capitalize rounded-2xl hover:bg-blue-100">
-              <Link href={"/fake-atm/id-validation"}>proceed</Link>
+              <button onClick={addUserFunction}>proceed</button>
             </button>
           </div>
         </div>
