@@ -6,10 +6,12 @@ import { BiFile, BiSolidBank } from "react-icons/bi";
 import { BsExclamationCircleFill } from "react-icons/bs";
 
 const page = () => {
-  const [verifyWithNIN, setVerifyWithNIN] = React.useState<boolean>(true);
-  const [decidedWhatToVerify, setDecideWhatToVerify] = React.useState(true);
+  const [verifyWithNIN, setVerifyWithNIN] = React.useState<boolean>(false);
+  const [decidedWhatToVerify, setDecideWhatToVerify] =
+    React.useState<boolean>(false);
   const [ninNumber, setNinNumber] = React.useState<string>("");
   const [idExist, setIdExist] = React.useState(false);
+  const [idAdded, setIdAdded] = React.useState(false);
   return (
     <div className="">
       {!decidedWhatToVerify ? (
@@ -36,7 +38,7 @@ const page = () => {
               size={80}
               fill="black"
               opacity={0.8}
-              className="p-6 rounded-2xl resendOTP"
+              className="p-6 rounded-2xl resendOTP cursor-pointer"
             />
             <h2 className="text-lg font-bold">
               National Identification Number (NIN)
@@ -56,7 +58,7 @@ const page = () => {
               size={80}
               fill="black"
               opacity={0.8}
-              className="p-6 rounded-2xl resendOTP"
+              className="p-6 rounded-2xl resendOTP cursor-pointer"
             />
             <h2 className="text-lg font-bold">
               Bank Verification Number (BVN)
@@ -82,12 +84,16 @@ const page = () => {
         <>
           {verifyWithNIN ? (
             <>
+              (
               <NINVerificationPage
+                idAdded={idAdded}
+                setIdAdded={setIdAdded}
                 idExist={idExist}
                 setIdExist={setIdExist}
                 setNinNumber={setNinNumber}
                 ninNumber={ninNumber}
               />
+              )
             </>
           ) : (
             <></>

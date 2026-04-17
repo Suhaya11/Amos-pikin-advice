@@ -22,132 +22,133 @@ import { BsCoin, BsGrid } from "react-icons/bs";
 
 const FakeAtm = () => {
   const [showBalance, setShowBalance] = React.useState<boolean>(true);
-  const [localData, setLocalDate] = React.useState<Data>({
-    atm_simulations: {
-      currentUSer: {
-        loginInfo: {
-          username: "suhaya",
-          password: "dd",
-          securityQuestion1: {
-            question: "a",
-            answer: "b",
-          },
-          securityQuestion2: {
-            question: "c",
-            answer: "d",
-          },
-        },
-        cardInfo: {
-          cardNo: "20200202002020",
-          cardHolder: "suhaya",
-          cardPin: "1111",
-          cardBalance: {
-            income: 209,
-            spent: 1000,
-          },
-          bankName: "suhayaBank",
-          code: 234,
-        },
-        bankDatails: {
-          acc_bank: "suhayaBank",
-          acc_no: 22222222,
-          acc_name: "suhaya",
-        },
-        income: {
-          transactions: [
-            {
-              amount: 39,
-              sender: {
-                name: "sani haladu",
-                acc_number: 2299292992,
-                transac_string: `${new Date().getTime()}`,
-              },
-              time: new Date(),
-            },
-          ],
-          total: 209,
-        },
-        spent: {
-          transactions: [
-            {
-              amount: 333,
-              reciever: {
-                name: "sulaiman haladu",
-                acc_number: 2223252471,
-                transac_string: `${new Date().getTime()}suhaya`,
-              },
-              time: new Date(),
-            },
-          ],
-          total: 3333,
-        },
-      },
-      users: [
-        {
-          loginInfo: {
-            username: "suhaya",
-            password: "dd",
-            securityQuestion1: {
-              question: "a",
-              answer: "b",
-            },
-            securityQuestion2: {
-              question: "c",
-              answer: "d",
-            },
-          },
-          cardInfo: {
-            cardNo: "20200202002020",
-            cardHolder: "suhaya",
-            cardPin: "1111",
-            cardBalance: {
-              income: 209,
-              spent: 1000,
-            },
-            bankName: "suhayaBank",
-            code: 234,
-          },
-          bankDatails: {
-            acc_bank: "suhayaBank",
-            acc_no: 22222222,
-            acc_name: "suhaya",
-          },
-          income: {
-            transactions: [
-              {
-                amount: 39,
-                sender: {
-                  name: "sani haladu",
-                  acc_number: 2299292992,
-                  transac_string: `${new Date().getTime()}`,
-                },
-                time: new Date(),
-              },
-            ],
-            total: 209,
-          },
-          spent: {
-            transactions: [
-              {
-                amount: 333,
-                reciever: {
-                  name: "sulaiman haladu",
-                  acc_number: 2223252471,
-                  transac_string: `${new Date().getTime()}suhaya`,
-                },
-                time: new Date(),
-              },
-            ],
-            total: 3333,
-          },
-        },
-      ],
-    },
-    decisions: [],
-    daily_wahala: [],
+  const [localData, setLocalDate] = React.useState<Data>();
+  //   {
+  //   atm_simulations: {
+  //     currentUSer: {
+  //       loginInfo: {
+  //         username: "suhaya",
+  //         password: "dd",
+  //         securityQuestion1: {
+  //           question: "a",
+  //           answer: "b",
+  //         },
+  //         securityQuestion2: {
+  //           question: "c",
+  //           answer: "d",
+  //         },
+  //       },
+  //       cardInfo: {
+  //         cardNo: "20200202002020",
+  //         cardHolder: "suhaya",
+  //         cardPin: "1111",
+  //         cardBalance: {
+  //           income: 209,
+  //           spent: 1000,
+  //         },
+  //         bankName: "suhayaBank",
+  //         code: 234,
+  //       },
+  //       bankDatails: {
+  //         acc_bank: "suhayaBank",
+  //         acc_no: 22222222,
+  //         acc_name: "suhaya",
+  //       },
+  //       income: {
+  //         transactions: [
+  //           {
+  //             amount: 39,
+  //             sender: {
+  //               name: "sani haladu",
+  //               acc_number: 2299292992,
+  //               transac_string: `${new Date().getTime()}`,
+  //             },
+  //             time: new Date(),
+  //           },
+  //         ],
+  //         total: 209,
+  //       },
+  //       spent: {
+  //         transactions: [
+  //           {
+  //             amount: 333,
+  //             reciever: {
+  //               name: "sulaiman haladu",
+  //               acc_number: 2223252471,
+  //               transac_string: `${new Date().getTime()}suhaya`,
+  //             },
+  //             time: new Date(),
+  //           },
+  //         ],
+  //         total: 3333,
+  //       },
+  //     },
+  //     users: [
+  //       {
+  //         loginInfo: {
+  //           username: "suhaya",
+  //           password: "dd",
+  //           securityQuestion1: {
+  //             question: "a",
+  //             answer: "b",
+  //           },
+  //           securityQuestion2: {
+  //             question: "c",
+  //             answer: "d",
+  //           },
+  //         },
+  //         cardInfo: {
+  //           cardNo: "20200202002020",
+  //           cardHolder: "suhaya",
+  //           cardPin: "1111",
+  //           cardBalance: {
+  //             income: 209,
+  //             spent: 1000,
+  //           },
+  //           bankName: "suhayaBank",
+  //           code: 234,
+  //         },
+  //         bankDatails: {
+  //           acc_bank: "suhayaBank",
+  //           acc_no: 22222222,
+  //           acc_name: "suhaya",
+  //         },
+  //         income: {
+  //           transactions: [
+  //             {
+  //               amount: 39,
+  //               sender: {
+  //                 name: "sani haladu",
+  //                 acc_number: 2299292992,
+  //                 transac_string: `${new Date().getTime()}`,
+  //               },
+  //               time: new Date(),
+  //             },
+  //           ],
+  //           total: 209,
+  //         },
+  //         spent: {
+  //           transactions: [
+  //             {
+  //               amount: 333,
+  //               reciever: {
+  //                 name: "sulaiman haladu",
+  //                 acc_number: 2223252471,
+  //                 transac_string: `${new Date().getTime()}suhaya`,
+  //               },
+  //               time: new Date(),
+  //             },
+  //           ],
+  //           total: 3333,
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   decisions: [],
+  //   daily_wahala: [],
 
-    timeGreetings: [],
-  });
+  //   timeGreetings: [],
+  // }
   const [currentUser, setCurrentUser] = React.useState<user>();
   React.useEffect(() => {
     const localquery = localStorage.getItem("AmosIdeaApp");
@@ -155,8 +156,8 @@ const FakeAtm = () => {
       const myCurrentData: Data = JSON.parse(localquery);
       if (myCurrentData) {
         setLocalDate(myCurrentData);
-        if (localData.atm_simulations?.currentUSer)
-          setCurrentUser(localData.atm_simulations?.currentUSer);
+        if (localData?.atm_simulations?.currentUSer)
+          setCurrentUser(localData?.atm_simulations?.currentUSer);
       }
     } else {
       localStorage.setItem("AmosIdeaApp", JSON.stringify(localData));
@@ -177,8 +178,11 @@ const FakeAtm = () => {
       <div className="container border bg-blue-900 p">
         <div className="ml-2">
           <div className="text-white w-10/12 my-3 mx-auto font-bold flex gap-2">
-            <span> 9075898883</span> <span>|</span>{" "}
-            <span>Sulaiman haladu yau</span>
+            <span>
+              {" "}
+              {localData?.atm_simulations?.currentUSer?.loginInfo.phoneNumber}
+            </span>{" "}
+            <span>|</span> <span>Sulaiman haladu yau</span>
             <span>
               <BiCopy className="inline-block cursor-pointer" />
             </span>

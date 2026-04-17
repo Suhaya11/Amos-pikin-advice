@@ -9,8 +9,12 @@ type myProps = {
   setNinNumber: React.Dispatch<React.SetStateAction<string>>;
   idExist: boolean;
   setIdExist: React.Dispatch<React.SetStateAction<boolean>>;
+  setIdAdded: React.Dispatch<React.SetStateAction<boolean>>;
+  idAdded: boolean;
 };
 const NINVerificationPage = ({
+  setIdAdded,
+  idAdded,
   ninNumber,
   setNinNumber,
   idExist,
@@ -56,22 +60,63 @@ const NINVerificationPage = ({
   };
   return (
     <div>
-      <CredictValidationHeader
-        backwardAction={() => {}}
-        withBackward={true}
-        stage={2}
-      />
-      <div className="w-10/12 my-2 mx-auto">
-        <h3 className="font-bold">Verify your NIN</h3>
-        <p className="text-gray-600">Enter your 11 digit NIN</p>
-        <NINInput ninNumber={ninNumber} setNinNumber={setNinNumber} />
-      </div>
-      <LongNextButton
-        actionText="Next"
-        actionToDo={checkForNin}
-        agreedWithDataProcessingConsent
-        termsAcepted={ninNumber.length === 11}
-      />
+      {!idAdded ? (
+        <>
+          {" "}
+          <CredictValidationHeader
+            backwardAction={() => {}}
+            withBackward={true}
+            stage={2}
+          />
+          <div className="w-10/12 my-2 mx-auto">
+            <h3 className="font-bold">Verify your NIN</h3>
+            <p className="text-gray-600">Enter your 11 digit NIN</p>
+            <NINInput ninNumber={ninNumber} setNinNumber={setNinNumber} />
+          </div>
+          <LongNextButton
+            actionText="Next"
+            actionToDo={() => {
+              const query = localStorage.getItem("AmosIdeaApp");
+              const theData: Data = JSON.parse(query || "{}");
+              if (alradyExist(theData, ninNumber, "nin")) {
+                setIdExist(true);
+                setIdAdded(false);
+              } else {
+                setIdExist(false);
+                setIdAdded(true);
+              }
+            }}
+            agreedWithDataProcessingConsent
+            termsAcepted={ninNumber.length === 11}
+          />
+        </>
+      ) : (
+        <>
+          <CredictValidationHeader
+            backwardAction={() => {
+              setIdAdded(false);
+            }}
+            withBackward={true}
+            stage={3}
+          />
+          <div className="w-10/12 my-2 mx-auto">
+            <h3 className="font-bold">Complete your information </h3>
+            <p className="text-gray-600">
+              you have to fill your informations{" "}
+              <span className="rounded-2xl underline font-bold text-blue-700">
+                learn more
+              </span>
+            </p>
+            <NINInput ninNumber={ninNumber} setNinNumber={setNinNumber} />
+          </div>
+          <LongNextButton
+            actionText="Next"
+            actionToDo={checkForNin}
+            agreedWithDataProcessingConsent
+            termsAcepted={ninNumber.length === 11}
+          />
+        </>
+      )}
     </div>
   );
 };
