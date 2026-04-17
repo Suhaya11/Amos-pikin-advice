@@ -74,8 +74,11 @@ const Biometrics = ({ addUserFunction }: myProps) => {
             unavailable for now.
           </p>
           <div className="flex justify-end p-4">
-            <button className="p-2 border bg-white text-blue-700 font-bold capitalize rounded-2xl hover:bg-blue-100">
-              <button onClick={addUserFunction}>proceed</button>
+            <button
+              onClick={addUserFunction}
+              className="p-2 border bg-white text-blue-700 font-bold capitalize rounded-2xl hover:bg-blue-100"
+            >
+              proceed
             </button>
           </div>
         </div>

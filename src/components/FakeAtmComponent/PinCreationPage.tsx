@@ -62,8 +62,6 @@ const PinCreationPage = (props: myProps) => {
       <LongNextButton
         actionText="Create Pin"
         actionToDo={() => {
-          console.error(props.userPin);
-          console.error(tempUserPin);
           if (!userPinNotSame) props.setDoneWithPin(true);
         }}
         termsAcepted={props.userPin !== ""}

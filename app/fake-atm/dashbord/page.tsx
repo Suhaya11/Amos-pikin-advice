@@ -188,7 +188,7 @@ const FakeAtm = () => {
               {showBalance ? (
                 <>
                   <span className="uppercase line-through">n</span>{" "}
-                  <span>{currentUser?.income?.total}</span>
+                  <span>{currentUser?.income?.total || 0}</span>
                   <span>
                     <BiHide
                       onClick={() => setShowBalance(false)}
@@ -199,7 +199,7 @@ const FakeAtm = () => {
               ) : (
                 <>
                   <span className="uppercase line-through">n</span>{" "}
-                  <span>{masker(`${currentUser?.income?.total}`)}</span>
+                  <span>{masker(`${currentUser?.income?.total || 0}`)}</span>
                   <span>
                     <BiShow
                       onClick={() => setShowBalance(true)}

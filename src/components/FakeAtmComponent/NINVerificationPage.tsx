@@ -2,14 +2,57 @@ import React from "react";
 import CredictValidationHeader from "./CredictValidationHeader";
 import NINInput from "./NINInput";
 import LongNextButton from "./LongNextButton";
-import { alradyExist, myData } from "../data";
+import { alradyExist, Data, myData, user } from "../data";
+import { redirect } from "next/navigation";
 type myProps = {
   ninNumber: string;
   setNinNumber: React.Dispatch<React.SetStateAction<string>>;
+  idExist: boolean;
+  setIdExist: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const NINVerificationPage = ({ ninNumber, setNinNumber }: myProps) => {
+const NINVerificationPage = ({
+  ninNumber,
+  setNinNumber,
+  idExist,
+  setIdExist,
+}: myProps) => {
   const checkForNin = () => {
-    !alradyExist(myData, ninNumber, "nin") && console.error("problem no de");
+    const query = localStorage.getItem("AmosIdeaApp");
+    const theData: Data = JSON.parse(query || "{}");
+    if (alradyExist(theData, ninNumber, "nin")) {
+      setIdExist(true);
+      return;
+    } else {
+      const updatedCurrentUser: user = {
+        ...theData.atm_simulations?.currentUSer,
+        loginInfo: {
+          ...theData.atm_simulations?.currentUSer?.loginInfo,
+          nin: ninNumber,
+        },
+      };
+      const updatedData: Data = {
+        ...theData,
+        atm_simulations: {
+          currentUSer: updatedCurrentUser,
+          users: theData.atm_simulations?.users?.map((user) => {
+            if (
+              user.bankDatails?.acc_no ===
+              updatedCurrentUser.bankDatails?.acc_no
+            )
+              return {
+                ...user,
+                loginInfo: {
+                  ...user.loginInfo,
+                  nin: updatedCurrentUser.loginInfo.nin,
+                },
+              };
+            else return user;
+          }),
+        },
+      };
+      localStorage.setItem("AmosIdeaApp", JSON.stringify(updatedData));
+      redirect("/fake-atm/dashbord");
+    }
   };
   return (
     <div>

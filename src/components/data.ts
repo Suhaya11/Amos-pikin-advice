@@ -265,25 +265,30 @@ export type user = {
       },
     ];
   };
-  bankDatails: {
+  bankDatails?: {
     acc_no: number;
     acc_name: string;
     acc_bank: string;
   };
   loginInfo: {
-    phoneNumber: number;
-    password: string;
-    username: string;
-    nin: string;
-    bvn: string;
-    securityQuestion1: {
-      question: string;
-      answer: string | number;
-    };
-    securityQuestion2: {
-      question: string;
-      answer: string | number;
-    };
+    phoneNumber?: number | undefined;
+    password?: string | undefined;
+    username?: string | undefined;
+    nin?: string | undefined;
+    bvn?: string | undefined;
+    email?: string;
+    securityQuestion1?:
+      | {
+          question: string;
+          answer: string | number;
+        }
+      | undefined;
+    securityQuestion2?:
+      | {
+          question: string;
+          answer: string | number;
+        }
+      | undefined;
   };
   cardInfo?: {
     cardNo: string;
@@ -352,6 +357,6 @@ export const alradyExist = (
     );
   else if (whatToCheck === "phone")
     return dataToCheck.atm_simulations?.users?.some(
-      (user) => user.loginInfo.phoneNumber.toString() === text,
+      (user) => user.loginInfo?.phoneNumber?.toString() === text,
     );
 };

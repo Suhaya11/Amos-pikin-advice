@@ -14,6 +14,7 @@ import PinCreationPage from "@/src/components/FakeAtmComponent/PinCreationPage";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
 import { Questrial } from "next/font/google";
+import { redirect } from "next/navigation";
 
 import React from "react";
 
@@ -48,7 +49,7 @@ const HomePage = () => {
   const [showOtpModal, setShowOtpModal] = React.useState<boolean>(false);
   const [emailValue, setEmailValue] = React.useState<string>("");
   const [emailAdded, setEmailAdded] = React.useState<boolean>(false);
-  const [passcodeValue, setPasscodeValue] = React.useState("");
+  const [passcodeValue, setPasscodeValue] = React.useState<string>("");
   const [passcodeInserted, setPasscodeInserted] =
     React.useState<boolean>(false);
   const [passcodeIsConfirmed, setPasscodeIsConfirmed] =
@@ -69,6 +70,7 @@ const HomePage = () => {
         username: "",
         nin: "",
         bvn: "",
+        email: emailValue,
         securityQuestion1: {
           question: "whats your name",
           answer: "suhaya",
@@ -92,6 +94,7 @@ const HomePage = () => {
         decisions: [],
       };
       localStorage.setItem("AmosIdeaApp", JSON.stringify(AmosIdeaApp));
+      redirect("/fake-atm/id-validation");
     } else {
       const currentData: Data = JSON.parse(query);
       if (!alradyExist(currentData, numberValue?.toString()!, "phone")) {
@@ -103,6 +106,7 @@ const HomePage = () => {
           },
         };
         localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));
+        redirect("/fake-atm/id-validation");
       }
     }
   };
@@ -254,7 +258,9 @@ const HomePage = () => {
                                       setDoneWithPin={setDoneWithPin}
                                     />
                                   ) : (
-                                    <Biometrics addUserFunction={() => {}} />
+                                    <Biometrics
+                                      addUserFunction={addUserFunction}
+                                    />
                                   )}
                                 </>
                               )}

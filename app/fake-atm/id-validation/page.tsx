@@ -9,6 +9,7 @@ const page = () => {
   const [verifyWithNIN, setVerifyWithNIN] = React.useState<boolean>(true);
   const [decidedWhatToVerify, setDecideWhatToVerify] = React.useState(true);
   const [ninNumber, setNinNumber] = React.useState<string>("");
+  const [idExist, setIdExist] = React.useState(false);
   return (
     <div className="">
       {!decidedWhatToVerify ? (
@@ -82,6 +83,8 @@ const page = () => {
           {verifyWithNIN ? (
             <>
               <NINVerificationPage
+                idExist={idExist}
+                setIdExist={setIdExist}
                 setNinNumber={setNinNumber}
                 ninNumber={ninNumber}
               />

@@ -29,6 +29,7 @@ const NINInput = ({ ninNumber, setNinNumber }: myProps) => {
         className="w-10/12 border  mt-10  my-0 mx-auto block p-6 rounded-2xl focus:border-blue-500 outline-none"
         placeholder="National Identification Number"
       />
+
       <span className="absolute right-10">{ninNumber.length}/11</span>
       <div className="resendOTP p-2 my-2 mt-8 mx-auto flex justify-around w-10/12 rounded-2xl">
         <BsExclamationCircleFill
