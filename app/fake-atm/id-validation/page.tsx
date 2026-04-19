@@ -10,6 +10,7 @@ const page = () => {
   const [decidedWhatToVerify, setDecideWhatToVerify] =
     React.useState<boolean>(false);
   const [ninNumber, setNinNumber] = React.useState<string>("");
+  const [bvnNumber, setBvnNumber] = React.useState<string>("");
   const [idExist, setIdExist] = React.useState(false);
   const [idAdded, setIdAdded] = React.useState(false);
   return (
@@ -86,6 +87,8 @@ const page = () => {
             <>
               (
               <NINVerificationPage
+                bvnNumber={bvnNumber}
+                setBvnNumber={setBvnNumber}
                 idAdded={idAdded}
                 setIdAdded={setIdAdded}
                 idExist={idExist}

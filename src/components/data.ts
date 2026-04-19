@@ -107,7 +107,6 @@ export const myData: Data = {
   atm_simulations: {
     currentUSer: {
       loginInfo: {
-        nin: "44444444444",
         bvn: "333",
         phoneNumber: 9075898883,
         username: "suhaya",
@@ -172,7 +171,7 @@ export const myData: Data = {
           username: "suhaya",
           phoneNumber: 9075898883,
           bvn: "444",
-          nin: "333",
+
           password: "dd",
           securityQuestion1: {
             question: "a",
@@ -274,8 +273,8 @@ export type user = {
     phoneNumber?: number | undefined;
     password?: string | undefined;
     username?: string | undefined;
-    nin?: string | undefined;
-    bvn?: string | undefined;
+    nin?: idDetails;
+    bvn?: string | undefined | idDetails;
     email?: string;
     securityQuestion1?:
       | {
@@ -300,6 +299,24 @@ export type user = {
       income: number;
       spent: number;
     };
+  };
+};
+export type idDetails = {
+  vid: {
+    type: "nin" | "bvn";
+    value: string | number;
+  };
+  personalInfo: {
+    fName: string;
+    lname: string;
+    sname?: string;
+    dob: string;
+    gender: string;
+  };
+  address: {
+    state: string;
+    lga: string;
+    town: string;
   };
 };
 type atm_simulation = {
@@ -347,9 +364,8 @@ export const alradyExist = (
   whatToCheck?: "nin" | "bvn" | "phone",
 ): boolean | undefined => {
   if (whatToCheck === "nin") {
-    console.error("hhhh");
     return dataToCheck.atm_simulations?.users?.some(
-      (user) => user.loginInfo.nin === text,
+      (user) => user.loginInfo.nin?.vid?.value === text,
     );
   } else if (whatToCheck === "bvn")
     return dataToCheck.atm_simulations?.users?.some(

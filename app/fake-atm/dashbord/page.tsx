@@ -182,7 +182,19 @@ const FakeAtm = () => {
               {" "}
               {localData?.atm_simulations?.currentUSer?.loginInfo.phoneNumber}
             </span>{" "}
-            <span>|</span> <span>Sulaiman haladu yau</span>
+            <span>|</span>{" "}
+            <span>
+              {`${
+                localData?.atm_simulations?.currentUSer?.loginInfo.nin
+                  ?.personalInfo.fName
+              }  ${
+                localData?.atm_simulations?.currentUSer?.loginInfo.nin
+                  ?.personalInfo.lname
+              } ${
+                localData?.atm_simulations?.currentUSer?.loginInfo.nin
+                  ?.personalInfo.sname
+              }`}
+            </span>
             <span>
               <BiCopy className="inline-block cursor-pointer" />
             </span>

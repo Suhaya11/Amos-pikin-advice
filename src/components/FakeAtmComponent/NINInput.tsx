@@ -9,7 +9,7 @@ const NINInput = ({ ninNumber, setNinNumber }: myProps) => {
   return (
     <div className="bg-white relative p-3">
       {ninNumber && (
-        <span className="w-10/12 text-sm left-15 bottom-44 pointer-events-none rounded-b-none my-0 mx-auto block p-3 rounded-2xl absolute">
+        <span className="w-10/12 text-sm left-15 bottom-50 pointer-events-none rounded-b-none my-0 mx-auto block p-3 rounded-2xl absolute">
           National Identification Number
         </span>
       )}

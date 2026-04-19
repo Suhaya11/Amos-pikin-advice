@@ -104,3 +104,9 @@ strong {
 .keyStroke {
   @apply cursor-pointer p-3 font-bold text-2xl select-none;
 }
+.idInfoInput {
+  @apply w-29 outline-none border p-1 rounded-md focus:border-blue-700;
+}
+.idInfoInputNoWidth {
+  @apply outline-none border p-1 rounded-md  focus:border-blue-700;
+}
