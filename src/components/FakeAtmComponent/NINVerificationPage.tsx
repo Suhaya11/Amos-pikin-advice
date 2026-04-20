@@ -19,12 +19,12 @@ type myProps = {
 };
 const NINVerificationPage = ({
   bvnNumber,
-  setBvnNumber,
+
   setIdAdded,
   idAdded,
   ninNumber,
   setNinNumber,
-  idExist,
+
   setIdExist,
 }: myProps) => {
   const [learnMore, setLEarnMore] = React.useState<boolean>(false);
@@ -72,7 +72,7 @@ const NINVerificationPage = ({
                   ...user,
                   loginInfo: {
                     ...user.loginInfo,
-                    nin: updatedCurrentUser.loginInfo.nin,
+                    nin: updatedCurrentUser?.loginInfo?.nin,
                   },
                 };
               else return user;
@@ -118,7 +118,7 @@ const NINVerificationPage = ({
                   ...user,
                   loginInfo: {
                     ...user.loginInfo,
-                    bvn: updatedCurrentUser.loginInfo.bvn,
+                    bvn: updatedCurrentUser?.loginInfo?.bvn,
                   },
                 };
               else return user;

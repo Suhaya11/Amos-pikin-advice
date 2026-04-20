@@ -27,12 +27,13 @@ const PhoneNumberVerifySignUp = ({
   const [numberExist, setNumberExist] = React.useState<boolean>(false);
   const [users, setUsers] = React.useState<user[]>([]);
   React.useEffect(() => {
-    localStorage.setItem("AmosIdeaApp", JSON.stringify(myData));
     const query = localStorage.getItem("AmosIdeaApp");
     if (query) {
       const data: Data = JSON.parse(query);
-      console.log(data);
+
       setUsers(data.atm_simulations?.users || []);
+    } else {
+      localStorage.setItem("AmosIdeaApp", JSON.stringify(myData));
     }
   }, []);
 
@@ -95,7 +96,7 @@ const PhoneNumberVerifySignUp = ({
           if (
             numberValue &&
             numberValue?.toString()?.length > 8 &&
-            !users.some((usr) => usr.loginInfo.phoneNumber === numberValue)
+            !users.some((usr) => usr?.loginInfo?.phoneNumber === numberValue)
           )
             setAgreedWithNumber(true);
           else if (

@@ -11,6 +11,7 @@ import OTPVerify from "@/src/components/FakeAtmComponent/OTPVerify";
 import PasscodeSetupPage from "@/src/components/FakeAtmComponent/PasscodeSetupPage";
 import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumberVerifySignUp";
 import PinCreationPage from "@/src/components/FakeAtmComponent/PinCreationPage";
+import PublicOnlyRoute from "@/src/components/FakeAtmComponent/PublicOnlyRoutes";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
 import { Questrial } from "next/font/google";
@@ -62,23 +63,14 @@ const HomePage = () => {
       bankDatails: {
         acc_no: numberValue!,
         acc_name: "",
-        acc_bank: "suhayaPoing",
+        acc_bank: "suhayaPoint",
       },
       loginInfo: {
         phoneNumber: numberValue!,
         password: passcodeValue,
         username: "",
-        nin: "",
-        bvn: "",
+
         email: emailValue,
-        securityQuestion1: {
-          question: "whats your name",
-          answer: "suhaya",
-        },
-        securityQuestion2: {
-          question: "how old are you",
-          answer: 24,
-        },
       },
     };
 
@@ -131,151 +123,158 @@ const HomePage = () => {
 
   return (
     <>
-      {!goToSignup ? (
-        <GoToSignUp setGotoSignup={setGotoSignup} />
-      ) : (
-        <>
-          {!ancikaKaida && goToSignup ? (
-            <AncikaKaida
-              setAncikaKaida={setAncikaKaida}
-              setGotoSignup={setGotoSignup}
-            />
-          ) : (
-            <>
-              {!agreedWithTheNumber && ancikaKaida && goToSignup ? (
-                <PhoneNumberVerifySignUp
-                  setAgreedWithNumber={setAgreedWithNumber}
-                  setReferralCode={setReferralCode}
-                  referralCode={referralCode}
-                  setReferralCodeExist={setReferralCodeExist}
-                  referralCodeExist={referralCodeExist}
-                  setAncikaKaida={setAncikaKaida}
-                  setNumberValue={setNumberValue}
-                  numberValue={numberValue}
-                />
-              ) : (
-                <>
-                  {!userGaveConsent &&
-                  agreedWithTheNumber &&
-                  ancikaKaida &&
-                  goToSignup ? (
-                    <UserConsentPageOnSignUp
-                      setUserGaveConsent={setUserGaveConsent}
-                      wantToRecieveUpdates={wantToRecieveUpdates}
-                      setAgreedWithNumber={setAgreedWithNumber}
-                      setAgreedwithDataProcessingConsent={
-                        setAgreedwithDataProcessingConsent
-                      }
-                      agreedWithDataProcessingConsent={
-                        agreedWithDataProcessingConsent
-                      }
-                      setTermsAcepted={setTermsAcepted}
-                      setWantToRecieveUpdates={setWantToRecieveUpdates}
-                      termsAcepted={termsAcepted}
-                    />
-                  ) : (
-                    <>
-                      {!otpIsValid ? (
-                        <div>
-                          <BackNavigationForSignUp
-                            GoBackTo={() => setUserGaveConsent(false)}
-                            progressBarAmount={9}
-                          />
+      {" "}
+      <PublicOnlyRoute>
+        {!goToSignup ? (
+          <GoToSignUp setGotoSignup={setGotoSignup} />
+        ) : (
+          <>
+            {!ancikaKaida && goToSignup ? (
+              <AncikaKaida
+                setAncikaKaida={setAncikaKaida}
+                setGotoSignup={setGotoSignup}
+              />
+            ) : (
+              <>
+                {!agreedWithTheNumber && ancikaKaida && goToSignup ? (
+                  <PhoneNumberVerifySignUp
+                    setAgreedWithNumber={setAgreedWithNumber}
+                    setReferralCode={setReferralCode}
+                    referralCode={referralCode}
+                    setReferralCodeExist={setReferralCodeExist}
+                    referralCodeExist={referralCodeExist}
+                    setAncikaKaida={setAncikaKaida}
+                    setNumberValue={setNumberValue}
+                    numberValue={numberValue}
+                  />
+                ) : (
+                  <>
+                    {!userGaveConsent &&
+                    agreedWithTheNumber &&
+                    ancikaKaida &&
+                    goToSignup ? (
+                      <UserConsentPageOnSignUp
+                        setUserGaveConsent={setUserGaveConsent}
+                        wantToRecieveUpdates={wantToRecieveUpdates}
+                        setAgreedWithNumber={setAgreedWithNumber}
+                        setAgreedwithDataProcessingConsent={
+                          setAgreedwithDataProcessingConsent
+                        }
+                        agreedWithDataProcessingConsent={
+                          agreedWithDataProcessingConsent
+                        }
+                        setTermsAcepted={setTermsAcepted}
+                        setWantToRecieveUpdates={setWantToRecieveUpdates}
+                        termsAcepted={termsAcepted}
+                      />
+                    ) : (
+                      <>
+                        {!otpIsValid ? (
+                          <div>
+                            <BackNavigationForSignUp
+                              GoBackTo={() => setUserGaveConsent(false)}
+                              progressBarAmount={9}
+                            />
 
-                          {showOtpModal && (
-                            <OtpModal
-                              reduceSec={reduceSec}
+                            {showOtpModal && (
+                              <OtpModal
+                                reduceSec={reduceSec}
+                                countMin={countMin}
+                                countSec={countSec}
+                                setGenerateOtp={setGeneratedOtp}
+                                OTPCounter={OTPCounter}
+                                setCountMin={setCountMin}
+                                setCountSec={setCountSec}
+                                generatedOtp={generatedOtp}
+                              />
+                            )}
+                            <OTPVerify
+                              numberValue={numberValue}
+                              onOtpComleted={onOtpComleted}
                               countMin={countMin}
                               countSec={countSec}
-                              setGenerateOtp={setGeneratedOtp}
-                              OTPCounter={OTPCounter}
-                              setCountMin={setCountMin}
-                              setCountSec={setCountSec}
+                              maskNumberStart={maskNumberStart}
+                              wrongOtp={wrongOtp}
+                              setWrongOtp={setWrongOtp}
+                              setShowOtpModal={setShowOtpModal}
                               generatedOtp={generatedOtp}
                             />
-                          )}
-                          <OTPVerify
-                            numberValue={numberValue}
-                            onOtpComleted={onOtpComleted}
-                            countMin={countMin}
-                            countSec={countSec}
-                            maskNumberStart={maskNumberStart}
-                            wrongOtp={wrongOtp}
-                            setWrongOtp={setWrongOtp}
-                            setShowOtpModal={setShowOtpModal}
-                            generatedOtp={generatedOtp}
-                          />
-                          {/* <LongNextButton actionToDo={onOtpComleted()}/> */}
-                        </div>
-                      ) : (
-                        <>
-                          {!emailAdded ? (
-                            <VerifyEmail
-                              setOtpIsValid={setOtpIsValid}
-                              emailValue={emailValue}
-                              setEmailValue={setEmailValue}
-                              setEmailAdded={setEmailAdded}
-                            />
-                          ) : (
-                            <>
-                              {!passcodeIsConfirmed ? (
-                                <>
-                                  {!passcodeInserted ? (
-                                    <PasscodeSetupPage
-                                      setPasscodeInserted={setPasscodeInserted}
-                                      passcodeValue={passcodeValue}
-                                      setPasscodeValue={setPasscodeValue}
-                                      maskNumberStart={maskNumberStart}
-                                      setEmailAdded={setEmailAdded}
-                                      numberValue={numberValue}
-                                    />
-                                  ) : (
-                                    <ConfirmPasscode
-                                      passcodeNotSame={passcodeNotSame}
-                                      setPasscodeInserted={setPasscodeInserted}
-                                      passcodeValue={passcodeValue}
-                                      setPasscodeValue={setPasscodeValue}
-                                      maskNumberStart={maskNumberStart}
-                                      setEmailAdded={setEmailAdded}
-                                      numberValue={numberValue}
-                                      otpCompleted={(text: string) => {
-                                        if (
-                                          passcodeValue &&
-                                          passcodeValue === text
-                                        )
-                                          setPasscodeIsConfirmed(true);
-                                        else setPasscodeNotSame(true);
-                                      }}
-                                    />
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  {!doneWithPin ? (
-                                    <PinCreationPage
-                                      userPin={userPin}
-                                      setUserPin={setUserPin}
-                                      setDoneWithPin={setDoneWithPin}
-                                    />
-                                  ) : (
-                                    <Biometrics
-                                      addUserFunction={addUserFunction}
-                                    />
-                                  )}
-                                </>
-                              )}
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </>
-          )}
-        </>
-      )}{" "}
+                            {/* <LongNextButton actionToDo={onOtpComleted()}/> */}
+                          </div>
+                        ) : (
+                          <>
+                            {!emailAdded ? (
+                              <VerifyEmail
+                                setOtpIsValid={setOtpIsValid}
+                                emailValue={emailValue}
+                                setEmailValue={setEmailValue}
+                                setEmailAdded={setEmailAdded}
+                              />
+                            ) : (
+                              <>
+                                {!passcodeIsConfirmed ? (
+                                  <>
+                                    {!passcodeInserted ? (
+                                      <PasscodeSetupPage
+                                        setPasscodeInserted={
+                                          setPasscodeInserted
+                                        }
+                                        passcodeValue={passcodeValue}
+                                        setPasscodeValue={setPasscodeValue}
+                                        maskNumberStart={maskNumberStart}
+                                        setEmailAdded={setEmailAdded}
+                                        numberValue={numberValue}
+                                      />
+                                    ) : (
+                                      <ConfirmPasscode
+                                        passcodeNotSame={passcodeNotSame}
+                                        setPasscodeInserted={
+                                          setPasscodeInserted
+                                        }
+                                        passcodeValue={passcodeValue}
+                                        setPasscodeValue={setPasscodeValue}
+                                        maskNumberStart={maskNumberStart}
+                                        setEmailAdded={setEmailAdded}
+                                        numberValue={numberValue}
+                                        otpCompleted={(text: string) => {
+                                          if (
+                                            passcodeValue &&
+                                            passcodeValue === text
+                                          )
+                                            setPasscodeIsConfirmed(true);
+                                          else setPasscodeNotSame(true);
+                                        }}
+                                      />
+                                    )}
+                                  </>
+                                ) : (
+                                  <>
+                                    {!doneWithPin ? (
+                                      <PinCreationPage
+                                        userPin={userPin}
+                                        setUserPin={setUserPin}
+                                        setDoneWithPin={setDoneWithPin}
+                                      />
+                                    ) : (
+                                      <Biometrics
+                                        addUserFunction={addUserFunction}
+                                      />
+                                    )}
+                                  </>
+                                )}
+                              </>
+                            )}
+                          </>
+                        )}
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </>
+        )}{" "}
+      </PublicOnlyRoute>
     </>
   );
 };

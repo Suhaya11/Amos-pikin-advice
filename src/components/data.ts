@@ -1,4 +1,7 @@
 "use client";
+
+import { useEffect, useState } from "react";
+
 export interface Data {
   decisions?: decision[];
   daily_wahala?: wahala[];
@@ -90,144 +93,10 @@ export const myData: Data = {
   //     reason: "becouse its very important to be contacting each other",
   //   },
   // ],
-  daily_wahala: [
-    {
-      id: "crypto.randomUUID()",
-      date: new Date(),
-      name: "machine spoiled",
-
-      desctiption: "Our machine was spoiled",
-      causer: "Natural",
-      status: "unsolved",
-      decision:
-        "I'll make sure that my bycle were fine before the next data inshaAllah",
-      rating: "difficult",
-    },
-  ],
+  daily_wahala: [],
   atm_simulations: {
-    currentUSer: {
-      loginInfo: {
-        bvn: "333",
-        phoneNumber: 9075898883,
-        username: "suhaya",
-        password: "dd",
-        securityQuestion1: {
-          question: "a",
-          answer: "b",
-        },
-        securityQuestion2: {
-          question: "c",
-          answer: "d",
-        },
-      },
-      cardInfo: {
-        cardNo: "20200202002020",
-        cardHolder: "suhaya",
-        cardPin: "1111",
-        cardBalance: {
-          income: 209,
-          spent: 1000,
-        },
-        bankName: "suhayaBank",
-        code: 234,
-      },
-      bankDatails: {
-        acc_bank: "suhayaBank",
-        acc_no: 22222222,
-        acc_name: "suhaya",
-      },
-      income: {
-        transactions: [
-          {
-            amount: 39,
-            sender: {
-              name: "sani haladu",
-              acc_number: 2299292992,
-              transac_string: `${new Date().getTime()}`,
-            },
-            time: new Date(),
-          },
-        ],
-        total: 209,
-      },
-      spent: {
-        transactions: [
-          {
-            amount: 333,
-            reciever: {
-              name: "sulaiman haladu",
-              acc_number: 2223252471,
-              transac_string: `${new Date().getTime()}suhaya`,
-            },
-            time: new Date(),
-          },
-        ],
-        total: 3333,
-      },
-    },
-    users: [
-      {
-        loginInfo: {
-          username: "suhaya",
-          phoneNumber: 9075898883,
-          bvn: "444",
-
-          password: "dd",
-          securityQuestion1: {
-            question: "a",
-            answer: "b",
-          },
-          securityQuestion2: {
-            question: "c",
-            answer: "d",
-          },
-        },
-        cardInfo: {
-          cardNo: "20200202002020",
-          cardHolder: "suhaya",
-          cardPin: "1111",
-          cardBalance: {
-            income: 209,
-            spent: 1000,
-          },
-          bankName: "suhayaBank",
-          code: 234,
-        },
-        bankDatails: {
-          acc_bank: "suhayaBank",
-          acc_no: 22222222,
-          acc_name: "suhaya",
-        },
-        income: {
-          transactions: [
-            {
-              amount: 39,
-              sender: {
-                name: "sani haladu",
-                acc_number: 2299292992,
-                transac_string: `${new Date().getTime()}`,
-              },
-              time: new Date(),
-            },
-          ],
-          total: 209,
-        },
-        spent: {
-          transactions: [
-            {
-              amount: 333,
-              reciever: {
-                name: "sulaiman haladu",
-                acc_number: 2223252471,
-                transac_string: `${new Date().getTime()}suhaya`,
-              },
-              time: new Date(),
-            },
-          ],
-          total: 3333,
-        },
-      },
-    ],
+    currentUSer: {},
+    users: [],
   }!,
 };
 
@@ -269,7 +138,7 @@ export type user = {
     acc_name: string;
     acc_bank: string;
   };
-  loginInfo: {
+  loginInfo?: {
     phoneNumber?: number | undefined;
     password?: string | undefined;
     username?: string | undefined;
@@ -359,20 +228,30 @@ export const masker = (text: string): string => {
 };
 
 export const alradyExist = (
-  dataToCheck: Data = myData,
+  dataToCheck: Data,
   text: string,
   whatToCheck?: "nin" | "bvn" | "phone",
 ): boolean | undefined => {
   if (whatToCheck === "nin") {
     return dataToCheck.atm_simulations?.users?.some(
-      (user) => user.loginInfo.nin?.vid?.value === text,
+      (user) => user?.loginInfo?.nin?.vid?.value === text,
     );
   } else if (whatToCheck === "bvn")
     return dataToCheck.atm_simulations?.users?.some(
-      (user) => user.loginInfo.bvn === text,
+      (user) => user?.loginInfo?.bvn === text,
     );
   else if (whatToCheck === "phone")
     return dataToCheck.atm_simulations?.users?.some(
       (user) => user.loginInfo?.phoneNumber?.toString() === text,
     );
 };
+// export const dataRetriver = () => {
+//   const [savedData, setSavedData] = useState<Data>();
+//   useEffect(() => {
+//     const query = localStorage.getItem("AmosIdeaApp");
+//     const daata: Data = JSON.parse(query || "{}");
+//     setSavedData(daata);
+//   });
+//   return savedData;
+// };
+// export const thedaata = dataRetriver();

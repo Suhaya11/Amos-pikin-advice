@@ -1,0 +1,6 @@
+1. add level 2 verification in which if the user information on the first id match the that of the second one then just addd the second id as string
+2. make an error message to show if an id is alrady registered on the flatform
+3. add a login funtionality in which a person will be authenticated using their phone number or username togather with their created passcode .
+4. add a logout functionality in which a user can logut of his account and login to his another account in order to simulate the transaction
+5. add functionality that will find a person by his account number if is available and if not available show an error message .
+6. simulate incoming and outgoing transaction functionlity by subtracting the specified amont from the account of the current user and finding the account number ownr and then add the balance to his current balance and vice verse .

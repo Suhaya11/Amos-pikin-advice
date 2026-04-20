@@ -41,7 +41,7 @@ const DailyWahala = () => {
     //       timeGreetings: [],
     //     }),
     //   );
-    localStorage.clear();
+    // localStorage.clear();
   }, []);
 
   const handleSubmit = (currentData: Data | undefined = localData) => {
@@ -57,7 +57,7 @@ const DailyWahala = () => {
         rating,
         status: problemStatus,
       };
-      console.log("new DAta", newData);
+
       currentData.daily_wahala?.push(newData);
       localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
     } else throw new Error("unable to connect to local db");

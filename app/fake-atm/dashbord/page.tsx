@@ -23,6 +23,7 @@ import { BsCoin, BsGrid } from "react-icons/bs";
 const FakeAtm = () => {
   const [showBalance, setShowBalance] = React.useState<boolean>(true);
   const [localData, setLocalDate] = React.useState<Data>();
+  const [lastUpdate, setLastUpdate] = React.useState<Date>();
   //   {
   //   atm_simulations: {
   //     currentUSer: {
@@ -151,6 +152,7 @@ const FakeAtm = () => {
   // }
   const [currentUser, setCurrentUser] = React.useState<user>();
   React.useEffect(() => {
+    setLastUpdate(new Date());
     const localquery = localStorage.getItem("AmosIdeaApp");
     if (localquery) {
       const myCurrentData: Data = JSON.parse(localquery);
@@ -228,7 +230,7 @@ const FakeAtm = () => {
           </div>
           <div className="text-gray-100 flex gap-2 font-bold my-3">
             <span>Last updated</span>
-            <span>{new Date().toLocaleString().toString()}</span>
+            <span>{lastUpdate?.toLocaleString().toString()}</span>
           </div>
           <div className="text-white flex gap-4 my-3">
             <span className="bg-blue-800 cursor-pointer p-1 px-3 rounded-2xl">

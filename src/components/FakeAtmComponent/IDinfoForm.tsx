@@ -59,7 +59,17 @@ const IDinfoForm = ({ checkForNin, ninNumber }: myProps) => {
                 },
               },
             );
-          }
+          } else
+            console.log(
+              "(fname && lname && gender && state && lga && town && dob)",
+              fname,
+              lname,
+              gender,
+              state,
+              lga,
+              town,
+              dob,
+            );
         }}
       >
         <h3 className="title">Personal information</h3>
@@ -68,7 +78,9 @@ const IDinfoForm = ({ checkForNin, ninNumber }: myProps) => {
             <label htmlFor="fname">First Name:</label>{" "}
             <input
               value={fname}
-              onChange={(e) => setFname(e.currentTarget.value)}
+              onChange={(e) => {
+                setFname(e.currentTarget.value);
+              }}
               type="text"
               name="fname"
               id="fname"
@@ -123,11 +135,15 @@ const IDinfoForm = ({ checkForNin, ninNumber }: myProps) => {
             <label htmlFor="gender">Gender:</label>{" "}
             <select
               value={gender}
-              onChange={(w) => setGender(w.currentTarget.value)}
+              onChange={(w) => {
+                console.error(w.currentTarget.value);
+                setGender(w.currentTarget.value);
+              }}
               name="gender"
               id="gender"
               className="idInfoInputNoWidth"
             >
+              <option value="" typeof="hidden"></option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
