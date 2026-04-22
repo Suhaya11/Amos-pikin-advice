@@ -123,6 +123,7 @@ const IDinfoForm = ({ checkForNin, ninNumber }: myProps) => {
                 e.currentTarget.valueAsDate &&
                 setDob(e.currentTarget.valueAsDate)
               }
+              max="2009-01-01"
               type="date"
               name="dob
           "
@@ -136,7 +137,6 @@ const IDinfoForm = ({ checkForNin, ninNumber }: myProps) => {
             <select
               value={gender}
               onChange={(w) => {
-                console.error(w.currentTarget.value);
                 setGender(w.currentTarget.value);
               }}
               name="gender"

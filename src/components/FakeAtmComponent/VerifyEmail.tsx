@@ -75,7 +75,13 @@ const VerifyEmail = (props: myProps) => {
         }
         optionalElememt={
           <h3 className="text-center my-3">
-            <span className=" font-bold cursor-pointer hover:underline text-blue-600 ">
+            <span
+              onClick={() =>
+                confirm("do you really want to skip adding emal") &&
+                props.setEmailAdded(true)
+              }
+              className=" font-bold cursor-pointer hover:underline text-blue-600 "
+            >
               I dont have an email
             </span>
           </h3>

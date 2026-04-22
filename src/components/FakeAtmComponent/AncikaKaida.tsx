@@ -7,16 +7,15 @@ import {
   BiSolidUser,
 } from "react-icons/bi";
 type myProps = {
-  setGotoSignup: React.Dispatch<React.SetStateAction<boolean>>;
   setAncikaKaida: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const AncikaKaida = ({ setAncikaKaida, setGotoSignup }: myProps) => {
+const AncikaKaida = ({ setAncikaKaida }: myProps) => {
   return (
     <div>
       <BiSolidLeftArrowAlt
         size={40}
         onClick={() => {
-          setGotoSignup(false);
+          history.back();
           setAncikaKaida(false);
         }}
       />

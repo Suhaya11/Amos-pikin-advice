@@ -1,5 +1,7 @@
 "use client";
 import { Data, masker, user } from "@/src/components/data";
+import { redirect } from "next/navigation";
+import { Router } from "next/router";
 import React from "react";
 import {
   BiBell,
@@ -22,8 +24,9 @@ import { BsCoin, BsGrid } from "react-icons/bs";
 
 const FakeAtm = () => {
   const [showBalance, setShowBalance] = React.useState<boolean>(true);
-  const [localData, setLocalDate] = React.useState<Data>();
+  const [localData, setLocalData] = React.useState<Data>({});
   const [lastUpdate, setLastUpdate] = React.useState<Date>();
+  const [userOptions, setUserOptions] = React.useState<boolean>();
   //   {
   //   atm_simulations: {
   //     currentUSer: {
@@ -157,7 +160,7 @@ const FakeAtm = () => {
     if (localquery) {
       const myCurrentData: Data = JSON.parse(localquery);
       if (myCurrentData) {
-        setLocalDate(myCurrentData);
+        setLocalData(myCurrentData);
         if (localData?.atm_simulations?.currentUSer)
           setCurrentUser(localData?.atm_simulations?.currentUSer);
       }
@@ -165,11 +168,58 @@ const FakeAtm = () => {
       localStorage.setItem("AmosIdeaApp", JSON.stringify(localData));
     }
   }, []);
+  const handleLogOUt = () => {
+    const localquery = localStorage.getItem("AmosIdeaApp");
+    if (!localquery) return;
+    const availabeData: Data = JSON.parse(localquery);
+    if (!availabeData.atm_simulations?.currentUSer) return;
+    if (
+      !availabeData.atm_simulations?.users?.includes(
+        availabeData.atm_simulations.currentUSer,
+      ) &&
+      !confirm("Do you really want to logout")
+    )
+      return;
+    const dataWithOutLoggedInUser: Data = {
+      ...availabeData,
+      atm_simulations: {
+        currentUSer: {},
+        users: availabeData.atm_simulations.users,
+      },
+    };
+    localStorage.setItem(
+      "AmosIdeaApp",
+      JSON.stringify(dataWithOutLoggedInUser),
+    );
+    redirect("/fake-atm/");
+  };
+
   return (
     <div className="bg-gray-50">
       <h1 className=" flex justify-between bg-white">
         <div>
-          <BiUser className="text-4xl inline-block mr-3 border p-1 rounded-full" />
+          <BiUser
+            onClick={() => setUserOptions(!userOptions)}
+            className="text-4xl inline-block mr-3 border p-1 rounded-full"
+          />
+          <div className="relative">
+            {userOptions && (
+              <ul className="absolute  bg-white p-3 font-bold capitalize rounded-md">
+                <li className="cursor-pointer hover:underline text-blue-700">
+                  Upgrade
+                </li>
+                <li className="cursor-pointer hover:underline text-blue-700">
+                  settings
+                </li>
+                <li
+                  onClick={handleLogOUt}
+                  className="cursor-pointer hover:underline text-blue-700"
+                >
+                  LogOut
+                </li>
+              </ul>
+            )}
+          </div>
           <span>level 1</span>
         </div>
         <div className="mr-2">
@@ -182,18 +232,18 @@ const FakeAtm = () => {
           <div className="text-white w-10/12 my-3 mx-auto font-bold flex gap-2">
             <span>
               {" "}
-              {localData?.atm_simulations?.currentUSer?.loginInfo.phoneNumber}
+              {localData?.atm_simulations?.currentUSer?.loginInfo?.phoneNumber}
             </span>{" "}
             <span>|</span>{" "}
             <span>
               {`${
-                localData?.atm_simulations?.currentUSer?.loginInfo.nin
+                localData?.atm_simulations?.currentUSer?.loginInfo?.nin
                   ?.personalInfo.fName
               }  ${
-                localData?.atm_simulations?.currentUSer?.loginInfo.nin
+                localData?.atm_simulations?.currentUSer?.loginInfo?.nin
                   ?.personalInfo.lname
               } ${
-                localData?.atm_simulations?.currentUSer?.loginInfo.nin
+                localData?.atm_simulations?.currentUSer?.loginInfo?.nin
                   ?.personalInfo.sname
               }`}
             </span>

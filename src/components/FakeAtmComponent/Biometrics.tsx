@@ -45,8 +45,11 @@ const Biometrics = ({ addUserFunction }: myProps) => {
         </span>
       </div>
       <div className="flex justify-between my-8 mx-auto">
-        <button className="p-5 rounded-xl  w-5/12 resendOTP cursor-pointer  text-blue-700 font-bold capitalize">
-          <Link href={"/fake-atm/id-validation"}> Not Now</Link>
+        <button
+          onClick={addUserFunction}
+          className="p-5 rounded-xl  w-5/12 resendOTP cursor-pointer  text-blue-700 font-bold capitalize"
+        >
+          Not Now
         </button>
         <button
           onClick={() => setUserWantBiometrics(true)}

@@ -97,7 +97,9 @@ export const myData: Data = {
   atm_simulations: {
     currentUSer: {},
     users: [],
-  }!,
+  },
+  decisions: [],
+  timeGreetings: [],
 };
 
 export type user = {

@@ -70,6 +70,10 @@ const NINVerificationPage = ({
               )
                 return {
                   ...user,
+                  bankDatails: {
+                    ...user.bankDatails!,
+                    acc_name: `${ninDetails.personalInfo.lname} ${ninDetails.personalInfo.fName} ${ninDetails.personalInfo.sname}`,
+                  },
                   loginInfo: {
                     ...user.loginInfo,
                     nin: updatedCurrentUser?.loginInfo?.nin,
