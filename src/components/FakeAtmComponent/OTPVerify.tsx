@@ -5,7 +5,7 @@ type myProps = {
   countMin: number;
   countSec: number;
   maskNumberStart(numb: number): string;
-  numberValue: number | undefined;
+  numberValue: string | undefined;
   wrongOtp: boolean;
   generatedOtp: string;
   setWrongOtp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,8 +36,8 @@ const OTPVerify = ({
       <div className="my-3 mx-auto  w-10/12 ">
         <h2 className="font-bold">Verify Your Phone Number</h2>
         <p className="text-gray-500">
-          We've set a 6 digit code to {maskNumberStart(numberValue!)} {". "}{" "}
-          Check your SMS <br />
+          We've set a 6 digit code to {maskNumberStart(Number(numberValue!))}{" "}
+          {". "} Check your SMS <br />
           and enter it here.
         </p>
 

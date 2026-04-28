@@ -136,12 +136,12 @@ export type user = {
     ];
   };
   bankDatails?: {
-    acc_no: number;
+    acc_no: string | number;
     acc_name: string;
     acc_bank: string;
   };
   loginInfo?: {
-    phoneNumber?: number | undefined;
+    phoneNumber?: string | undefined;
     password?: string | undefined;
     username?: string | undefined;
     nin?: idDetails;

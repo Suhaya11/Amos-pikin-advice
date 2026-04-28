@@ -14,7 +14,7 @@ import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
 import { redirect } from "next/navigation";
 
 import React from "react";
-type myProps = {
+export type myProps = {
   passcodeIsConfirmed: boolean;
   doneWithPin: boolean;
 
@@ -39,8 +39,8 @@ type myProps = {
   referralCode: string;
   setReferralCodeExist: React.Dispatch<React.SetStateAction<boolean>>;
   referralCodeExist: boolean;
-  numberValue: number | undefined;
-  setNumberValue: React.Dispatch<React.SetStateAction<number | undefined>>;
+  numberValue: string | undefined;
+  setNumberValue: React.Dispatch<React.SetStateAction<string | undefined>>;
   showOtpModal: boolean;
   userGaveConsent: boolean;
   wantToRecieveUpdates: boolean;
@@ -85,7 +85,7 @@ const page = () => {
   const [referralCode, setReferralCode] = React.useState<string>("");
   // const [numberIsEnoughForSignUp, setNumberIsEnoughForSignUp] =
   //   React.useState<boolean>(false);
-  const [numberValue, setNumberValue] = React.useState<number | undefined>();
+  const [numberValue, setNumberValue] = React.useState<string | undefined>();
   const [agreedWithTheNumber, setAgreedWithNumber] =
     React.useState<boolean>(false);
   const [termsAcepted, setTermsAcepted] = React.useState<boolean>(false);
@@ -179,197 +179,324 @@ const page = () => {
       setOtpIsValid(true);
     else setWrongOtp(true);
   };
-  const y: myProps = {
-    doneWithPin,
-    setDoneWithPin,
-    setPasscodeIsConfirmed,
-    setPasscodeNotSame,
-    passcodeNotSame,
-    passcodeIsConfirmed,
+  // const y: myProps = {
+  //   doneWithPin,
+  //   setDoneWithPin,
+  //   setPasscodeIsConfirmed,
+  //   setPasscodeNotSame,
+  //   passcodeNotSame,
+  //   passcodeIsConfirmed,
 
-    passcodeValue,
-    setPasscodeInserted,
-    setPasscodeValue,
-    emailAdded,
-    setEmailAdded,
-    emailValue,
-    setEmailValue,
-    setOtpIsValid,
+  //   passcodeValue,
+  //   setPasscodeInserted,
+  //   setPasscodeValue,
+  //   emailAdded,
+  //   setEmailAdded,
+  //   emailValue,
+  //   setEmailValue,
+  //   setOtpIsValid,
 
-    userGaveConsent,
-    setCountMin,
-    setCountSec,
-    generatedOtp,
-    setGeneratedOtp,
+  //   userGaveConsent,
+  //   setCountMin,
+  //   setCountSec,
+  //   generatedOtp,
+  //   setGeneratedOtp,
 
-    countMin,
-    countSec,
-    setWantToRecieveUpdates,
-    showOtpModal,
-    termsAcepted,
-    setTermsAcepted,
-    agreedWithDataProcessingConsent,
-    setAgreedwithDataProcessingConsent,
-    wantToRecieveUpdates,
-    setUserGaveConsent,
-    numberValue,
-    userPin,
-    setUserPin,
-    setNumberValue,
-    setReferralCodeExist,
-    referralCodeExist,
-    ancikaKaida,
-    passcodeInserted,
-    setAncikaKaida,
-    // setGotoSignup,
-    agreedWithTheNumber,
-    setAgreedWithNumber,
-    referralCode,
-    setReferralCode,
-    otpIsValid,
+  //   countMin,
+  //   countSec,
+  //   setWantToRecieveUpdates,
+  //   showOtpModal,
+  //   termsAcepted,
+  //   setTermsAcepted,
+  //   agreedWithDataProcessingConsent,
+  //   setAgreedwithDataProcessingConsent,
+  //   wantToRecieveUpdates,
+  //   setUserGaveConsent,
+  //   numberValue,
+  //   userPin,
+  //   setUserPin,
+  //   setNumberValue,
+  //   setReferralCodeExist,
+  //   referralCodeExist,
+  //   ancikaKaida,
+  //   passcodeInserted,
+  //   setAncikaKaida,
+  //   // setGotoSignup,
+  //   agreedWithTheNumber,
+  //   setAgreedWithNumber,
+  //   referralCode,
+  //   setReferralCode,
+  //   otpIsValid,
 
-    wrongOtp,
+  //   wrongOtp,
 
-    setWrongOtp,
-    setShowOtpModal,
+  //   setWrongOtp,
+  //   setShowOtpModal,
 
-    maskNumberStart,
-  };
-  const myLargeContext = React.createContext(y);
-  return (
-    <>
-      {!ancikaKaida ? (
+  //   maskNumberStart,
+  // };
+  // const myLargeContext = React.createContext(y);
+  // const x = React.useContext(myLargeContext);
+  // console.log(x);
+  const ContentDisplay = () => {
+    if (!ancikaKaida)
+      return (
         <AncikaKaida
           setAncikaKaida={setAncikaKaida}
           //   setGotoSignup={setGotoSignup}
         />
-      ) : (
-        <>
-          {!agreedWithTheNumber && ancikaKaida ? (
-            <PhoneNumberVerifySignUp
-              setAgreedWithNumber={setAgreedWithNumber}
-              setReferralCode={setReferralCode}
-              referralCode={referralCode}
-              setReferralCodeExist={setReferralCodeExist}
-              referralCodeExist={referralCodeExist}
-              setAncikaKaida={setAncikaKaida}
-              setNumberValue={setNumberValue}
-              numberValue={numberValue}
-            />
-          ) : (
-            <>
-              {!userGaveConsent && agreedWithTheNumber && ancikaKaida ? (
-                <UserConsentPageOnSignUp
-                  setUserGaveConsent={setUserGaveConsent}
-                  wantToRecieveUpdates={wantToRecieveUpdates}
-                  setAgreedWithNumber={setAgreedWithNumber}
-                  setAgreedwithDataProcessingConsent={
-                    setAgreedwithDataProcessingConsent
-                  }
-                  agreedWithDataProcessingConsent={
-                    agreedWithDataProcessingConsent
-                  }
-                  setTermsAcepted={setTermsAcepted}
-                  setWantToRecieveUpdates={setWantToRecieveUpdates}
-                  termsAcepted={termsAcepted}
-                />
-              ) : (
-                <>
-                  {!otpIsValid ? (
-                    <div>
-                      <BackNavigationForSignUp
-                        GoBackTo={() => setUserGaveConsent(false)}
-                        progressBarAmount={9}
-                      />
+      );
+    if (!agreedWithTheNumber && ancikaKaida)
+      return (
+        <PhoneNumberVerifySignUp
+          setAgreedWithNumber={setAgreedWithNumber}
+          setReferralCode={setReferralCode}
+          referralCode={referralCode}
+          setReferralCodeExist={setReferralCodeExist}
+          referralCodeExist={referralCodeExist}
+          setAncikaKaida={setAncikaKaida}
+          setNumberValue={setNumberValue}
+          numberValue={numberValue}
+        />
+      );
+    if (!userGaveConsent && agreedWithTheNumber && ancikaKaida)
+      return (
+        <UserConsentPageOnSignUp
+          setUserGaveConsent={setUserGaveConsent}
+          wantToRecieveUpdates={wantToRecieveUpdates}
+          setAgreedWithNumber={setAgreedWithNumber}
+          setAgreedwithDataProcessingConsent={
+            setAgreedwithDataProcessingConsent
+          }
+          agreedWithDataProcessingConsent={agreedWithDataProcessingConsent}
+          setTermsAcepted={setTermsAcepted}
+          setWantToRecieveUpdates={setWantToRecieveUpdates}
+          termsAcepted={termsAcepted}
+        />
+      );
+    if (!otpIsValid)
+      return (
+        <div>
+          <BackNavigationForSignUp
+            GoBackTo={() => setUserGaveConsent(false)}
+            progressBarAmount={9}
+          />
 
-                      {showOtpModal && (
-                        <OtpModal
-                          reduceSec={reduceSec}
-                          countMin={countMin}
-                          countSec={countSec}
-                          setGenerateOtp={setGeneratedOtp}
-                          OTPCounter={OTPCounter}
-                          setCountMin={setCountMin}
-                          setCountSec={setCountSec}
-                          generatedOtp={generatedOtp}
-                        />
-                      )}
-                      <OTPVerify
-                        numberValue={numberValue}
-                        onOtpComleted={onOtpCompleted}
-                        countMin={countMin}
-                        countSec={countSec}
-                        maskNumberStart={maskNumberStart}
-                        wrongOtp={wrongOtp}
-                        setWrongOtp={setWrongOtp}
-                        setShowOtpModal={setShowOtpModal}
-                        generatedOtp={generatedOtp}
-                      />
-                      {/* <LongNextButton actionToDo={onOtpComleted()}/> */}
-                    </div>
-                  ) : (
-                    <>
-                      {!emailAdded ? (
-                        <VerifyEmail
-                          setOtpIsValid={setOtpIsValid}
-                          emailValue={emailValue}
-                          setEmailValue={setEmailValue}
-                          setEmailAdded={setEmailAdded}
-                        />
-                      ) : (
-                        <>
-                          {!passcodeIsConfirmed ? (
-                            <>
-                              {!passcodeInserted ? (
-                                <PasscodeSetupPage
-                                  setPasscodeInserted={setPasscodeInserted}
-                                  passcodeValue={passcodeValue}
-                                  setPasscodeValue={setPasscodeValue}
-                                  maskNumberStart={maskNumberStart}
-                                  setEmailAdded={setEmailAdded}
-                                  numberValue={numberValue}
-                                />
-                              ) : (
-                                <ConfirmPasscode
-                                  passcodeNotSame={passcodeNotSame}
-                                  setPasscodeInserted={setPasscodeInserted}
-                                  passcodeValue={passcodeValue}
-                                  setPasscodeValue={setPasscodeValue}
-                                  maskNumberStart={maskNumberStart}
-                                  setEmailAdded={setEmailAdded}
-                                  numberValue={numberValue}
-                                  otpCompleted={(text: string) => {
-                                    if (passcodeValue && passcodeValue === text)
-                                      setPasscodeIsConfirmed(true);
-                                    else setPasscodeNotSame(true);
-                                  }}
-                                />
-                              )}
-                            </>
-                          ) : (
-                            <>
-                              {!doneWithPin ? (
-                                <PinCreationPage
-                                  userPin={userPin}
-                                  setUserPin={setUserPin}
-                                  setDoneWithPin={setDoneWithPin}
-                                />
-                              ) : (
-                                <Biometrics addUserFunction={addUserFunction} />
-                              )}
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-            </>
+          {showOtpModal && (
+            <OtpModal
+              reduceSec={reduceSec}
+              countMin={countMin}
+              countSec={countSec}
+              setGenerateOtp={setGeneratedOtp}
+              OTPCounter={OTPCounter}
+              setCountMin={setCountMin}
+              setCountSec={setCountSec}
+              generatedOtp={generatedOtp}
+            />
           )}
-        </>
-      )}
-    </>
+          <OTPVerify
+            numberValue={numberValue}
+            onOtpComleted={onOtpCompleted}
+            countMin={countMin}
+            countSec={countSec}
+            maskNumberStart={maskNumberStart}
+            wrongOtp={wrongOtp}
+            setWrongOtp={setWrongOtp}
+            setShowOtpModal={setShowOtpModal}
+            generatedOtp={generatedOtp}
+          />
+          {/* <LongNextButton actionToDo={onOtpComleted()}/> */}
+        </div>
+      );
+    if (!emailAdded)
+      return (
+        <VerifyEmail
+          setOtpIsValid={setOtpIsValid}
+          emailValue={emailValue}
+          setEmailValue={setEmailValue}
+          setEmailAdded={setEmailAdded}
+        />
+      );
+    if (!passcodeIsConfirmed && !passcodeInserted)
+      return (
+        <PasscodeSetupPage
+          setPasscodeInserted={setPasscodeInserted}
+          passcodeValue={passcodeValue}
+          setPasscodeValue={setPasscodeValue}
+          maskNumberStart={maskNumberStart}
+          setEmailAdded={setEmailAdded}
+          numberValue={numberValue}
+        />
+      );
+    if (!passcodeIsConfirmed && passcodeInserted)
+      return (
+        <ConfirmPasscode
+          passcodeNotSame={passcodeNotSame}
+          setPasscodeInserted={setPasscodeInserted}
+          passcodeValue={passcodeValue}
+          setPasscodeValue={setPasscodeValue}
+          maskNumberStart={maskNumberStart}
+          setEmailAdded={setEmailAdded}
+          numberValue={numberValue}
+          otpCompleted={(text: string) => {
+            if (passcodeValue && passcodeValue === text)
+              setPasscodeIsConfirmed(true);
+            else setPasscodeNotSame(true);
+          }}
+        />
+      );
+    if (!doneWithPin)
+      return (
+        <PinCreationPage
+          userPin={userPin}
+          setUserPin={setUserPin}
+          setDoneWithPin={setDoneWithPin}
+        />
+      );
+    else return <Biometrics addUserFunction={addUserFunction} />;
+  };
+  return (
+    <>{ContentDisplay()}</>
+    // <>
+
+    //     {!ancikaKaida ? (
+    //       <AncikaKaida
+    //         setAncikaKaida={setAncikaKaida}
+    //         //   setGotoSignup={setGotoSignup}
+    //       />
+    //     ) : (
+    //       <>
+    //         {!agreedWithTheNumber && ancikaKaida ? (
+    //           <PhoneNumberVerifySignUp
+    //             setAgreedWithNumber={setAgreedWithNumber}
+    //             setReferralCode={setReferralCode}
+    //             referralCode={referralCode}
+    //             setReferralCodeExist={setReferralCodeExist}
+    //             referralCodeExist={referralCodeExist}
+    //             setAncikaKaida={setAncikaKaida}
+    //             setNumberValue={setNumberValue}
+    //             numberValue={numberValue}
+    //           />
+    //         ) : (
+    //           <>
+    //             {!userGaveConsent && agreedWithTheNumber && ancikaKaida ? (
+    //               <UserConsentPageOnSignUp
+    //                 setUserGaveConsent={setUserGaveConsent}
+    //                 wantToRecieveUpdates={wantToRecieveUpdates}
+    //                 setAgreedWithNumber={setAgreedWithNumber}
+    //                 setAgreedwithDataProcessingConsent={
+    //                   setAgreedwithDataProcessingConsent
+    //                 }
+    //                 agreedWithDataProcessingConsent={
+    //                   agreedWithDataProcessingConsent
+    //                 }
+    //                 setTermsAcepted={setTermsAcepted}
+    //                 setWantToRecieveUpdates={setWantToRecieveUpdates}
+    //                 termsAcepted={termsAcepted}
+    //               />
+    //             ) : (
+    //               <>
+    //                 {!otpIsValid ? (
+    //                   <div>
+    //                     <BackNavigationForSignUp
+    //                       GoBackTo={() => setUserGaveConsent(false)}
+    //                       progressBarAmount={9}
+    //                     />
+
+    //                     {showOtpModal && (
+    //                       <OtpModal
+    //                         reduceSec={reduceSec}
+    //                         countMin={countMin}
+    //                         countSec={countSec}
+    //                         setGenerateOtp={setGeneratedOtp}
+    //                         OTPCounter={OTPCounter}
+    //                         setCountMin={setCountMin}
+    //                         setCountSec={setCountSec}
+    //                         generatedOtp={generatedOtp}
+    //                       />
+    //                     )}
+    //                     <OTPVerify
+    //                       numberValue={numberValue}
+    //                       onOtpComleted={onOtpCompleted}
+    //                       countMin={countMin}
+    //                       countSec={countSec}
+    //                       maskNumberStart={maskNumberStart}
+    //                       wrongOtp={wrongOtp}
+    //                       setWrongOtp={setWrongOtp}
+    //                       setShowOtpModal={setShowOtpModal}
+    //                       generatedOtp={generatedOtp}
+    //                     />
+    //                     {/* <LongNextButton actionToDo={onOtpComleted()}/> */}
+    //                   </div>
+    //                 ) : (
+    //                   <>
+    //                     {!emailAdded ? (
+    //                       <VerifyEmail
+    //                         setOtpIsValid={setOtpIsValid}
+    //                         emailValue={emailValue}
+    //                         setEmailValue={setEmailValue}
+    //                         setEmailAdded={setEmailAdded}
+    //                       />
+    //                     ) : (
+    //                       <>
+    //                         {!passcodeIsConfirmed ? (
+    //                           <>
+    //                             {!passcodeInserted ? (
+    //                               <PasscodeSetupPage
+    //                                 setPasscodeInserted={setPasscodeInserted}
+    //                                 passcodeValue={passcodeValue}
+    //                                 setPasscodeValue={setPasscodeValue}
+    //                                 maskNumberStart={maskNumberStart}
+    //                                 setEmailAdded={setEmailAdded}
+    //                                 numberValue={numberValue}
+    //                               />
+    //                             ) : (
+    //                               <ConfirmPasscode
+    //                                 passcodeNotSame={passcodeNotSame}
+    //                                 setPasscodeInserted={setPasscodeInserted}
+    //                                 passcodeValue={passcodeValue}
+    //                                 setPasscodeValue={setPasscodeValue}
+    //                                 maskNumberStart={maskNumberStart}
+    //                                 setEmailAdded={setEmailAdded}
+    //                                 numberValue={numberValue}
+    //                                 otpCompleted={(text: string) => {
+    //                                   if (
+    //                                     passcodeValue &&
+    //                                     passcodeValue === text
+    //                                   )
+    //                                     setPasscodeIsConfirmed(true);
+    //                                   else setPasscodeNotSame(true);
+    //                                 }}
+    //                               />
+    //                             )}
+    //                           </>
+    //                         ) : (
+    //                           <>
+    //                             {!doneWithPin ? (
+    //                               <PinCreationPage
+    //                                 userPin={userPin}
+    //                                 setUserPin={setUserPin}
+    //                                 setDoneWithPin={setDoneWithPin}
+    //                               />
+    //                             ) : (
+    //                               <Biometrics
+    //                                 addUserFunction={addUserFunction}
+    //                               />
+    //                             )}
+    //                           </>
+    //                         )}
+    //                       </>
+    //                     )}
+    //                   </>
+    //                 )}
+    //               </>
+    //             )}
+    //           </>
+    //         )}
+    //       </>
+    //     )}
+
+    // </>
   );
 };
 

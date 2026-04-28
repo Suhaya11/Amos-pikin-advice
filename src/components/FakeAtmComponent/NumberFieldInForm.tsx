@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 type myProps = {
-  numberValue: number | undefined;
-  setNumberValue: React.Dispatch<React.SetStateAction<number | undefined>>;
+  numberValue: string | undefined;
+  setNumberValue: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
   const [country, setCountry] = React.useState("Ng");
@@ -19,21 +19,18 @@ const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
         <option value="KN">+064</option>
       </select>
       <input
-        type="number"
+        type="text"
         value={numberValue ?? ""}
         name="text"
         id="number"
         placeholder="Phone number"
         className="outline-none"
-        onChange={(r) => {
-          if (
-            Number(r.currentTarget.value) &&
-            r.currentTarget.value.length < 11
-          ) {
-            setNumberValue(Number(r.currentTarget.value));
-            console.log(Number(r.currentTarget.value));
-          } else if (r.currentTarget.value.length == 0)
-            setNumberValue(undefined);
+        onChange={(e) => {
+          const val = e.target.value;
+          // Only allow digits and limit to 11 characters
+          if (/^\d*$/.test(val) && val.length <= 11) {
+            setNumberValue(val === "" ? undefined : val);
+          }
         }}
       />
     </div>

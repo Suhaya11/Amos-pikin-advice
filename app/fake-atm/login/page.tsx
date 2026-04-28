@@ -13,7 +13,7 @@ const LoginPage = () => {
     React.useState<boolean>(false);
   const [startedTypingNumber, setStartedTypingNumber] =
     React.useState<boolean>(true);
-  const [numberValue, setNumberValue] = React.useState<number | undefined>();
+  const [numberValue, setNumberValue] = React.useState<string | undefined>();
   return (
     <PublicOnlyRoute>
       <div>

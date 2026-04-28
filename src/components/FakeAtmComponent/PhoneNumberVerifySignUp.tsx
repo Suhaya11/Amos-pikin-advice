@@ -4,10 +4,11 @@ import BackNavigationForSignUp from "./BackNavigationForSignUp";
 import NumberFieldInForm from "./NumberFieldInForm";
 import { BiChevronDown, BiGift } from "react-icons/bi";
 import { Data, myData, user } from "../data";
+
 type myProps = {
   setAncikaKaida: React.Dispatch<React.SetStateAction<boolean>>;
-  setNumberValue: React.Dispatch<React.SetStateAction<number | undefined>>;
-  numberValue: number | undefined;
+  setNumberValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+  numberValue: string | undefined;
   setReferralCodeExist: React.Dispatch<React.SetStateAction<boolean>>;
   referralCodeExist: boolean;
   setAgreedWithNumber: React.Dispatch<React.SetStateAction<boolean>>;
@@ -57,6 +58,13 @@ const PhoneNumberVerifySignUp = ({
           setNumberValue={setNumberValue}
           numberValue={numberValue}
         />
+        <div>
+          <input
+            type="text"
+            placeholder="Username"
+            className="bg-gray-100 rounded-xl w-10/12 my-2 mx-auto flex gap-2 p-2 pl-4 outline-none"
+          />
+        </div>
 
         <p
           className={`${numberExist ? "text-red-500" : "text-white"} font-serif animate-pulse text-center w-10/12 my-2 mx-auto`}

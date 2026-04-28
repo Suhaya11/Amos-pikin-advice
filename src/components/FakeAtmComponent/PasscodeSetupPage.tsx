@@ -5,7 +5,7 @@ import { BsFillBackspaceFill, BsFillTelephoneFill } from "react-icons/bs";
 import OtpInput from "./OtpInput";
 type myProps = {
   maskNumberStart(numb: number): string;
-  numberValue: number | undefined;
+  numberValue: string | undefined;
   passcodeValue: string;
   setPasscodeValue: React.Dispatch<React.SetStateAction<string>>;
   setEmailAdded: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,7 +24,7 @@ const PasscodeSetupPage = (props: myProps) => {
         />
         <span className="cursor-pointer mr-4 resendOTP p-2 rounded-2xl">
           <BsFillTelephoneFill className="inline-block" />{" "}
-          {props.maskNumberStart(props.numberValue!)}
+          {props.maskNumberStart(Number(props.numberValue!))}
         </span>
       </div>
       <main>
