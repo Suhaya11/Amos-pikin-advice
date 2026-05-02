@@ -58,13 +58,6 @@ const PhoneNumberVerifySignUp = ({
           setNumberValue={setNumberValue}
           numberValue={numberValue}
         />
-        <div>
-          <input
-            type="text"
-            placeholder="Username"
-            className="bg-gray-100 rounded-xl w-10/12 my-2 mx-auto flex gap-2 p-2 pl-4 outline-none"
-          />
-        </div>
 
         <p
           className={`${numberExist ? "text-red-500" : "text-white"} font-serif animate-pulse text-center w-10/12 my-2 mx-auto`}
@@ -101,17 +94,14 @@ const PhoneNumberVerifySignUp = ({
       </div>
       <div
         onClick={() => {
-          if (
+          if (users.some((usr) => usr?.loginInfo?.phoneNumber == numberValue)) {
+            setNumberExist(true);
+          } else if (
             numberValue &&
             numberValue?.toString()?.length > 8 &&
-            !users.some((usr) => usr?.loginInfo?.phoneNumber === numberValue)
+            !users.some((usr) => usr?.loginInfo?.phoneNumber == numberValue)
           )
             setAgreedWithNumber(true);
-          else if (
-            numberValue &&
-            users.some((usr) => usr?.loginInfo?.phoneNumber === numberValue)
-          )
-            setNumberExist(true);
           else null;
         }}
         className={`absolute bottom-0 text-center w-10/12 my-3 left-10 p-3 rounded-xl ${numberValue && numberValue?.toString().trim().length > 9 ? "bg-blue-700 text-white" : "bg-gray-300 text-gray-500"}`}

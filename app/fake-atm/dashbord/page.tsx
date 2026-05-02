@@ -1,5 +1,6 @@
 "use client";
 import { Data, masker, user } from "@/src/components/data";
+import AddMoneyModal from "@/src/components/FakeAtmComponent/features/AddMoneyModal";
 import { redirect } from "next/navigation";
 import { Router } from "next/router";
 import React from "react";
@@ -289,6 +290,14 @@ const FakeAtm = () => {
           <div className="text-white flex gap-4 my-3">
             <span className="bg-blue-800 cursor-pointer p-1 px-3 rounded-2xl">
               <span className="text-2xl"> +</span> <span>Add</span>
+              {true && (
+                <AddMoneyModal
+                  aza={Number(
+                    localData.atm_simulations?.currentUSer?.loginInfo
+                      ?.phoneNumber,
+                  )}
+                />
+              )}
             </span>
             <span className="bg-blue-800 p-1 px-3 rounded-2xl cursor-pointer">
               <BiHistory className="inline" /> <span>history</span>

@@ -15,11 +15,12 @@ type myProps = {
   setIdAdded: React.Dispatch<React.SetStateAction<boolean>>;
   idAdded: boolean;
   bvnNumber: string;
+
   setBvnNumber: React.Dispatch<React.SetStateAction<string>>;
 };
 const NINVerificationPage = ({
   bvnNumber,
-
+  idExist,
   setIdAdded,
   idAdded,
   ninNumber,
@@ -147,7 +148,11 @@ const NINVerificationPage = ({
           <div className="w-10/12 my-2 mx-auto">
             <h3 className="font-bold">Verify your NIN</h3>
             <p className="text-gray-600">Enter your 11 digit NIN</p>
-            <NINInput ninNumber={ninNumber} setNinNumber={setNinNumber} />
+            <NINInput
+              ninExist={idExist}
+              ninNumber={ninNumber}
+              setNinNumber={setNinNumber}
+            />
           </div>
           <LongNextButton
             actionText="Next"
@@ -196,11 +201,11 @@ const NINVerificationPage = ({
                       fill="red"
                       size={30}
                     />
-                    <span>
+                    <p className="text-center p-">
                       Since this project is for learning and donot involved
                       querying some other DBs and outside data so the NIN and
                       BVN infomations must be filled by the user{" "}
-                    </span>
+                    </p>
                   </span>
                 )}
               </span>
