@@ -1,6 +1,7 @@
 "use client";
 import { Data, masker, user } from "@/src/components/data";
 import AddMoneyModal from "@/src/components/FakeAtmComponent/features/AddMoneyModal";
+import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
 import { redirect } from "next/navigation";
 import { Router } from "next/router";
 import React from "react";
@@ -27,7 +28,9 @@ const FakeAtm = () => {
   const [showBalance, setShowBalance] = React.useState<boolean>(true);
   const [localData, setLocalData] = React.useState<Data>({});
   const [lastUpdate, setLastUpdate] = React.useState<Date>();
-  const [userOptions, setUserOptions] = React.useState<boolean>();
+  const [userOptions, setUserOptions] = React.useState<boolean>(false);
+  const [showAddMoneyModal, setShowAddMoneyModal] =
+    React.useState<boolean>(false);
   //   {
   //   atm_simulations: {
   //     currentUSer: {
@@ -196,183 +199,203 @@ const FakeAtm = () => {
   };
 
   return (
-    <div className="bg-gray-50">
-      <h1 className=" flex justify-between bg-white">
-        <div>
-          <BiUser
-            onClick={() => setUserOptions(!userOptions)}
-            className="text-4xl inline-block mr-3 border p-1 rounded-full"
-          />
-          <div className="relative">
-            {userOptions && (
-              <ul className="absolute  bg-white p-3 font-bold capitalize rounded-md">
-                <li className="cursor-pointer hover:underline text-blue-700">
-                  Upgrade
-                </li>
-                <li className="cursor-pointer hover:underline text-blue-700">
-                  settings
-                </li>
-                <li
-                  onClick={handleLogOUt}
-                  className="cursor-pointer hover:underline text-blue-700"
-                >
-                  LogOut
-                </li>
-              </ul>
-            )}
-          </div>
-          <span>level 1</span>
-        </div>
-        <div className="mr-2">
-          <BiHeadphone className="inline-block text-3xl" />
-          <BiBell className="inline-block text-3xl" />
-        </div>
-      </h1>
-      <div className="container border bg-blue-900 p">
-        <div className="ml-2">
-          <div className="text-white w-10/12 my-3 mx-auto font-bold flex gap-2">
-            <span>
-              {" "}
-              {localData?.atm_simulations?.currentUSer?.loginInfo?.phoneNumber}
-            </span>{" "}
-            <span>|</span>{" "}
-            <span>
-              {`${
-                localData?.atm_simulations?.currentUSer?.loginInfo?.nin
-                  ?.personalInfo.fName
-              }  ${
-                localData?.atm_simulations?.currentUSer?.loginInfo?.nin
-                  ?.personalInfo.lname
-              } ${
-                localData?.atm_simulations?.currentUSer?.loginInfo?.nin
-                  ?.personalInfo.sname
-              }`}
-            </span>
-            <span>
-              <BiCopy className="inline-block cursor-pointer" />
-            </span>
-          </div>
-          <div className="my-3">
-            <h2 className="text-3xl text-gray-100 flex gap-2 font-bold">
-              {showBalance ? (
-                <>
-                  <span className="uppercase line-through ">n</span>{" "}
-                  <span className="select-none">
-                    {currentUser?.income?.total || 0}
-                  </span>
-                  <span>
-                    <BiHide
-                      onClick={() => setShowBalance(false)}
-                      className="inline-block cursor-pointer active:p-1"
-                    />
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span className="uppercase line-through select-none">n</span>{" "}
-                  <span className="select-none">
-                    {masker(`${currentUser?.income?.total || 0}`)}
-                  </span>
-                  <span>
-                    <BiShow
-                      onClick={() => setShowBalance(true)}
-                      className="inline-block cursor-pointer active:p-1"
-                    />
-                  </span>
-                </>
-              )}
-            </h2>
-          </div>
-          <div className="text-gray-100 flex gap-2 font-bold my-3">
-            <span>Last updated</span>
-            <span>{lastUpdate?.toLocaleString().toString()}</span>
-          </div>
-          <div className="text-white flex gap-4 my-3">
-            <span className="bg-blue-800 cursor-pointer p-1 px-3 rounded-2xl">
-              <span className="text-2xl"> +</span> <span>Add</span>
-              {true && (
-                <AddMoneyModal
-                  aza={Number(
-                    localData.atm_simulations?.currentUSer?.loginInfo
-                      ?.phoneNumber,
-                  )}
-                />
-              )}
-            </span>
-            <span className="bg-blue-800 p-1 px-3 rounded-2xl cursor-pointer">
-              <BiHistory className="inline" /> <span>history</span>
-            </span>{" "}
-          </div>
-        </div>
-      </div>
-      <div>
-        <div className="w-10/12 flex justify-between my-3 mx-auto">
-          <span>services</span>
-          <span className="text-blue-600 cursor-pointer">Edit</span>
-        </div>
-        <div className="w-10/12 flex justify-around flex-row flex-wrap my-3 mx-auto">
-          <span className=" servicesBoxUnderFakeAtmDashbord">
-            <BiTransfer
-              className="rotate-z-135  text-center my-0 mx-auto"
-              size={40}
+    <ProtectedRoute>
+      <div className="bg-gray-50">
+        <h1 className=" flex justify-between bg-white">
+          <div>
+            <BiUser
+              onClick={() => setUserOptions(!userOptions)}
+              className="text-4xl inline-block mr-3 border p-1 rounded-full"
             />
-            Transfer
-          </span>
-          <span className=" servicesBoxUnderFakeAtmDashbord">
-            <BiPhoneOutgoing size={40} className="my-0 mx-auto" />
-            Airtime
-          </span>
-          <span className=" servicesBoxUnderFakeAtmDashbord">
-            <BiMobileAlt size={40} className="my-0 mx-auto" />
-            Data
-          </span>
-          <span className="  servicesBoxUnderFakeAtmDashbord">
-            <BiFootball size={40} className="my-0 mx-auto" />
-            Betting
-          </span>
+            <div className="relative">
+              {userOptions && (
+                <ul className="absolute  bg-white p-3 font-bold capitalize rounded-md">
+                  <li className="cursor-pointer hover:underline text-blue-700">
+                    Upgrade
+                  </li>
+                  <li className="cursor-pointer hover:underline text-blue-700">
+                    settings
+                  </li>
+                  <li
+                    onClick={handleLogOUt}
+                    className="cursor-pointer hover:underline text-blue-700"
+                  >
+                    LogOut
+                  </li>
+                </ul>
+              )}
+            </div>
+            <span>level 1</span>
+          </div>
+          <div className="mr-2">
+            <BiHeadphone className="inline-block text-3xl" />
+            <BiBell className="inline-block text-3xl" />
+          </div>
+        </h1>
+        <div className="container border bg-blue-900 p">
+          <div className="ml-2">
+            <div className="text-white w-10/12 my-3 mx-auto font-bold flex gap-2">
+              <span>
+                {" "}
+                {Number(
+                  localData?.atm_simulations?.currentUSer?.loginInfo
+                    ?.phoneNumber,
+                )}
+              </span>{" "}
+              <span>|</span>{" "}
+              <span>
+                {`${
+                  localData?.atm_simulations?.currentUSer?.loginInfo?.nin
+                    ?.personalInfo.fName
+                }  ${
+                  localData?.atm_simulations?.currentUSer?.loginInfo?.nin
+                    ?.personalInfo.lname
+                } ${
+                  localData?.atm_simulations?.currentUSer?.loginInfo?.nin
+                    ?.personalInfo.sname
+                }`}
+              </span>
+              <span>
+                <BiCopy
+                  className="inline-block cursor-pointer"
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      Number(
+                        localData.atm_simulations?.currentUSer?.loginInfo
+                          ?.phoneNumber,
+                      ).toString(),
+                    )
+                  }
+                />
+              </span>
+            </div>
+            <div className="my-3">
+              <h2 className="text-3xl text-gray-100 flex gap-2 font-bold">
+                {showBalance ? (
+                  <>
+                    <span className="uppercase line-through ">n</span>{" "}
+                    <span className="select-none">
+                      {currentUser?.income?.total || 0}
+                    </span>
+                    <span>
+                      <BiHide
+                        onClick={() => setShowBalance(false)}
+                        className="inline-block cursor-pointer active:p-1"
+                      />
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="uppercase line-through select-none">
+                      n
+                    </span>{" "}
+                    <span className="select-none">
+                      {masker(`${currentUser?.income?.total || 0}`)}
+                    </span>
+                    <span>
+                      <BiShow
+                        onClick={() => setShowBalance(true)}
+                        className="inline-block cursor-pointer active:p-1"
+                      />
+                    </span>
+                  </>
+                )}
+              </h2>
+            </div>
+            <div className="text-gray-100 flex gap-2 font-bold my-3">
+              <span>Last updated</span>
+              <span>{lastUpdate?.toLocaleString().toString()}</span>
+            </div>
+            <div className="text-white flex gap-4 my-3">
+              <span className="bg-blue-800 cursor-pointer p-1 px-3 rounded-2xl">
+                <span className="text-2xl"> +</span>{" "}
+                <span onClick={() => setShowAddMoneyModal(true)}>Add</span>
+                {showAddMoneyModal && (
+                  <AddMoneyModal
+                    setOpenModal={setShowAddMoneyModal}
+                    openModal={showAddMoneyModal}
+                    aza={Number(
+                      localData.atm_simulations?.currentUSer?.loginInfo
+                        ?.phoneNumber,
+                    )}
+                  />
+                )}
+              </span>
+              <span className="bg-blue-800 p-1 px-3 rounded-2xl cursor-pointer">
+                <BiHistory className="inline" /> <span>history</span>
+              </span>{" "}
+            </div>
+          </div>
         </div>
-        <div className="w-10/12  flex justify-around my-2 mx-auto">
-          <span className=" servicesBoxUnderFakeAtmDashbord">
-            <BiMoney size={40} className="my-0 mx-auto" />
-            Savings
-          </span>
-          <span className="servicesBoxUnderFakeAtmDashbord">
-            <BiBookOpen size={40} className="my-0 mx-auto" />
-            Education
-          </span>
-          <span className=" servicesBoxUnderFakeAtmDashbord">
-            <BiFile size={40} className="my-0 mx-auto" />
-            <span>statement</span>
-          </span>
-
-          <span className=" servicesBoxUnderFakeAtmDashbord">
-            <BsGrid size={40} className="my-0 mx-auto" />
-            menu
-          </span>
-        </div>
-        <h3 className="w-10/12 flex my-2 mx-auto">Rewards</h3>
-        <div className="w-10/12 flex my-2 mx-auto justify-around">
-          <div className="flex flex-wrap flex-row bg-white p-4 rounded-2xl ">
-            <span className="w-full">
-              <BsCoin size={30} />
+        <div>
+          <div className="w-10/12 flex justify-between my-3 mx-auto">
+            <span>services</span>
+            <span className="text-blue-600 cursor-pointer">Edit</span>
+          </div>
+          <div className="w-10/12 flex justify-around flex-row flex-wrap my-3 mx-auto">
+            <span className=" servicesBoxUnderFakeAtmDashbord">
+              <BiTransfer
+                className="rotate-z-135  text-center my-0 mx-auto"
+                size={40}
+              />
+              Transfer
             </span>
-            <span className="w-full">CashBack</span>
-            <span className="w-full">
-              40 <span className="uppercase line-through">n</span>
+            <span className=" servicesBoxUnderFakeAtmDashbord">
+              <BiPhoneOutgoing size={40} className="my-0 mx-auto" />
+              Airtime
+            </span>
+            <span className=" servicesBoxUnderFakeAtmDashbord">
+              <BiMobileAlt size={40} className="my-0 mx-auto" />
+              Data
+            </span>
+            <span className="  servicesBoxUnderFakeAtmDashbord">
+              <BiFootball size={40} className="my-0 mx-auto" />
+              Betting
             </span>
           </div>
-          <div className="flex flex-wrap flex-row bg-white p-4 rounded-2xl">
-            <span className="w-full">
-              <BiVolumeFull size={30} />
+          <div className="w-10/12  flex justify-around my-2 mx-auto">
+            <span className=" servicesBoxUnderFakeAtmDashbord">
+              <BiMoney size={40} className="my-0 mx-auto" />
+              Savings
             </span>
-            <span className="w-full">Refferals</span>
-            <span className="w-full">
-              40 <span className="uppercase line-through">n</span>
+            <span className="servicesBoxUnderFakeAtmDashbord">
+              <BiBookOpen size={40} className="my-0 mx-auto" />
+              Education
             </span>
+            <span className=" servicesBoxUnderFakeAtmDashbord">
+              <BiFile size={40} className="my-0 mx-auto" />
+              <span>statement</span>
+            </span>
+
+            <span className=" servicesBoxUnderFakeAtmDashbord">
+              <BsGrid size={40} className="my-0 mx-auto" />
+              menu
+            </span>
+          </div>
+          <h3 className="w-10/12 flex my-2 mx-auto">Rewards</h3>
+          <div className="w-10/12 flex my-2 mx-auto justify-around">
+            <div className="flex flex-wrap flex-row bg-white p-4 rounded-2xl ">
+              <span className="w-full">
+                <BsCoin size={30} />
+              </span>
+              <span className="w-full">CashBack</span>
+              <span className="w-full">
+                40 <span className="uppercase line-through">n</span>
+              </span>
+            </div>
+            <div className="flex flex-wrap flex-row bg-white p-4 rounded-2xl">
+              <span className="w-full">
+                <BiVolumeFull size={30} />
+              </span>
+              <span className="w-full">Refferals</span>
+              <span className="w-full">
+                40 <span className="uppercase line-through">n</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ProtectedRoute>
   );
 };
 

@@ -128,7 +128,7 @@ const page = () => {
       loginInfo: {
         phoneNumber: numberValue!,
         password: passcodeValue,
-        username: "",
+        username: `${numberValue}`,
 
         email: emailValue,
       },

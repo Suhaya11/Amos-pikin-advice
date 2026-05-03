@@ -77,6 +77,7 @@ const NINVerificationPage = ({
                   },
                   loginInfo: {
                     ...user.loginInfo,
+                    username: `${ninDetails.personalInfo.fName.slice(0, 1)}${ninDetails.personalInfo.lname.slice(0, 1)}@${user.loginInfo?.phoneNumber?.slice(7, -1)}`,
                     nin: updatedCurrentUser?.loginInfo?.nin,
                   },
                 };
