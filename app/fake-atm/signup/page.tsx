@@ -129,7 +129,7 @@ const page = () => {
         phoneNumber: numberValue!,
         password: passcodeValue,
         username: `${numberValue}`,
-
+        isLoggedIn: true,
         email: emailValue,
       },
     };

@@ -180,21 +180,24 @@ const FakeAtm = () => {
     if (
       !availabeData.atm_simulations?.users?.includes(
         availabeData.atm_simulations.currentUSer,
-      ) &&
+      ) ||
       !confirm("Do you really want to logout")
     )
       return;
-    const dataWithOutLoggedInUser: Data = {
+    const userLoggedOut: Data = {
       ...availabeData,
       atm_simulations: {
-        currentUSer: {},
+        currentUSer: {
+          ...currentUser,
+          loginInfo: {
+            ...availabeData.atm_simulations.currentUSer.loginInfo,
+            isLoggedIn: false,
+          },
+        },
         users: availabeData.atm_simulations.users,
       },
     };
-    localStorage.setItem(
-      "AmosIdeaApp",
-      JSON.stringify(dataWithOutLoggedInUser),
-    );
+    localStorage.setItem("AmosIdeaApp", JSON.stringify(userLoggedOut));
     redirect("/fake-atm/");
   };
 

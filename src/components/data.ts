@@ -141,6 +141,7 @@ export type user = {
     acc_bank: string;
   };
   loginInfo?: {
+    isLoggedIn: boolean;
     phoneNumber?: string | undefined;
     password?: string | undefined;
     username?: string | undefined;
