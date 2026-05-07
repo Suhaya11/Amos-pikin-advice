@@ -74,7 +74,6 @@ const LoginPage = () => {
         localData.atm_simulations.currentUSer.loginInfo.phoneNumber == num) ||
       localData.atm_simulations?.currentUSer?.loginInfo?.username == num
     ) {
-      setNumberVerified(true);
       setUSerWithTheNumber(localData.atm_simulations.currentUSer);
       setNumberVerified(true);
       setNumberExist(true);
@@ -96,10 +95,16 @@ const LoginPage = () => {
   const login = (pass: string | undefined) => {
     const query = localStorage.getItem("AmosIdeaApp");
     const localData: Data = JSON.parse(query || "{}");
-    if (!localData.atm_simulations?.users?.includes(userWithTheNumber as user))
+    if (
+      !localData.atm_simulations?.users?.some(
+        (user) =>
+          user.loginInfo?.phoneNumber ==
+          userWithTheNumber?.loginInfo?.phoneNumber,
+      )
+    )
       return;
     if (userWithTheNumber?.loginInfo?.password == pass) {
-      // here there suppose be an encryption
+      // here there suppose to be an encryption
       const updatedCurrentUser: user = {
         ...localData.atm_simulations.currentUSer,
         loginInfo: {
@@ -115,14 +120,17 @@ const LoginPage = () => {
             ...localData.atm_simulations.users.map((user) =>
               user.loginInfo?.phoneNumber !=
               updatedCurrentUser.loginInfo?.phoneNumber
-                ? user
+                ? {
+                    ...user,
+                    loginInfo: { ...user.loginInfo, isLoggedIn: false },
+                  }
                 : updatedCurrentUser,
             ),
           ],
         },
       };
       localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));
-      redirect('/fake-atm/login"');
+      redirect("/fake-atm/login");
     }
   };
   const handleChangeNumber = () => {

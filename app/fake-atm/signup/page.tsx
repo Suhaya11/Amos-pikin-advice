@@ -150,11 +150,16 @@ const page = () => {
     } else {
       const currentData: Data = JSON.parse(query);
       if (!alradyExist(currentData, numberValue?.toString()!, "phone")) {
+        const updatedUsers: user[] | undefined =
+          currentData.atm_simulations?.users?.map((e) => {
+            return { ...e, loginInfo: { ...e.loginInfo, isLoggedIn: false } };
+          });
+
         const newData: Data = {
           ...currentData,
           atm_simulations: {
             currentUSer: user,
-            users: [...currentData.atm_simulations?.users!, user],
+            users: [...updatedUsers!, user],
           },
         };
         localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));

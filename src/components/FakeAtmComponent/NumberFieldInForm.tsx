@@ -20,7 +20,7 @@ const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
       </select>
       <input
         type="text"
-        value={numberValue ?? ""}
+        value={Number(numberValue).toString() ?? ""}
         name="text"
         id="number"
         placeholder="Phone number"
@@ -29,7 +29,7 @@ const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
           const val = e.target.value;
           // Only allow digits and limit to 11 characters
           if (/^\d*$/.test(val) && val.length <= 11) {
-            setNumberValue(val === "" ? undefined : val);
+            setNumberValue(val === "" ? undefined : Number(val).toString());
           }
         }}
       />

@@ -20,7 +20,7 @@ export default function PublicOnlyRoute({
     const currentUser = theData?.atm_simulations?.currentUSer;
 
     // 2. Check auth status
-    if (currentUser?.loginInfo?.phoneNumber) {
+    if (currentUser?.loginInfo?.isLoggedIn) {
       router.replace("/fake-atm/dashbord");
     }
   }, [router]);
@@ -33,7 +33,7 @@ export default function PublicOnlyRoute({
   const query =
     typeof window !== "undefined" ? localStorage.getItem("AmosIdeaApp") : null;
   const isLogged = JSON.parse(query || "{}")?.atm_simulations?.currentUSer
-    ?.loginInfo?.phoneNumber;
+    ?.loginInfo?.isLoggedIn;
 
   if (isLogged) return null;
 

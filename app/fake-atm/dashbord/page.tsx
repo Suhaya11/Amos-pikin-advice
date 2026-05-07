@@ -1,6 +1,7 @@
 "use client";
 import { Data, masker, user } from "@/src/components/data";
 import AddMoneyModal from "@/src/components/FakeAtmComponent/features/AddMoneyModal";
+import Transfer from "@/src/components/FakeAtmComponent/features/Transfer";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
 import { redirect } from "next/navigation";
 import { Router } from "next/router";
@@ -175,15 +176,11 @@ const FakeAtm = () => {
   const handleLogOUt = () => {
     const localquery = localStorage.getItem("AmosIdeaApp");
     if (!localquery) return;
+
     const availabeData: Data = JSON.parse(localquery);
     if (!availabeData.atm_simulations?.currentUSer) return;
-    if (
-      !availabeData.atm_simulations?.users?.includes(
-        availabeData.atm_simulations.currentUSer,
-      ) ||
-      !confirm("Do you really want to logout")
-    )
-      return;
+    if (!confirm("Do you really want to logout")) return;
+
     const userLoggedOut: Data = {
       ...availabeData,
       atm_simulations: {
@@ -198,7 +195,7 @@ const FakeAtm = () => {
       },
     };
     localStorage.setItem("AmosIdeaApp", JSON.stringify(userLoggedOut));
-    redirect("/fake-atm/");
+    redirect("/fake-atm/login");
   };
 
   return (
@@ -220,7 +217,7 @@ const FakeAtm = () => {
                     settings
                   </li>
                   <li
-                    onClick={handleLogOUt}
+                    onClick={() => handleLogOUt()}
                     className="cursor-pointer hover:underline text-blue-700"
                   >
                     LogOut
@@ -343,6 +340,7 @@ const FakeAtm = () => {
               />
               Transfer
             </span>
+            <Transfer />
             <span className=" servicesBoxUnderFakeAtmDashbord">
               <BiPhoneOutgoing size={40} className="my-0 mx-auto" />
               Airtime

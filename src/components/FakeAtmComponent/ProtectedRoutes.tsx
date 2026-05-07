@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Data } from "../data";
 
 export default function ProtectedRoute({
@@ -9,6 +9,7 @@ export default function ProtectedRoute({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const pathName = usePathname();
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
@@ -22,11 +23,12 @@ export default function ProtectedRoute({
     // 2. Is the phone number actually a value (not empty string/null/0)?
     const hasPhone = currentUser?.loginInfo?.isLoggedIn;
 
-    if (!currentUser || !hasPhone) {
+    if (!hasPhone) {
       console.log("Access Denied: No valid phone number found.");
-      router.replace("/fake-atm/");
+
+      return router.replace("/fake-atm/login");
     } else {
-      setIsAuthorized(true);
+      return setIsAuthorized(true);
     }
   }, [router]);
 

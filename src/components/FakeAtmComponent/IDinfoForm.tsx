@@ -143,7 +143,7 @@ const IDinfoForm = ({ checkForNin, ninNumber }: myProps) => {
               id="gender"
               className="idInfoInputNoWidth"
             >
-              <option value="" typeof="hidden"></option>
+              <option value=""></option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
