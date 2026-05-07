@@ -3,7 +3,8 @@ import { Data, masker, user } from "@/src/components/data";
 import AddMoneyModal from "@/src/components/FakeAtmComponent/features/AddMoneyModal";
 import Transfer from "@/src/components/FakeAtmComponent/features/Transfer";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
-import { redirect } from "next/navigation";
+import Link from "next/link";
+import { redirect, usePathname } from "next/navigation";
 import { Router } from "next/router";
 import React from "react";
 import {
@@ -32,6 +33,7 @@ const FakeAtm = () => {
   const [userOptions, setUserOptions] = React.useState<boolean>(false);
   const [showAddMoneyModal, setShowAddMoneyModal] =
     React.useState<boolean>(false);
+  const pathName = usePathname();
   //   {
   //   atm_simulations: {
   //     currentUSer: {
@@ -334,13 +336,13 @@ const FakeAtm = () => {
           </div>
           <div className="w-10/12 flex justify-around flex-row flex-wrap my-3 mx-auto">
             <span className=" servicesBoxUnderFakeAtmDashbord">
+              <Link href={`${pathName}/transfer`}>Transfer</Link>{" "}
               <BiTransfer
                 className="rotate-z-135  text-center my-0 mx-auto"
                 size={40}
               />
-              Transfer
             </span>
-            <Transfer />
+
             <span className=" servicesBoxUnderFakeAtmDashbord">
               <BiPhoneOutgoing size={40} className="my-0 mx-auto" />
               Airtime

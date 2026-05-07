@@ -20,7 +20,7 @@ const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
       </select>
       <input
         type="text"
-        value={Number(numberValue).toString() ?? ""}
+        value={numberValue ?? ""}
         name="text"
         id="number"
         placeholder="Phone number"
