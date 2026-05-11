@@ -134,6 +134,7 @@ export type user = {
         other?: string | number;
       },
     ];
+    beneficiaries?: [];
   };
   bankDatails?: {
     acc_no: string | number;

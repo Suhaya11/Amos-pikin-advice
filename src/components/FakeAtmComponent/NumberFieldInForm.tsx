@@ -28,7 +28,7 @@ const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
         onChange={(e) => {
           const val = e.target.value;
           // Only allow digits and limit to 11 characters
-          if (/^\d*$/.test(val) && val.length <= 11) {
+          if (/^\d*$/.test(val) && val.length <= 10) {
             setNumberValue(val === "" ? undefined : Number(val).toString());
           }
         }}

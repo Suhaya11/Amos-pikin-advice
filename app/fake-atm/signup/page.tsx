@@ -153,13 +153,13 @@ const page = () => {
         const updatedUsers: user[] | undefined =
           currentData.atm_simulations?.users?.map((e) => {
             return { ...e, loginInfo: { ...e.loginInfo, isLoggedIn: false } };
-          });
+          }) || [];
 
         const newData: Data = {
           ...currentData,
           atm_simulations: {
             currentUSer: user,
-            users: [...updatedUsers!, user],
+            users: [...updatedUsers, user],
           },
         };
         localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));

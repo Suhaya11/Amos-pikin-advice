@@ -1,14 +1,20 @@
 "use client";
-import { user } from "@/src/components/data";
+import { Data, user } from "@/src/components/data";
 import GetUserFromDb from "@/src/components/FakeAtmComponent/features/GetUserFromDb";
+import SendMoney from "@/src/components/FakeAtmComponent/features/SendMoney";
 import React from "react";
+import { BiSolidToggleLeft, BiSolidToggleRight } from "react-icons/bi";
 
 const page = () => {
   const [err, setErr] = React.useState<string>("");
-  const [acc_no, setAcc_no] = React.useState<string>("");
+  const [acc_no, setAcc_no] = React.useState<string>("9075898883");
   const [bank_name, setBank_name] = React.useState<string>("suhayaPoint");
   const [person_name, setPerson_name] = React.useState<string>("");
   const [userFound1, setUSerFound1] = React.useState<user | undefined>();
+  const [benef, setBenef] = React.useState<boolean>(false);
+  const [amount, setAmount] = React.useState<number>(0);
+  const [narration, setNarration] = React.useState<string | undefined>("");
+  const [wantToSend, setWantToSend] = React.useState<boolean>(false);
   return (
     <div>
       <div className=" w-full h-full  ">
@@ -27,6 +33,7 @@ const page = () => {
               onChange={(e) => {
                 if (isNaN(Number(e.currentTarget.value))) return;
                 if (e.currentTarget.value.length > 10) return;
+                setPerson_name("");
                 setAcc_no(e.currentTarget.value);
               }}
               type="text"
@@ -54,17 +61,141 @@ const page = () => {
               readOnly
               className="border-4 rounded-2xl bg-gray-200 border-white p-2 outline-none"
             />
-            <GetUserFromDb
-              setErr={setErr}
-              setPerson_name={setPerson_name}
-              acc_no={acc_no}
-              bank_name={bank_name}
-              setUserFound={setUSerFound1}
-            />
+            {person_name && (
+              <div>
+                <div>
+                  <label htmlFor="amount">Amount</label>
+                  <input
+                    value={amount ? amount : ""}
+                    onChange={(e) => {
+                      if (
+                        isNaN(Number(e.currentTarget.value)) ||
+                        amount.toString().length > 8
+                      )
+                        return;
+                      setAmount(Number(e.currentTarget.value));
+                    }}
+                    type="text"
+                    id="amount"
+                    className="border-4 rounded-2xl bg-gray-200 border-white p-2 outline-none"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="narr">Narration</label>
+                  <input
+                    onChange={(e) => {
+                      if (
+                        e.currentTarget.value.includes("=") ||
+                        e.currentTarget.value.includes("/") ||
+                        e.currentTarget.value.includes("!") ||
+                        e.target.value.includes("|")
+                      ) {
+                        setErr(
+                          `invalid character [  ${e.target.value.at(-1)}  ] blocked due to security reasons`,
+                        );
+                        return;
+                      }
+                      if (e.currentTarget.value.length > 30) {
+                        setErr("maximum narration is 30 characters");
+                      }
+                      setErr("");
+                      setNarration(e.currentTarget.value);
+                    }}
+                    value={narration}
+                    className="border-4 rounded-2xl bg-gray-200 border-white p-2
+                  outline-none"
+                    type="text"
+                    id="narr"
+                  />
+                  <div className="flex justify-end w-10/12 my-3 mx-auto">
+                    <label htmlFor="benef">Save beneficiary</label>
+
+                    {!benef ? (
+                      <BiSolidToggleLeft
+                        className="inline-block ml-3"
+                        id="benef"
+                        size={30}
+                        onClick={() => setBenef(true)}
+                      />
+                    ) : (
+                      <BiSolidToggleRight
+                        id="benef"
+                        onClick={() => setBenef(false)}
+                        fill="blue"
+                        className="inline-block ml-3"
+                        size={30}
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+            {person_name == "" ? (
+              <GetUserFromDb
+                setErr={setErr}
+                setPerson_name={setPerson_name}
+                acc_no={acc_no}
+                bank_name={bank_name}
+                setUserFound={setUSerFound1}
+              />
+            ) : (
+              <>
+                <div>
+                  <div className="flex justify-end w-10/12 my-0 mx-auto">
+                    <button
+                      onClick={() => {
+                        const query = localStorage.getItem("AmosIdeaApp");
+                        if (!query) return;
+                        const localData: Data = JSON.parse(query);
+                        if (
+                          userFound1?.bankDatails?.acc_bank != bank_name ||
+                          userFound1.bankDatails.acc_name != person_name ||
+                          userFound1.bankDatails.acc_no != acc_no
+                        ) {
+                          setErr("Please check you credentials ");
+                          return;
+                        }
+                        if (
+                          userFound1.bankDatails.acc_bank ==
+                            localData.atm_simulations?.currentUSer?.bankDatails
+                              ?.acc_bank &&
+                          userFound1.bankDatails.acc_no ==
+                            localData.atm_simulations.currentUSer.bankDatails
+                              .acc_no
+                        ) {
+                          setErr("You cannot send money to your account");
+                          return;
+                        }
+                        setWantToSend(true);
+                      }}
+                      className="border-3 p-2 px-4 bg-blue-600 hover:bg-blue-900 text-white font-bold capitalize text-xl rounded-3xl border-blue-500"
+                    >
+                      send
+                    </button>
+                  </div>
+                </div>
+                <SendMoney
+                  setErr={setErr}
+                  acc_no={acc_no}
+                  person_name={person_name}
+                  narration={narration}
+                  bank_name={bank_name}
+                  amount={amount}
+                  benef={benef}
+                  userFound1={userFound1}
+                />
+              </>
+            )}
           </div>
+
           <div>{err}</div>
         </form>
       </div>
+      {true && (
+        <div>
+          <div className="w-full h-full absolute top-0 left-0 bg-violet-700 opacity-25"></div>
+        </div>
+      )}
     </div>
   );
 };
