@@ -101,40 +101,49 @@ export const myData: Data = {
   decisions: [],
   timeGreetings: [],
 };
-
+export type reciever = {
+  name?: string;
+  acc_number?: number | string;
+  transac_string?: string;
+};
+export type incomingTransaction = {
+  amount?: number;
+  sender?: {
+    name?: string;
+    acc_number?: number | string;
+    transac_string?: string;
+    bank?: string;
+  };
+  time?: Date;
+  reason?: string;
+  other?: string | number;
+};
+export type outgoingTransaction = {
+  amount?: number;
+  reciever?: {
+    name?: string;
+    acc_number?: number | string;
+    transac_string?: string;
+    bank?: string;
+  };
+  time?: Date;
+  reason?: string;
+  other?: string | number;
+};
+export type benef = {
+  name?: string;
+  acc_no?: string | number;
+  bank?: string;
+};
 export type user = {
   income?: {
-    transactions?: [
-      {
-        amount: number;
-        sender: {
-          name: string;
-          acc_number: number | string;
-          transac_string: string;
-        };
-        time: Date;
-        reason?: string;
-        other?: string | number;
-      },
-    ];
+    transactions?: incomingTransaction[];
     total: number;
   };
   spent?: {
-    total: number;
-    transactions: [
-      {
-        amount: number;
-        reciever: {
-          name: string;
-          acc_number: number | string;
-          transac_string: string;
-        };
-        time: Date;
-        reason?: string;
-        other?: string | number;
-      },
-    ];
-    beneficiaries?: [];
+    total?: number;
+    transactions?: incomingTransaction[];
+    beneficiaries?: benef[];
   };
   bankDatails?: {
     acc_no: string | number;
@@ -163,15 +172,10 @@ export type user = {
       | undefined;
   };
   cardInfo?: {
-    cardNo: string;
-    cardPin: string;
-    cardHolder: string;
-    code: number;
-    bankName: string;
-    cardBalance?: {
-      income: number;
-      spent: number;
-    };
+    cardNo?: string;
+    cardPin?: string;
+
+    code?: number | string;
   };
 };
 export type idDetails = {

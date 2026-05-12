@@ -14,7 +14,7 @@ export default function ProtectedRoute({
 
   useEffect(() => {
     const query = localStorage.getItem("AmosIdeaApp");
-
+    if (!query) return router.replace("/fake-atm/");
     const theData: Data = JSON.parse(query ? query : "{}");
     const currentUser = theData?.atm_simulations?.currentUSer;
 

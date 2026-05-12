@@ -33,6 +33,8 @@ const FakeAtm = () => {
   const [userOptions, setUserOptions] = React.useState<boolean>(false);
   const [showAddMoneyModal, setShowAddMoneyModal] =
     React.useState<boolean>(false);
+  const [totalincome, settotalincome] = React.useState<number | undefined>(0);
+  const [totalspent, settotalspent] = React.useState<number | undefined>(0);
   const pathName = usePathname();
   //   {
   //   atm_simulations: {
@@ -170,6 +172,8 @@ const FakeAtm = () => {
         setLocalData(myCurrentData);
         if (localData?.atm_simulations?.currentUSer)
           setCurrentUser(localData?.atm_simulations?.currentUSer);
+        settotalincome(currentUser?.income?.total);
+        settotalspent(currentUser?.spent?.total);
       }
     } else {
       localStorage.setItem("AmosIdeaApp", JSON.stringify(localData));
@@ -277,7 +281,9 @@ const FakeAtm = () => {
                   <>
                     <span className="uppercase line-through ">n</span>{" "}
                     <span className="select-none">
-                      {currentUser?.income?.total || 0}
+                      {localData.atm_simulations?.currentUSer?.income?.total! -
+                        localData.atm_simulations?.currentUSer?.spent?.total! ||
+                        0}
                     </span>
                     <span>
                       <BiHide
@@ -292,7 +298,14 @@ const FakeAtm = () => {
                       n
                     </span>{" "}
                     <span className="select-none">
-                      {masker(`${currentUser?.income?.total || 0}`)}
+                      {masker(
+                        `${
+                          localData.atm_simulations?.currentUSer?.income
+                            ?.total! -
+                            localData.atm_simulations?.currentUSer?.spent
+                              ?.total! || 0
+                        }`,
+                      )}
                     </span>
                     <span>
                       <BiShow
