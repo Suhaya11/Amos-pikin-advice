@@ -117,7 +117,7 @@ const NINVerificationPage = ({
             currentUSer: updatedCurrentUser,
             users: theData.atm_simulations?.users?.map((user) => {
               if (
-                user.bankDatails?.acc_no ===
+                user.bankDatails?.acc_no ==
                 updatedCurrentUser.bankDatails?.acc_no
               )
                 return {

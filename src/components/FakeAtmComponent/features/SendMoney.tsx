@@ -35,10 +35,10 @@ const SendMoney = ({
     if (!query) return;
     const localData: Data = JSON.parse(query);
     const thesender: user | undefined = localData.atm_simulations?.currentUSer;
-    // if (enteredPin != thesender?.cardInfo?.cardPin) {
-    //   setErr("wrong pin");
-    //   return;
-    // }
+    if (enteredPin != thesender?.cardInfo?.cardPin) {
+      setErr("wrong pin");
+      return;
+    }
     if (!thesender) return;
     const reciever: user | undefined = localData.atm_simulations?.users?.find(
       (user) =>
@@ -60,20 +60,8 @@ const SendMoney = ({
       return;
     }
     if (
-      Number(
-        thesender.income?.transactions?.reduce(
-          (prv, crr) => prv + crr.amount!,
-          0,
-        ),
-      ) -
-        Number(
-          thesender.spent?.transactions?.reduce(
-            (prv, crr) => prv + crr.amount!,
-            0,
-          ),
-        ) <
-        Number(amount) &&
-      false
+      Number(thesender.income?.total) - Number(thesender.spent?.total) <
+      Number(amount)
     ) {
       setErr("Insufficent funds");
       return;
@@ -129,22 +117,86 @@ const SendMoney = ({
         ]
       : [...thesender.spent?.beneficiaries!];
 
-    const updatedTransactionForSender = thesender.spent?.transactions?.length
+    const updatedTransactionForSender: outgoingTransaction[] = thesender.spent
+      ?.transactions?.length
       ? [...thesender.spent?.transactions, newTransactionOut]
-      : [newTransactionIn];
+      : [newTransactionOut];
 
     const updatedCurrentUser: user | undefined = {
       ...thesender,
       spent: {
-        total: thesender.spent?.transactions?.reduce(
-          (prv, crr) => prv + crr.amount!,
-          0,
-        ),
+        total:
+          thesender.spent?.transactions?.reduce(
+            (prv, crr) => prv + crr.amount!,
+            0,
+          ) || amount,
         transactions: updatedTransactionForSender,
         beneficiaries: [...updatedBeneficiaries],
       },
     };
-    console.error(updatedCurrentUser, updatedReciever);
+    const updatedUsers: user[] | undefined =
+      localData.atm_simulations?.users?.map((user) => {
+        if (
+          user.bankDatails?.acc_bank ==
+            updatedCurrentUser.bankDatails?.acc_bank &&
+          user.bankDatails?.acc_no == updatedCurrentUser.bankDatails?.acc_no &&
+          user.cardInfo?.cardNo == updatedCurrentUser.cardInfo?.cardNo &&
+          user.cardInfo?.cardPin == updatedCurrentUser.cardInfo?.cardPin &&
+          user.cardInfo?.code == updatedCurrentUser.cardInfo?.code &&
+          user.loginInfo?.isLoggedIn &&
+          user.loginInfo.password == updatedCurrentUser.loginInfo?.password &&
+          user.loginInfo.phoneNumber ==
+            updatedCurrentUser.loginInfo?.phoneNumber &&
+          user.loginInfo.username == updatedCurrentUser.loginInfo?.username
+        ) {
+          console.error("wow");
+
+          return { ...updatedCurrentUser };
+        }
+
+        if (
+          user.bankDatails?.acc_bank == updatedReciever.bankDatails?.acc_bank &&
+          user.bankDatails?.acc_no == updatedReciever.bankDatails?.acc_no &&
+          user.bankDatails?.acc_name == updatedReciever.bankDatails?.acc_name &&
+          user.cardInfo?.cardNo == updatedReciever.cardInfo?.cardNo &&
+          user.cardInfo?.cardPin == updatedReciever.cardInfo?.cardPin &&
+          user.cardInfo?.code == updatedReciever.cardInfo?.code &&
+          user.loginInfo?.isLoggedIn == false &&
+          user.loginInfo.password == updatedReciever.loginInfo?.password &&
+          user.loginInfo.phoneNumber ==
+            updatedReciever.loginInfo?.phoneNumber &&
+          user.loginInfo.username == updatedReciever.loginInfo?.username
+        ) {
+          console.error("Ah reciever");
+          return { ...updatedReciever };
+        }
+        // console.error(
+        //   user.bankDatails?.acc_bank ==
+        //     updatedCurrentUser.bankDatails?.acc_bank &&
+        //     user.bankDatails?.acc_no ==
+        //       updatedCurrentUser.bankDatails?.acc_no &&
+        //     user.cardInfo?.cardNo == updatedCurrentUser.cardInfo?.cardNo &&
+        //     user.cardInfo?.cardPin == updatedCurrentUser.cardInfo?.cardPin &&
+        //     user.cardInfo?.code == updatedCurrentUser.cardInfo?.code &&
+        //     user.loginInfo?.password ==
+        //       updatedCurrentUser.loginInfo?.password &&
+        //     user.loginInfo?.phoneNumber ==
+        //       updatedCurrentUser.loginInfo?.phoneNumber,
+        // );
+        // console.error("hh none of the above", user);
+        return user;
+      });
+    const updatedData: Data = {
+      ...localData,
+      atm_simulations: {
+        ...localData.atm_simulations,
+        currentUSer: updatedCurrentUser,
+        users: updatedUsers,
+      },
+    };
+    // localStorage.setItem("AmosIdeaApp",JSON.stringify(updatedData));
+    console.error(updatedUsers);
+    console.error(updatedCurrentUser);
   };
 
   return (
