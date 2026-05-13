@@ -1,9 +1,10 @@
 import React from "react";
 import { Data, user } from "../../data";
+import { error } from "console";
 type myProp = {
   acc_no: string;
-  setPerson_name: React.Dispatch<React.SetStateAction<string>>;
-  bank_name: string;
+  setPerson_name: React.Dispatch<React.SetStateAction<string | undefined>>;
+  bank_name: string | undefined;
 
   setUserFound: React.Dispatch<React.SetStateAction<user | undefined>>;
 
@@ -35,6 +36,21 @@ const GetUserFromDb = ({
           user.bankDatails?.acc_bank == bank_name,
       )
     ) {
+      console.error(
+        localData.atm_simulations?.users?.map((user) =>
+          Number(user.bankDatails?.acc_no).toString() == acc_no ||
+          user.bankDatails?.acc_bank == bank_name
+            ? console.error(
+                user.bankDatails?.acc_bank,
+                "and ",
+                bank_name,
+                user?.bankDatails?.acc_no,
+                "and ",
+                acc_no,
+              )
+            : false,
+        ),
+      );
       setErr("Incorrect bank Details");
       setPerson_name("");
       setUserFound(undefined);
@@ -52,11 +68,11 @@ const GetUserFromDb = ({
     const theUser: user | undefined = localData.atm_simulations.users.find(
       (user) =>
         user.bankDatails?.acc_bank == bank_name &&
-        user.bankDatails.acc_no == acc_no,
+        user.bankDatails?.acc_no == acc_no,
     );
     if (
       theUser?.bankDatails?.acc_bank != bank_name ||
-      theUser.bankDatails.acc_no != acc_no
+      theUser?.bankDatails?.acc_no != acc_no
     ) {
       console.error(theUser);
       console.error(
@@ -68,13 +84,16 @@ const GetUserFromDb = ({
       return;
     } else {
       setUserFound(theUser);
-      setPerson_name(theUser.bankDatails.acc_name);
+      setPerson_name(theUser?.bankDatails?.acc_name);
     }
   };
   return (
     <div className="flex justify-end w-10/12 my-0 mx-auto">
       <button
-        onClick={verifyAcc}
+        onClick={() => {
+          console.error(acc_no);
+          verifyAcc();
+        }}
         className="border-3 p-2 px-4 bg-blue-600 hover:bg-blue-900 text-white font-bold capitalize text-xl rounded-3xl border-blue-500"
       >
         check

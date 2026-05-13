@@ -94,7 +94,10 @@ const LoginPage = () => {
   };
   const login = (pass: string | undefined) => {
     const query = localStorage.getItem("AmosIdeaApp");
-    const localData: Data = JSON.parse(query || "{}");
+    if (!query) {
+      redirect("/fake-atm");
+    }
+    const localData: Data = JSON.parse(query);
     if (
       !localData.atm_simulations?.users?.some(
         (user) =>
@@ -106,7 +109,7 @@ const LoginPage = () => {
     if (userWithTheNumber?.loginInfo?.password == pass) {
       // here there suppose to be an encryption
       const updatedCurrentUser: user = {
-        ...localData.atm_simulations.currentUSer,
+        ...userWithTheNumber,
         loginInfo: {
           ...localData.atm_simulations.currentUSer?.loginInfo,
           isLoggedIn: true,
@@ -130,7 +133,7 @@ const LoginPage = () => {
         },
       };
       localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));
-      redirect("/fake-atm/login");
+      redirect("/fake-atm/dashbord");
     }
   };
   const handleChangeNumber = () => {

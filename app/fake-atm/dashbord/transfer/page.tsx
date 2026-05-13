@@ -4,13 +4,17 @@ import GetUserFromDb from "@/src/components/FakeAtmComponent/features/GetUserFro
 import SendMoney from "@/src/components/FakeAtmComponent/features/SendMoney";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
 import React from "react";
-import { BiSolidToggleLeft, BiSolidToggleRight } from "react-icons/bi";
+import {
+  BiSolidLeftArrowAlt,
+  BiSolidToggleLeft,
+  BiSolidToggleRight,
+} from "react-icons/bi";
 
 const page = () => {
   const [err, setErr] = React.useState<string>("");
-  const [acc_no, setAcc_no] = React.useState<string>("9075898883");
+  const [acc_no, setAcc_no] = React.useState<string>("");
   const [bank_name, setBank_name] = React.useState<string>("suhayaPoint");
-  const [person_name, setPerson_name] = React.useState<string>("");
+  const [person_name, setPerson_name] = React.useState<string | undefined>("");
   const [userFound1, setUSerFound1] = React.useState<user | undefined>();
   const [benef, setBenef] = React.useState<boolean>(false);
   const [amount, setAmount] = React.useState<number>(0);
@@ -187,6 +191,14 @@ const page = () => {
         {wantToSend && (
           <div>
             <div className="w-full h-full absolute top-0 left-0 bg-white ">
+              <BiSolidLeftArrowAlt
+                className="cursor-pointer"
+                size={40}
+                fill="blue"
+                onClick={() => {
+                  setWantToSend(false);
+                }}
+              />
               <div>
                 <form
                   action=""

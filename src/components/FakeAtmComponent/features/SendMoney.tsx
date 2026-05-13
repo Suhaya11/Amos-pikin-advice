@@ -8,9 +8,10 @@ import {
   reciever,
   user,
 } from "../../data";
+import { redirect } from "next/navigation";
 type myProps = {
   acc_no: string;
-  person_name: string;
+  person_name: string | undefined;
   bank_name: string;
   userFound1: user | undefined;
   benef: boolean;
@@ -44,7 +45,7 @@ const SendMoney = ({
       (user) =>
         user.loginInfo?.phoneNumber == userFound1?.loginInfo?.phoneNumber &&
         user.bankDatails?.acc_name == person_name &&
-        user.bankDatails.acc_no == acc_no &&
+        user.bankDatails?.acc_no == acc_no &&
         user.loginInfo?.password == userFound1?.loginInfo?.password &&
         user.bankDatails.acc_bank == bank_name,
     );
@@ -73,7 +74,7 @@ const SendMoney = ({
         acc_number: thesender.bankDatails?.acc_no,
         name: thesender.bankDatails?.acc_name,
         bank: thesender.bankDatails?.acc_bank,
-        transac_string: `SHY${thesender.bankDatails?.acc_no.toString().slice(4, -1)}${new Date().getTime()}`,
+        transac_string: `SHY${thesender.bankDatails?.acc_no?.toString().slice(4, -1)}${new Date().getTime()}`,
       },
       time: new Date(),
     };
@@ -88,7 +89,7 @@ const SendMoney = ({
         total:
           reciever?.income?.transactions?.reduce(
             (prv, crr) => prv + Number(crr.amount)!,
-            0,
+            Number(amount),
           ) || amount!,
         transactions: updatedTransactionForReceiver,
       },
@@ -101,14 +102,18 @@ const SendMoney = ({
         acc_number: reciever.bankDatails?.acc_no,
         name: reciever.bankDatails?.acc_name,
         bank: reciever.bankDatails?.acc_bank,
-        transac_string: `SHY${thesender.bankDatails?.acc_no.toString().slice(4, -1)}${new Date().getTime()}`,
+        transac_string: `SHY${thesender.bankDatails?.acc_no?.toString().slice(4, -1)}${new Date().getTime()}`,
       },
       time: new Date(),
     };
 
     const updatedBeneficiaries: benef[] = benef
       ? [
-          ...thesender.spent?.beneficiaries!,
+          ...thesender.spent?.beneficiaries?.filter(
+            (bene) =>
+              bene.acc_no != reciever.bankDatails?.acc_no &&
+              bene.bank != reciever.bankDatails?.acc_bank,
+          )!,
           {
             acc_no: reciever.bankDatails?.acc_no,
             name: reciever.bankDatails?.acc_name,
@@ -128,7 +133,7 @@ const SendMoney = ({
         total:
           thesender.spent?.transactions?.reduce(
             (prv, crr) => prv + crr.amount!,
-            0,
+            Number(amount),
           ) || amount,
         transactions: updatedTransactionForSender,
         beneficiaries: [...updatedBeneficiaries],
@@ -146,10 +151,9 @@ const SendMoney = ({
           user.loginInfo?.isLoggedIn &&
           user.loginInfo.password == updatedCurrentUser.loginInfo?.password &&
           user.loginInfo.phoneNumber ==
-            updatedCurrentUser.loginInfo?.phoneNumber &&
-          user.loginInfo.username == updatedCurrentUser.loginInfo?.username
+            updatedCurrentUser.loginInfo?.phoneNumber
         ) {
-          console.error("wow");
+          // console.error("wow");
 
           return { ...updatedCurrentUser };
         }
@@ -167,7 +171,7 @@ const SendMoney = ({
             updatedReciever.loginInfo?.phoneNumber &&
           user.loginInfo.username == updatedReciever.loginInfo?.username
         ) {
-          console.error("Ah reciever");
+          // console.error("Ah reciever");
           return { ...updatedReciever };
         }
         // console.error(
@@ -194,9 +198,10 @@ const SendMoney = ({
         users: updatedUsers,
       },
     };
-    // localStorage.setItem("AmosIdeaApp",JSON.stringify(updatedData));
-    console.error(updatedUsers);
-    console.error(updatedCurrentUser);
+    localStorage.setItem("AmosIdeaApp", JSON.stringify(updatedData));
+    redirect("/fake-atm/dashbord");
+    // console.error(updatedUsers);
+    // console.error(updatedCurrentUser);
   };
 
   return (

@@ -146,12 +146,12 @@ export type user = {
     beneficiaries?: benef[];
   };
   bankDatails?: {
-    acc_no: string | number;
-    acc_name: string;
-    acc_bank: string;
+    acc_no?: string | number;
+    acc_name?: string;
+    acc_bank?: string;
   };
   loginInfo?: {
-    isLoggedIn: boolean;
+    isLoggedIn?: boolean;
     phoneNumber?: string | undefined;
     password?: string | undefined;
     username?: string | undefined;

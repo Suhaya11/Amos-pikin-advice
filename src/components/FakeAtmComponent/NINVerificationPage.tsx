@@ -46,6 +46,10 @@ const NINVerificationPage = ({
       } else {
         const updatedCurrentUser: user = {
           ...theData.atm_simulations?.currentUSer,
+          bankDatails: {
+            ...theData.atm_simulations?.currentUSer?.bankDatails,
+            acc_name: `${ninDetails.personalInfo.lname} ${ninDetails.personalInfo.fName} ${ninDetails.personalInfo.sname}`,
+          },
           loginInfo: {
             ...theData.atm_simulations?.currentUSer?.loginInfo,
 
@@ -69,18 +73,7 @@ const NINVerificationPage = ({
                 user.bankDatails?.acc_no ===
                 updatedCurrentUser.bankDatails?.acc_no
               )
-                return {
-                  ...user,
-                  bankDatails: {
-                    ...user.bankDatails!,
-                    acc_name: `${ninDetails.personalInfo.lname} ${ninDetails.personalInfo.fName} ${ninDetails.personalInfo.sname}`,
-                  },
-                  loginInfo: {
-                    ...user.loginInfo,
-                    username: `${ninDetails.personalInfo.fName.slice(0, 1)}${ninDetails.personalInfo.lname.slice(0, 1)}@${user.loginInfo?.phoneNumber?.slice(7, -1)}`,
-                    nin: updatedCurrentUser?.loginInfo?.nin,
-                  },
-                };
+                return updatedCurrentUser;
               else return user;
             }),
           },
