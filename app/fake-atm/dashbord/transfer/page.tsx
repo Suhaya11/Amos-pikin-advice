@@ -40,7 +40,7 @@ const page = () => {
                 onChange={(e) => {
                   if (isNaN(Number(e.currentTarget.value))) return;
                   if (e.currentTarget.value.length > 10) return;
-                  setPerson_name("");
+
                   setAcc_no(e.currentTarget.value);
                 }}
                 type="text"
