@@ -89,7 +89,7 @@ const LoginPage = () => {
         setNumberVerified(true);
         setNumberExist(true);
         return user;
-      } else return user;
+      }
     });
   };
   const login = (pass: string | undefined) => {
@@ -111,7 +111,7 @@ const LoginPage = () => {
       const updatedCurrentUser: user = {
         ...userWithTheNumber,
         loginInfo: {
-          ...localData.atm_simulations.currentUSer?.loginInfo,
+          ...userWithTheNumber?.loginInfo,
           isLoggedIn: true,
         },
       };
@@ -146,7 +146,21 @@ const LoginPage = () => {
       ...availabeData,
       atm_simulations: {
         currentUSer: {},
-        users: availabeData.atm_simulations.users,
+        users: availabeData.atm_simulations?.users?.map((user) => {
+          if (
+            user.loginInfo?.phoneNumber ==
+              availabeData.atm_simulations?.currentUSer?.loginInfo
+                ?.phoneNumber &&
+            user.loginInfo?.password ==
+              availabeData.atm_simulations?.currentUSer?.loginInfo?.password &&
+            user.loginInfo?.isLoggedIn
+          )
+            return {
+              ...user,
+              loginInfo: { ...user.loginInfo, isLoggedIn: false },
+            };
+          else return user;
+        }),
       },
     };
     localStorage.setItem("AmosIdeaApp", JSON.stringify(userLoggedOut));
@@ -240,7 +254,25 @@ const LoginPage = () => {
               <BiSolidLeftArrowAlt
                 size={40}
                 fill="blue"
-                onClick={() => setNumberVerified(false)}
+                onClick={() => {
+                  const query = localStorage.getItem("AmosIdeaApp");
+                  if (!query) return;
+                  const localData: Data = JSON.parse(query);
+                  const updatedData: Data = {
+                    ...localData,
+                    atm_simulations: {
+                      ...localData.atm_simulations,
+                      currentUSer: {},
+                      users: localData.atm_simulations?.users,
+                    },
+                  };
+                  localStorage.setItem(
+                    "AmosIdeaApp",
+                    JSON.stringify(updatedData),
+                  );
+
+                  setNumberVerified(false);
+                }}
               />
               <div className="w-10/12 my-0 mx-auto">
                 <p className="font-bold">Welcome Back</p>

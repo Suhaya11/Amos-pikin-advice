@@ -55,7 +55,7 @@ const GetUserFromDb = ({
         user.bankDatails?.acc_bank == bank_name &&
         user.bankDatails?.acc_no == acc_no,
     );
-    console.error(theUser);
+
     if (
       theUser?.bankDatails?.acc_bank != bank_name ||
       theUser?.bankDatails?.acc_no != acc_no
@@ -67,6 +67,7 @@ const GetUserFromDb = ({
     } else {
       setUserFound(theUser);
       setPerson_name(theUser?.bankDatails?.acc_name);
+      setErr("");
     }
   };
   return (

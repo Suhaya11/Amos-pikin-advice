@@ -40,6 +40,7 @@ const SendMoney = ({
       setErr("wrong pin");
       return;
     }
+
     if (!thesender) return;
     const reciever: user | undefined = localData.atm_simulations?.users?.find(
       (user) =>

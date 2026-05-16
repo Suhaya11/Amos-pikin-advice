@@ -191,13 +191,29 @@ const FakeAtm = () => {
       ...availabeData,
       atm_simulations: {
         currentUSer: {
-          ...currentUser,
+          ...availabeData.atm_simulations.currentUSer,
           loginInfo: {
             ...availabeData.atm_simulations.currentUSer.loginInfo,
             isLoggedIn: false,
           },
         },
-        users: availabeData.atm_simulations.users,
+        users: availabeData.atm_simulations?.users?.map((user) => {
+          if (
+            user.loginInfo?.phoneNumber ==
+              availabeData.atm_simulations?.currentUSer?.loginInfo
+                ?.phoneNumber &&
+            user.loginInfo?.password ==
+              availabeData.atm_simulations?.currentUSer?.loginInfo?.password
+          ) {
+            return {
+              ...availabeData.atm_simulations?.currentUSer,
+              loginInfo: {
+                ...availabeData.atm_simulations?.currentUSer?.loginInfo,
+                isLoggedIn: false,
+              },
+            };
+          } else return user;
+        }),
       },
     };
     localStorage.setItem("AmosIdeaApp", JSON.stringify(userLoggedOut));

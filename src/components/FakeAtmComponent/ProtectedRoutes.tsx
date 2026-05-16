@@ -22,11 +22,22 @@ export default function ProtectedRoute({
     // 1. Does the user exist?
     // 2. Is the phone number actually a value (not empty string/null/0)?
     const hasPhone = currentUser?.loginInfo?.isLoggedIn;
-
-    if (!hasPhone) {
+    const noUsers = !theData.atm_simulations?.users?.length;
+    const notVerifed =
+      currentUser?.loginInfo?.nin?.vid.value == undefined ||
+      !currentUser?.loginInfo?.bvn;
+    if (noUsers) {
+      setIsAuthorized(true);
+      return router.replace("/fake-atm/");
+    } else if (!hasPhone) {
       console.log("Access Denied: No valid phone number found.");
 
       return router.replace("/fake-atm/login");
+      // } else if (notVerifed) {
+      //   {
+      //     setIsAuthorized(true);
+      //     return router.replace("/fake-atm/id-validation");
+      //   }
     } else {
       return setIsAuthorized(true);
     }
