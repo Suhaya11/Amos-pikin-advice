@@ -106,9 +106,10 @@ export type reciever = {
   acc_number?: number | string;
   transac_string?: string;
 };
-export type incomingTransaction = {
+export type transaction = {
+  type?: "in" | "out";
   amount?: number;
-  sender?: {
+  client?: {
     name?: string;
     acc_number?: number | string;
     transac_string?: string;
@@ -118,33 +119,36 @@ export type incomingTransaction = {
   reason?: string;
   other?: string | number;
 };
-export type outgoingTransaction = {
-  amount?: number;
-  reciever?: {
-    name?: string;
-    acc_number?: number | string;
-    transac_string?: string;
-    bank?: string;
-  };
-  time?: Date;
-  reason?: string;
-  other?: string | number;
-};
+// export type outgoingTransaction = {
+//   type?: "out" | "in";
+//   amount?: number;
+//   reciever?: {
+//     name?: string;
+//     acc_number?: number | string;
+//     transac_string?: string;
+//     bank?: string;
+//   };
+//   time?: Date;
+//   reason?: string;
+//   other?: string | number;
+// };
 export type benef = {
   name?: string;
   acc_no?: string | number;
   bank?: string;
 };
 export type user = {
-  income?: {
-    transactions?: incomingTransaction[];
-    total: number;
+  transactionData?: {
+    beneficiaries: benef[];
+    transactions?: transaction[];
+    totalIncome?: number;
+    totalSpent?: number;
   };
-  spent?: {
-    total?: number;
-    transactions?: incomingTransaction[];
-    beneficiaries?: benef[];
-  };
+  // spent?: {
+  //   total?: number;
+  //   transactions?: incomingTransaction[];
+  //   beneficiaries?: benef[];
+  // };
   bankDatails?: {
     acc_no?: string | number;
     acc_name?: string;

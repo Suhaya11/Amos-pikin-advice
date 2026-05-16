@@ -135,15 +135,12 @@ const page = () => {
       cardInfo: {
         cardNo: `${Math.random().toString().slice(2, -1)}`,
         cardPin: userPin,
-        code: `${Math.random().toString().slice(2, 6)}`,
+        code: `${Math.random().toString().slice(2, 5)}`,
       },
-      income: {
-        total: 1000, // This is to enable user to have some funds to practicals
+      transactionData: {
+        totalIncome: 1000, // This is to enable user to have some funds to practicals
         transactions: [],
-      },
-      spent: {
-        total: 0,
-        transactions: [],
+        totalSpent: 0,
         beneficiaries: [],
       },
     };

@@ -353,7 +353,10 @@ const FakeAtm = () => {
                 )}
               </span>
               <span className="bg-blue-800 p-1 px-3 rounded-2xl cursor-pointer">
-                <BiHistory className="inline" /> <span>history</span>
+                <BiHistory className="inline" />{" "}
+                <Link href={`${pathName}/transaction-history`}>
+                  <span>history</span>
+                </Link>
               </span>{" "}
             </div>
           </div>
@@ -365,11 +368,13 @@ const FakeAtm = () => {
           </div>
           <div className="w-10/12 flex justify-around flex-row flex-wrap my-3 mx-auto">
             <span className=" servicesBoxUnderFakeAtmDashbord">
-              <Link href={`${pathName}/transfer`}>Transfer</Link>{" "}
-              <BiTransfer
-                className="rotate-z-135  text-center my-0 mx-auto"
-                size={40}
-              />
+              <Link href={`${pathName}/transfer`}>
+                Transfer{" "}
+                <BiTransfer
+                  className="rotate-z-135  text-center my-0 mx-auto"
+                  size={40}
+                />
+              </Link>
             </span>
 
             <span className=" servicesBoxUnderFakeAtmDashbord">

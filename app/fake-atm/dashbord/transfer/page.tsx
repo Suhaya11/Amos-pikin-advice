@@ -3,6 +3,7 @@ import { Data, user } from "@/src/components/data";
 import GetUserFromDb from "@/src/components/FakeAtmComponent/features/GetUserFromDb";
 import SendMoney from "@/src/components/FakeAtmComponent/features/SendMoney";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
+import Link from "next/link";
 import React from "react";
 import {
   BiSolidLeftArrowAlt,
@@ -24,6 +25,9 @@ const page = () => {
   return (
     <ProtectedRoute>
       <div>
+        <Link href={"/fake-atm/dashbord"}>
+          <BiSolidLeftArrowAlt size={60} fill="blue" />
+        </Link>
         <div className=" w-full h-full  ">
           <h1 className="title">Transfer</h1>
           <form

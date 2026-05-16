@@ -1,13 +1,6 @@
 // "use client";
 import React from "react";
-import {
-  benef,
-  Data,
-  incomingTransaction,
-  outgoingTransaction,
-  reciever,
-  user,
-} from "../../data";
+import { benef, Data, reciever, transaction, user } from "../../data";
 import { redirect } from "next/navigation";
 type myProps = {
   acc_no: string;
@@ -62,16 +55,18 @@ const SendMoney = ({
       return;
     }
     if (
-      Number(thesender.income?.total) - Number(thesender.spent?.total) <
+      Number(thesender.transactionData?.totalIncome) -
+        Number(thesender.transactionData?.totalSpent) <
       Number(amount)
     ) {
       setErr("Insufficent funds");
       return;
     }
-    const newTransactionIn: incomingTransaction = {
+    const newTransactionIn: transaction = {
+      type: "in",
       amount: amount,
       reason: narration,
-      sender: {
+      client: {
         acc_number: thesender.bankDatails?.acc_no,
         name: thesender.bankDatails?.acc_name,
         bank: thesender.bankDatails?.acc_bank,
@@ -80,26 +75,37 @@ const SendMoney = ({
       time: new Date(),
     };
 
-    const updatedTransactionForReceiver = reciever.income?.transactions?.length
-      ? [...reciever.income?.transactions, newTransactionIn]
+    const updatedTransactionForReceiver = reciever.transactionData?.transactions
+      ?.length
+      ? [
+          ...reciever.transactionData?.transactions?.filter(
+            (tra) => tra.type == "out",
+          ),
+          newTransactionIn,
+        ]
       : [newTransactionIn];
 
     const updatedReciever: user | undefined = {
       ...reciever,
-      income: {
-        total:
-          reciever?.income?.transactions?.reduce(
-            (prv, crr) => prv + Number(crr.amount)!,
-            Number(amount),
-          ) || amount!,
+      transactionData: {
+        totalSpent: reciever.transactionData?.transactions
+          ?.filter((tra) => tra.type == "out")
+          .reduce((prv, crr) => prv + Number(crr.amount)!, amount || 0),
+        totalIncome:
+          reciever?.transactionData?.transactions
+            ?.filter((tra) => tra.type == "in")
+            ?.reduce((prv, crr) => prv + Number(crr.amount)!, Number(amount)) ||
+          amount!,
         transactions: updatedTransactionForReceiver,
+        beneficiaries: reciever.transactionData?.beneficiaries || [],
       },
     };
 
-    const newTransactionOut: outgoingTransaction = {
+    const newTransactionOut: transaction = {
+      type: "out",
       amount: amount,
       reason: narration,
-      reciever: {
+      client: {
         acc_number: reciever.bankDatails?.acc_no,
         name: reciever.bankDatails?.acc_name,
         bank: reciever.bankDatails?.acc_bank,
@@ -110,7 +116,7 @@ const SendMoney = ({
 
     const updatedBeneficiaries: benef[] = benef
       ? [
-          ...thesender.spent?.beneficiaries?.filter(
+          ...thesender.transactionData?.beneficiaries?.filter(
             (bene) =>
               bene.acc_no != reciever.bankDatails?.acc_no &&
               bene.bank != reciever.bankDatails?.acc_bank,
@@ -121,21 +127,24 @@ const SendMoney = ({
             bank: reciever.bankDatails?.acc_bank,
           },
         ]
-      : [...thesender.spent?.beneficiaries!];
+      : [...thesender.transactionData?.beneficiaries!];
 
-    const updatedTransactionForSender: outgoingTransaction[] = thesender.spent
+    const updatedTransactionForSender: transaction[] = thesender.transactionData
       ?.transactions?.length
-      ? [...thesender.spent?.transactions, newTransactionOut]
+      ? [...thesender.transactionData?.transactions, newTransactionOut]
       : [newTransactionOut];
 
     const updatedCurrentUser: user | undefined = {
       ...thesender,
-      spent: {
-        total:
-          thesender.spent?.transactions?.reduce(
-            (prv, crr) => prv + crr.amount!,
-            Number(amount),
-          ) || amount,
+      transactionData: {
+        totalIncome:
+          thesender.transactionData?.transactions
+            ?.filter((tra) => tra.type == "in")
+            .reduce((prv, crr) => prv + crr.amount!, Number(amount)) || amount,
+        totalSpent:
+          thesender.transactionData?.transactions
+            ?.filter((tra) => tra.type == "out")
+            .reduce((prv, crr) => prv + crr.amount!, Number(amount)) || amount,
         transactions: updatedTransactionForSender,
         beneficiaries: [...updatedBeneficiaries],
       },

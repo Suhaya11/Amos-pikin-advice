@@ -1,5 +1,5 @@
 "use client";
-import { Data, masker, user } from "@/src/components/data";
+import { Data, user } from "@/src/components/data";
 import LIcenceFooter from "@/src/components/FakeAtmComponent/LIcenceFooter";
 import Logo from "@/src/components/FakeAtmComponent/Logo";
 import NumberFieldInForm from "@/src/components/FakeAtmComponent/NumberFieldInForm";
