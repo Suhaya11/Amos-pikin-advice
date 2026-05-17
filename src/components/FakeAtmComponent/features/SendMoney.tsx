@@ -77,12 +77,7 @@ const SendMoney = ({
 
     const updatedTransactionForReceiver = reciever.transactionData?.transactions
       ?.length
-      ? [
-          ...reciever.transactionData?.transactions?.filter(
-            (tra) => tra.type == "out",
-          ),
-          newTransactionIn,
-        ]
+      ? [...reciever.transactionData?.transactions, newTransactionIn]
       : [newTransactionIn];
 
     const updatedReciever: user | undefined = {
@@ -116,18 +111,18 @@ const SendMoney = ({
 
     const updatedBeneficiaries: benef[] = benef
       ? [
-          ...thesender.transactionData?.beneficiaries?.filter(
+          ...(thesender.transactionData?.beneficiaries?.filter(
             (bene) =>
               bene.acc_no != reciever.bankDatails?.acc_no &&
               bene.bank != reciever.bankDatails?.acc_bank,
-          )!,
+          ) || []),
           {
             acc_no: reciever.bankDatails?.acc_no,
             name: reciever.bankDatails?.acc_name,
             bank: reciever.bankDatails?.acc_bank,
           },
         ]
-      : [...thesender.transactionData?.beneficiaries!];
+      : thesender.transactionData?.beneficiaries || [];
 
     const updatedTransactionForSender: transaction[] = thesender.transactionData
       ?.transactions?.length
@@ -137,10 +132,9 @@ const SendMoney = ({
     const updatedCurrentUser: user | undefined = {
       ...thesender,
       transactionData: {
-        totalIncome:
-          thesender.transactionData?.transactions
-            ?.filter((tra) => tra.type == "in")
-            .reduce((prv, crr) => prv + crr.amount!, Number(amount)) || amount,
+        totalIncome: thesender.transactionData?.transactions
+          ?.filter((tra) => tra.type == "in")
+          .reduce((prv, crr) => prv + crr.amount!, Number(amount)),
         totalSpent:
           thesender.transactionData?.transactions
             ?.filter((tra) => tra.type == "out")
