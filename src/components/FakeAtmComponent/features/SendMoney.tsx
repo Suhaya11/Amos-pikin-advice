@@ -25,6 +25,10 @@ const SendMoney = ({
   narration,
 }: myProps) => {
   const sendMoney = () => {
+    if (!amount) {
+      setErr("invalid request");
+      return;
+    }
     const query = localStorage.getItem("AmosIdeaApp");
     if (!query) return;
     const localData: Data = JSON.parse(query);
@@ -54,6 +58,11 @@ const SendMoney = ({
       setErr("You can literally not send money to your account!!");
       return;
     }
+    // console.error(
+    //   reciever?.transactionData?.transactions
+    //     ?.filter((tra) => tra.type == "in")
+    //     .reduce((prv, curr) => prv + curr.amount!, amount),
+    // );
     if (
       Number(thesender.transactionData?.totalIncome) -
         Number(thesender.transactionData?.totalSpent) <
@@ -63,6 +72,7 @@ const SendMoney = ({
       return;
     }
     const newTransactionIn: transaction = {
+      id: crypto.randomUUID(),
       type: "in",
       amount: amount,
       reason: narration,
@@ -80,23 +90,21 @@ const SendMoney = ({
       ? [...reciever.transactionData?.transactions, newTransactionIn]
       : [newTransactionIn];
 
+    const updatedIncome = reciever.transactionData?.totalIncome
+      ? reciever.transactionData?.totalIncome + amount
+      : amount;
     const updatedReciever: user | undefined = {
       ...reciever,
       transactionData: {
-        totalSpent: reciever.transactionData?.transactions
-          ?.filter((tra) => tra.type == "out")
-          .reduce((prv, crr) => prv + Number(crr.amount)!, amount || 0),
-        totalIncome:
-          reciever?.transactionData?.transactions
-            ?.filter((tra) => tra.type == "in")
-            ?.reduce((prv, crr) => prv + Number(crr.amount)!, Number(amount)) ||
-          amount!,
+        totalSpent: reciever.transactionData?.totalSpent,
+        totalIncome: updatedIncome || amount!,
         transactions: updatedTransactionForReceiver,
         beneficiaries: reciever.transactionData?.beneficiaries || [],
       },
     };
 
     const newTransactionOut: transaction = {
+      id: newTransactionIn.id,
       type: "out",
       amount: amount,
       reason: narration,
@@ -117,6 +125,7 @@ const SendMoney = ({
               bene.bank != reciever.bankDatails?.acc_bank,
           ) || []),
           {
+            id: reciever.id,
             acc_no: reciever.bankDatails?.acc_no,
             name: reciever.bankDatails?.acc_name,
             bank: reciever.bankDatails?.acc_bank,
@@ -129,16 +138,15 @@ const SendMoney = ({
       ? [...thesender.transactionData?.transactions, newTransactionOut]
       : [newTransactionOut];
 
+    const updatedSpent = thesender.transactionData?.totalSpent
+      ? thesender.transactionData?.totalSpent + amount
+      : amount;
+
     const updatedCurrentUser: user | undefined = {
       ...thesender,
       transactionData: {
-        totalIncome: thesender.transactionData?.transactions
-          ?.filter((tra) => tra.type == "in")
-          .reduce((prv, crr) => prv + crr.amount!, Number(amount)),
-        totalSpent:
-          thesender.transactionData?.transactions
-            ?.filter((tra) => tra.type == "out")
-            .reduce((prv, crr) => prv + crr.amount!, Number(amount)) || amount,
+        totalIncome: thesender.transactionData?.totalIncome,
+        totalSpent: updatedSpent || amount,
         transactions: updatedTransactionForSender,
         beneficiaries: [...updatedBeneficiaries],
       },

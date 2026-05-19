@@ -104,7 +104,7 @@ const PhoneNumberVerifySignUp = ({
             setAgreedWithNumber(true);
           else null;
         }}
-        className={`absolute bottom-0 text-center w-10/12 my-3 left-10 p-3 rounded-xl ${numberValue && numberValue?.toString().trim().length > 9 ? "bg-blue-700 text-white" : "bg-gray-300 text-gray-500"}`}
+        className={` my-20 mx-auto mt-40 text-center w-10/12  p-3 rounded-xl ${numberValue && numberValue?.toString().trim().length > 9 ? "bg-blue-700 text-white" : "bg-gray-300 text-gray-500"}`}
       >
         <strong className="select-none">Next</strong>
       </div>

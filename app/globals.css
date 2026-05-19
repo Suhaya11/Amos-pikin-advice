@@ -110,3 +110,11 @@ strong {
 .idInfoInputNoWidth {
   @apply outline-none border p-1 rounded-md  focus:border-blue-700;
 }
+.transaction-out {
+  color: red;
+  margin-block: 10px;
+}
+.transaction-in {
+  color: green;
+  margin-block: 10px;
+}

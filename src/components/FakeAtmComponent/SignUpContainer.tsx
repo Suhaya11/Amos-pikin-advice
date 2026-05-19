@@ -120,6 +120,7 @@ const SignupContainer = () => {
 
   const addUserFunction = () => {
     const user: user = {
+      id: crypto.randomUUID(),
       bankDatails: {
         acc_no: numberValue!,
         acc_name: "",

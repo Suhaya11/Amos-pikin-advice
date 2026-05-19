@@ -172,8 +172,8 @@ const FakeAtm = () => {
         setLocalData(myCurrentData);
         if (localData?.atm_simulations?.currentUSer)
           setCurrentUser(localData?.atm_simulations?.currentUSer);
-        settotalincome(currentUser?.income?.total);
-        settotalspent(currentUser?.spent?.total);
+        settotalincome(currentUser?.transactionData?.totalIncome);
+        settotalspent(currentUser?.transactionData?.totalSpent);
       }
     } else {
       localStorage.setItem("AmosIdeaApp", JSON.stringify(localData));
@@ -225,6 +225,15 @@ const FakeAtm = () => {
       <div className="bg-gray-50">
         <h1 className=" flex justify-between bg-white">
           <div>
+            <span
+              onClick={() => {
+                if (!prompt("really")) return;
+                localStorage.clear();
+                redirect("/fake-atm/");
+              }}
+            >
+              resetusers
+            </span>
             <BiUser
               onClick={() => setUserOptions(!userOptions)}
               className="text-4xl inline-block mr-3 border p-1 rounded-full"
@@ -297,9 +306,10 @@ const FakeAtm = () => {
                   <>
                     <span className="uppercase line-through ">n</span>{" "}
                     <span className="select-none">
-                      {localData.atm_simulations?.currentUSer?.income?.total! -
-                        localData.atm_simulations?.currentUSer?.spent?.total! ||
-                        0}
+                      {localData.atm_simulations?.currentUSer?.transactionData
+                        ?.totalIncome! -
+                        localData.atm_simulations?.currentUSer?.transactionData
+                          ?.totalSpent! || 0}
                     </span>
                     <span>
                       <BiHide
@@ -316,10 +326,10 @@ const FakeAtm = () => {
                     <span className="select-none">
                       {masker(
                         `${
-                          localData.atm_simulations?.currentUSer?.income
-                            ?.total! -
-                            localData.atm_simulations?.currentUSer?.spent
-                              ?.total! || 0
+                          localData.atm_simulations?.currentUSer
+                            ?.transactionData?.totalIncome! -
+                            localData.atm_simulations?.currentUSer
+                              ?.transactionData?.totalSpent! || 0
                         }`,
                       )}
                     </span>

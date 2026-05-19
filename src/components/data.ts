@@ -107,6 +107,7 @@ export type reciever = {
   transac_string?: string;
 };
 export type transaction = {
+  id: string;
   type?: "in" | "out";
   amount?: number;
   client?: {
@@ -133,11 +134,13 @@ export type transaction = {
 //   other?: string | number;
 // };
 export type benef = {
+  id?: string;
   name?: string;
   acc_no?: string | number;
   bank?: string;
 };
 export type user = {
+  id?: string;
   transactionData?: {
     beneficiaries: benef[];
     transactions?: transaction[];
@@ -267,3 +270,9 @@ export const alradyExist = (
 //   return savedData;
 // };
 // export const thedaata = dataRetriver();
+export const refactorDate = function (
+  date: Date,
+  seperator: "/" | "-" | ":" | "=" | "_",
+): string {
+  return `${new Date(date).getDay()}${seperator}${new Date(date).getMonth()}${seperator}${new Date(date).getFullYear()}`;
+};

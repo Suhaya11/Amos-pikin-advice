@@ -10,6 +10,7 @@ import PhoneNumberVerifySignUp from "@/src/components/FakeAtmComponent/PhoneNumb
 import PinCreationPage from "@/src/components/FakeAtmComponent/PinCreationPage";
 import UserConsentPageOnSignUp from "@/src/components/FakeAtmComponent/UserConsentPageOnSignUp";
 import VerifyEmail from "@/src/components/FakeAtmComponent/VerifyEmail";
+import { randomUUID } from "crypto";
 import { redirect } from "next/navigation";
 
 import React from "react";
@@ -119,6 +120,7 @@ const FakeAtmContext = (children: React.ReactElement): React.ReactNode => {
 
   const addUserFunction = () => {
     const user: user = {
+      id: randomUUID(),
       bankDatails: {
         acc_no: numberValue!,
         acc_name: "",

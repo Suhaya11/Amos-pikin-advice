@@ -8,7 +8,7 @@ type myProps = {
 };
 const LongNextButton = (props: myProps) => {
   return (
-    <div className="absolute w-10/12 bottom-0 left-13">
+    <div className=" my-10 mx-auto w-10/12 bottom-0 left-13">
       <button
         onClick={props.actionToDo}
         disabled={!props.termsAcepted || !props.agreedWithDataProcessingConsent}

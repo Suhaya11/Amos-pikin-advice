@@ -1,14 +1,19 @@
 "use client";
-import { Data, transaction } from "@/src/components/data";
+import { Data, refactorDate, transaction } from "@/src/components/data";
+import Logo from "@/src/components/FakeAtmComponent/Logo";
 
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
 import Link from "next/link";
 
 import React from "react";
-import { BiSolidLeftArrowAlt } from "react-icons/bi";
+import { BiDownload, BiSolidLeftArrowAlt } from "react-icons/bi";
 
 const Transaction_history = () => {
   const [transactions, setTracsactions] = React.useState<transaction[]>([]);
+  const [transactiontoview, setTransactiontoview] =
+    React.useState<transaction>();
+  const [viewOne, setViewOne] = React.useState<boolean>(false);
+
   React.useEffect(() => {
     const querty = localStorage.getItem("AmosIdeaApp");
     if (!querty) return;
@@ -22,29 +27,102 @@ const Transaction_history = () => {
       ]);
     }
   }, []);
+
   return (
     <ProtectedRoute>
-      <div>
-        <Link href={"/fake-atm/dashbord"}>
-          <BiSolidLeftArrowAlt size={40} fill="blue" />
-        </Link>
+      {!viewOne ? (
         <div>
-          <h2 className="title">Transaction history</h2>
+          <Link href={"/fake-atm/dashbord"}>
+            <BiSolidLeftArrowAlt size={40} fill="blue" />
+          </Link>
+          <div>
+            <h2 className="title">Transaction history</h2>
+          </div>
+          {transactions.length ? (
+            <>
+              <div className="bg-gray-200">
+                {transactions.map(
+                  (transaction) =>
+                    transaction && (
+                      <p
+                        key={transaction.id}
+                        className={` cursor-pointer flex justify-between w-11/12 my-5 mx-auto pt-3`}
+                        onClick={() => {
+                          setTransactiontoview(transaction);
+                          setViewOne(true);
+                        }}
+                      >
+                        <span className="mr">{transaction.client?.name}</span>
+                        <span>{refactorDate(transaction.time!, "-")}</span>
+                        <span
+                          className={`transaction-${transaction.type} inline-block mr-4`}
+                        >
+                          {transaction.amount} $
+                        </span>
+                      </p>
+                    ),
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-yellow-400">hi</div>
+            </>
+          )}
         </div>
-        {transactions.length ? (
-          <>
-            <div className="bg-yellow-700">
-              {transactions.map((transaction) => (
-                <div key={transaction.time?.toString()}>{}</div>
-              ))}
+      ) : (
+        <div>
+          <BiSolidLeftArrowAlt
+            size={50}
+            fill="blue"
+            onClick={() => {
+              setViewOne(false);
+              setTransactiontoview(undefined);
+            }}
+          ></BiSolidLeftArrowAlt>
+          <div className="flex justify-center my-2 mx-auto  w-10/12 mt-10">
+            <Logo />
+          </div>
+          <h1 className="text-center text-5xl">{transactiontoview?.amount}$</h1>
+          <div className=" w-10/12  my-2 mx-auto">
+            <div className="my-4 flex justify-between">
+              <span>
+                {transactiontoview?.type == "in" ? "Sender:" : "Reciever:"}
+              </span>{" "}
+              <span>{transactiontoview?.client?.name}</span>
             </div>
-          </>
-        ) : (
-          <>
-            <div className="bg-yellow-400">hi</div>
-          </>
-        )}
-      </div>
+            <div className="my-4 flex justify-between">
+              <span>type:</span>{" "}
+              <span>
+                {transactiontoview?.type == "in" ? "incomming" : "outgoing"}
+              </span>
+            </div>
+            <div className="my-4 flex justify-between">
+              <span>Date:</span>{" "}
+              <span>
+                {refactorDate(transactiontoview?.time!, "-") ==
+                refactorDate(new Date(), "-")
+                  ? "Today"
+                  : refactorDate(transactiontoview?.time!, "-")}{" "}
+                by{" "}
+                {new Date(transactiontoview?.time!).toTimeString().slice(0, 8)}
+              </span>
+            </div>
+            <div className="my-4 flex justify-between">
+              <span>Transaction Id:</span>{" "}
+              <span>{transactiontoview?.id.slice(0, 20)}</span>
+            </div>
+            <div className="flex justify-center">
+              <span
+                onClick={() => window.print()}
+                className="bg-blue-700 text-white p-1 rounded-2xl text-2xl"
+              >
+                <BiDownload className="inline-block" /> Download
+              </span>{" "}
+            </div>
+          </div>
+        </div>
+      )}
     </ProtectedRoute>
   );
 };

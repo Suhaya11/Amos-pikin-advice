@@ -60,7 +60,7 @@ const AncikaKaida = ({ setAncikaKaida }: myProps) => {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-5 w-full">
+      <div className=" mt-40 w-full">
         {" "}
         <p
           className="text-white rounded-lg w-8/12 my-0 mx-auto text-center p-3 bg-blue-700"

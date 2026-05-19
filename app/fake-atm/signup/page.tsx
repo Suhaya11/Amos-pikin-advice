@@ -138,7 +138,7 @@ const page = () => {
         code: `${Math.random().toString().slice(2, 5)}`,
       },
       transactionData: {
-        totalIncome: 1000, // This is to enable user to have some funds to practicals
+        totalIncome: 10000, // This is to enable user to have some funds to practicals
         transactions: [],
         totalSpent: 0,
         beneficiaries: [],
