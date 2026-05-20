@@ -106,9 +106,18 @@ export type reciever = {
   acc_number?: number | string;
   transac_string?: string;
 };
+export type airtime_Data = {
+  network?: "mtn" | "airtel" | "glo" | "9mobile";
+  amount?: number;
+  client?: string;
+  price?: string;
+  type?: "airtime" | "data";
+  time?: Date;
+  id: string;
+};
 export type transaction = {
   id: string;
-  type?: "in" | "out";
+  type?: "in" | "out" | "airtime" | "data";
   amount?: number;
   client?: {
     name?: string;
@@ -118,7 +127,7 @@ export type transaction = {
   };
   time?: Date;
   reason?: string;
-  other?: string | number;
+  other?: string;
 };
 // export type outgoingTransaction = {
 //   type?: "out" | "in";
@@ -142,6 +151,8 @@ export type benef = {
 export type user = {
   id?: string;
   transactionData?: {
+    airtime?: airtime_Data[];
+    data?: airtime_Data[];
     beneficiaries: benef[];
     transactions?: transaction[];
     totalIncome?: number;

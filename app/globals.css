@@ -25,6 +25,9 @@ body {
 body {
   cursor: default;
 }
+input {
+  outline: none;
+}
 .navLink {
   @apply cursor-pointer bg-violet-200 p-2 rounded-xl text-left w-full;
 }

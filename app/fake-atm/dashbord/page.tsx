@@ -388,9 +388,13 @@ const FakeAtm = () => {
             </span>
 
             <span className=" servicesBoxUnderFakeAtmDashbord">
-              <BiPhoneOutgoing size={40} className="my-0 mx-auto" />
-              Airtime
+              <Link href={`${pathName}/airtime`}>
+                {" "}
+                <BiPhoneOutgoing size={40} className="my-0 mx-auto" />
+                Airtime{" "}
+              </Link>
             </span>
+
             <span className=" servicesBoxUnderFakeAtmDashbord">
               <BiMobileAlt size={40} className="my-0 mx-auto" />
               Data
