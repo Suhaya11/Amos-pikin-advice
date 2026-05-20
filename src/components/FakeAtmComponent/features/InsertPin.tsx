@@ -1,6 +1,13 @@
 "use client";
 import React from "react";
-import { airtime_Data, Data, masker, transaction, user } from "../../data";
+import {
+  airtime_Data,
+  benef,
+  Data,
+  masker,
+  transaction,
+  user,
+} from "../../data";
 import Link from "next/link";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import { redirect } from "next/navigation";
@@ -14,9 +21,11 @@ type myProps = {
   service: "airtime" | "data";
   setErr: React.Dispatch<React.SetStateAction<string | undefined>>;
   err: string | undefined;
+  benef: boolean;
 };
 
 const InsertPin = ({
+  benef,
   setSending,
   setErr,
   user,
@@ -49,6 +58,7 @@ const InsertPin = ({
                 pin != datanow.atm_simulations.currentUSer.cardInfo?.cardPin
               ) {
                 setErr("Wrong pin");
+                return;
               }
               const newTransaction: airtime_Data = {
                 id: crypto.randomUUID(),
@@ -59,6 +69,60 @@ const InsertPin = ({
                 time: new Date(),
                 network: network,
               };
+              const airtimes: airtime_Data[] = datanow.atm_simulations
+                .currentUSer.transactionData?.airtime?.airtimes?.length
+                ? [
+                    ...datanow.atm_simulations.currentUSer.transactionData
+                      ?.airtime.airtimes,
+                    newTransaction,
+                  ]
+                : [newTransaction];
+              const beneficiaries: benef[] = datanow.atm_simulations.currentUSer
+                .transactionData?.airtime?.beneficiaries?.length
+                ? [
+                    ...datanow.atm_simulations.currentUSer.transactionData?.airtime.beneficiaries.filter(
+                      (ben) => ben.id != recipient || ben.bank != network,
+                    ),
+                    { id: recipient, bank: network },
+                  ]
+                : [{ id: recipient, bank: network }];
+
+              const newCurrentUSer: user = {
+                ...datanow.atm_simulations.currentUSer,
+                transactionData: {
+                  ...datanow.atm_simulations.currentUSer.transactionData,
+                  totalSpent:
+                    datanow.atm_simulations?.currentUSer?.transactionData
+                      ?.totalSpent! + newTransaction?.price!,
+                  airtime: {
+                    airtimes: [...airtimes],
+                    beneficiaries: benef
+                      ? beneficiaries
+                      : datanow.atm_simulations.currentUSer.transactionData
+                          ?.airtime?.beneficiaries,
+                  },
+                  cashBack: datanow.atm_simulations.currentUSer.transactionData
+                    ?.cashBack
+                    ? datanow.atm_simulations.currentUSer.transactionData
+                        ?.cashBack + cashback!
+                    : cashback,
+                },
+              };
+              const updatedUSers: user[] | undefined =
+                datanow?.atm_simulations?.users?.map((user) => {
+                  if (user.id == newCurrentUSer.id) return newCurrentUSer;
+                  else return user;
+                });
+              const updatedData: Data = {
+                ...datanow,
+                atm_simulations: {
+                  ...datanow.atm_simulations,
+                  users: updatedUSers,
+                  currentUSer: newCurrentUSer,
+                },
+              };
+              localStorage.setItem("AmosIdeaApp", JSON.stringify(updatedData));
+              redirect("/fake-atm/dashbord");
             }}
             className="my-50 mx-auto flex justify-center gap-2 flex-wrap flex-row"
           >

@@ -431,7 +431,9 @@ const FakeAtm = () => {
               </span>
               <span className="w-full">CashBack</span>
               <span className="w-full">
-                40 <span className="uppercase line-through">n</span>
+                {localData.atm_simulations?.currentUSer?.transactionData
+                  ?.cashBack || 0}{" "}
+                <span className="uppercase line-through">n</span>
               </span>
             </div>
             <div className="flex flex-wrap flex-row bg-white p-4 rounded-2xl">

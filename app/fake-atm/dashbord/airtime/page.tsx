@@ -6,7 +6,11 @@ import { Amarante } from "next/font/google";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
-import { BiLeftArrowAlt } from "react-icons/bi";
+import {
+  BiLeftArrowAlt,
+  BiSolidToggleLeft,
+  BiSolidToggleRight,
+} from "react-icons/bi";
 
 const page = () => {
   const [clientNumber, setClintNumber] = React.useState<string>();
@@ -14,10 +18,11 @@ const page = () => {
   const [network, setNetwork] = React.useState<
     "mtn" | "airtel" | "glo" | "9mobile"
   >();
-  const [sending, setSending] = React.useState<boolean>(!false);
+  const [sending, setSending] = React.useState<boolean>(false);
   const [cashback, setCashback] = React.useState<number>();
   const [currentUser, setCurrenctUSer] = React.useState<user | undefined>();
   const [err, setErr] = React.useState<string>();
+  const [benef, setBenef] = React.useState<boolean>(false);
   React.useEffect(() => {
     const query = localStorage.getItem("AmosIdeaApp");
     if (!query) {
@@ -144,6 +149,22 @@ const page = () => {
                   <option value="9mobile">9Mobile</option>
                 </select>
               </div>
+              {!benef ? (
+                <BiSolidToggleLeft
+                  className="inline-block ml-3"
+                  id="benef"
+                  size={30}
+                  onClick={() => setBenef(true)}
+                />
+              ) : (
+                <BiSolidToggleRight
+                  id="benef"
+                  onClick={() => setBenef(false)}
+                  fill="blue"
+                  className="inline-block ml-3"
+                  size={30}
+                />
+              )}
               <div>
                 <p className="pl-10 capitalize">cahsback: {cashback || 0}</p>
               </div>
@@ -160,6 +181,7 @@ const page = () => {
         </div>
       ) : (
         <InsertPin
+          benef={benef}
           err={err}
           setErr={setErr}
           setSending={setSending}
