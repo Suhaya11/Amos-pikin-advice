@@ -396,8 +396,11 @@ const FakeAtm = () => {
             </span>
 
             <span className=" servicesBoxUnderFakeAtmDashbord">
-              <BiMobileAlt size={40} className="my-0 mx-auto" />
-              Data
+              <Link href={"/fake-atm/dashbord/data"}>
+                {" "}
+                <BiMobileAlt size={40} className="my-0 mx-auto" />
+                Data
+              </Link>
             </span>
             <span className="  servicesBoxUnderFakeAtmDashbord">
               <BiFootball size={40} className="my-0 mx-auto" />

@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 export interface Data {
   decisions?: decision[];
   daily_wahala?: wahala[];
@@ -53,7 +51,16 @@ export interface timeGreeting {
     message: string;
   };
 }
-
+export type carriers = {
+  mtn?: carrier;
+  airtel?: carrier;
+  nineMobile?: carrier;
+  glo?: carrier;
+};
+export type carrier = {
+  price?: number; //per gig
+  cashback?: number; /// per git
+};
 export const myData: Data = {
   // decisions: [
   //   {
@@ -97,6 +104,25 @@ export const myData: Data = {
   atm_simulations: {
     currentUSer: {},
     users: [],
+    carriers: {
+      mtn: {
+        price: 300,
+        cashback: 10,
+      },
+      airtel: {
+        // (100/price)* cashback
+        price: 400,
+        cashback: 7,
+      },
+      glo: {
+        price: 250,
+        cashback: 12.5,
+      },
+      nineMobile: {
+        price: 200,
+        cashback: 15,
+      },
+    },
   },
   decisions: [],
   timeGreetings: [],
@@ -152,7 +178,7 @@ export type benef = {
 export type user = {
   id?: string;
   transactionData?: {
-    airtime?: airtime_Data[];
+    airtime?: { airtimes: airtime_Data[]; beneficiaries?: benef[] };
     data?: airtime_Data[];
     beneficiaries?: benef[];
     transactions?: transaction[];
@@ -219,6 +245,7 @@ export type idDetails = {
 type atm_simulation = {
   currentUSer?: user;
   users?: user[];
+  carriers?: carriers;
 };
 export const CalculatedTodaysDate = (date: Date): string =>
   `${new Date(date).getDate() - 1}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
