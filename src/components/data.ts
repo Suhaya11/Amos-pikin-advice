@@ -179,7 +179,7 @@ export type user = {
   id?: string;
   transactionData?: {
     airtime?: { airtimes: airtime_Data[]; beneficiaries?: benef[] };
-    data?: airtime_Data[];
+    data?: { datas: airtime_Data[]; beneficiaries?: benef[] };
     beneficiaries?: benef[];
     transactions?: transaction[];
     totalIncome?: number;

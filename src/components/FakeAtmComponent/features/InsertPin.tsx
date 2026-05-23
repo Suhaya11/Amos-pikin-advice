@@ -22,9 +22,11 @@ type myProps = {
   setErr: React.Dispatch<React.SetStateAction<string | undefined>>;
   err: string | undefined;
   benef: boolean;
+  qtt?: string;
 };
 
 const InsertPin = ({
+  qtt,
   benef,
   setSending,
   setErr,
@@ -60,15 +62,86 @@ const InsertPin = ({
                 setErr("Wrong pin");
                 return;
               }
+              if (service == "data") {
+                const newTransaction: airtime_Data = {
+                  id: crypto.randomUUID(),
+                  cashback: cashback,
+                  type: service,
+                  client: recipient,
+                  price: amount!,
+                  time: new Date(),
+                  network: network,
+                  qtt: qtt,
+                };
+
+                const datas: airtime_Data[] = datanow.atm_simulations
+                  .currentUSer.transactionData?.data?.datas.length
+                  ? [
+                      ...datanow.atm_simulations.currentUSer.transactionData
+                        ?.data.datas,
+                      newTransaction,
+                    ]
+                  : [newTransaction];
+                const beneficiaries: benef[] = datanow.atm_simulations
+                  .currentUSer.transactionData?.data?.beneficiaries?.length
+                  ? [
+                      ...datanow.atm_simulations.currentUSer.transactionData?.data.beneficiaries.filter(
+                        (ben) => ben.id != recipient || ben.bank != network,
+                      ),
+                      { id: recipient, bank: network },
+                    ]
+                  : [{ id: recipient, bank: network }];
+
+                const newCurrentUSer: user = {
+                  ...datanow.atm_simulations.currentUSer,
+                  transactionData: {
+                    ...datanow.atm_simulations.currentUSer.transactionData,
+                    totalSpent:
+                      datanow.atm_simulations?.currentUSer?.transactionData
+                        ?.totalSpent! + newTransaction?.price!,
+                    data: {
+                      datas: [...datas],
+                      beneficiaries: benef
+                        ? beneficiaries
+                        : datanow.atm_simulations.currentUSer.transactionData
+                            ?.data?.beneficiaries,
+                    },
+                    cashBack: datanow.atm_simulations.currentUSer
+                      .transactionData?.cashBack
+                      ? datanow.atm_simulations.currentUSer.transactionData
+                          ?.cashBack + cashback!
+                      : cashback,
+                  },
+                };
+                const updatedUSers: user[] | undefined =
+                  datanow?.atm_simulations?.users?.map((user) => {
+                    if (user.id == newCurrentUSer.id) return newCurrentUSer;
+                    else return user;
+                  });
+                const updatedData: Data = {
+                  ...datanow,
+                  atm_simulations: {
+                    ...datanow.atm_simulations,
+                    users: updatedUSers,
+                    currentUSer: newCurrentUSer,
+                  },
+                };
+                localStorage.setItem(
+                  "AmosIdeaApp",
+                  JSON.stringify(updatedData),
+                );
+                redirect("/fake-atm/dashbord");
+              }
               const newTransaction: airtime_Data = {
                 id: crypto.randomUUID(),
                 cashback: cashback,
-                type: "airtime",
+                type: service,
                 client: recipient,
-                price: amount! - cashback!,
+                price: amount!,
                 time: new Date(),
                 network: network,
               };
+
               const airtimes: airtime_Data[] = datanow.atm_simulations
                 .currentUSer.transactionData?.airtime?.airtimes?.length
                 ? [
