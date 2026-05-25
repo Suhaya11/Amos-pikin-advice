@@ -23,7 +23,7 @@ const Transaction_history = () => {
     React.useState<transaction>();
   const [sectionToshow, setSectionToShow] = React.useState<
     "airtime" | "data" | "transactions"
-  >("data");
+  >("transactions");
   const [viewOne, setViewOne] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -76,7 +76,7 @@ const Transaction_history = () => {
                         {airtimes?.map(
                           (data) =>
                             data && (
-                              <>
+                              <div key={data.id}>
                                 <p
                                   key={data.id}
                                   className={` cursor-pointer flex justify-between w-11/12 my-5 mx-auto pt-3`}
@@ -91,7 +91,7 @@ const Transaction_history = () => {
                                     {data.price} $
                                   </span>
                                 </p>
-                              </>
+                              </div>
                             ),
                         )}
                       </div>
@@ -180,7 +180,7 @@ const Transaction_history = () => {
                         {datas?.map(
                           (data) =>
                             data && (
-                              <>
+                              <div key={data.id}>
                                 <p
                                   key={data.id}
                                   className={` cursor-pointer flex justify-between w-11/12 my-5 mx-auto pt-3`}
@@ -195,7 +195,7 @@ const Transaction_history = () => {
                                     {data.price} $
                                   </span>
                                 </p>
-                              </>
+                              </div>
                             ),
                         )}
                       </div>
@@ -380,7 +380,9 @@ const Transaction_history = () => {
           <div className="flex justify-end w-10/12 my-2 mx-auto gap-4">
             <span
               className={`rounded-2xl border p-1 px-3 ${
-                sectionToshow === "transactions" ? "bg-blue-600" : ""
+                sectionToshow === "transactions"
+                  ? "bg-blue-600 font-bold   text-white "
+                  : ""
               }`}
               onClick={() => {
                 setSectionToShow("transactions");
@@ -400,7 +402,9 @@ const Transaction_history = () => {
             </span>
             <span
               className={`rounded-2xl border p-1 px-3 ${
-                sectionToshow === "airtime" ? "bg-blue-600" : ""
+                sectionToshow === "airtime"
+                  ? "bg-blue-600 font-bold text-white"
+                  : ""
               }`}
               onClick={() => setSectionToShow("airtime")}
             >

@@ -149,22 +149,26 @@ const page = () => {
                   <option value="9mobile">9Mobile</option>
                 </select>
               </div>
-              {!benef ? (
-                <BiSolidToggleLeft
-                  className="inline-block ml-3"
-                  id="benef"
-                  size={30}
-                  onClick={() => setBenef(true)}
-                />
-              ) : (
-                <BiSolidToggleRight
-                  id="benef"
-                  onClick={() => setBenef(false)}
-                  fill="blue"
-                  className="inline-block ml-3"
-                  size={30}
-                />
-              )}
+              <div>
+                {" "}
+                <span onClick={() => setBenef(!benef)}>Save beneficiary </span>
+                {!benef ? (
+                  <BiSolidToggleLeft
+                    className="inline-block ml-3"
+                    id="benef"
+                    size={30}
+                    onClick={() => setBenef(true)}
+                  />
+                ) : (
+                  <BiSolidToggleRight
+                    id="benef"
+                    onClick={() => setBenef(false)}
+                    fill="blue"
+                    className="inline-block ml-3"
+                    size={30}
+                  />
+                )}
+              </div>
               <div>
                 <p className="pl-10 capitalize">cahsback: {cashback || 0}</p>
               </div>
