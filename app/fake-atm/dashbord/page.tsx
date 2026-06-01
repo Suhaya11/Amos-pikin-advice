@@ -306,10 +306,12 @@ const FakeAtm = () => {
                   <>
                     <span className="uppercase line-through ">n</span>{" "}
                     <span className="select-none">
-                      {localData.atm_simulations?.currentUSer?.transactionData
-                        ?.totalIncome! -
+                      {(
                         localData.atm_simulations?.currentUSer?.transactionData
-                          ?.totalSpent! || 0}
+                          ?.totalIncome! -
+                        localData.atm_simulations?.currentUSer?.transactionData
+                          ?.totalSpent!
+                      ).toFixed(2) || 0}
                     </span>
                     <span>
                       <BiHide
@@ -326,10 +328,12 @@ const FakeAtm = () => {
                     <span className="select-none">
                       {masker(
                         `${
-                          localData.atm_simulations?.currentUSer
-                            ?.transactionData?.totalIncome! -
+                          (
                             localData.atm_simulations?.currentUSer
-                              ?.transactionData?.totalSpent! || 0
+                              ?.transactionData?.totalIncome! -
+                            localData.atm_simulations?.currentUSer
+                              ?.transactionData?.totalSpent!
+                          ).toFixed(2) || 0
                         }`,
                       )}
                     </span>
@@ -434,10 +438,9 @@ const FakeAtm = () => {
               </span>
               <span className="w-full">CashBack</span>
               <span className="w-full">
-                {Math.trunc(
-                  localData.atm_simulations?.currentUSer?.transactionData
-                    ?.cashBack!,
-                ) || 0}{" "}
+                {localData.atm_simulations?.currentUSer?.transactionData?.cashBack?.toFixed(
+                  2,
+                )! || 0}{" "}
                 <span className="uppercase line-through">n</span>
               </span>
             </div>

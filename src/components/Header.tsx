@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import React from "react";
-
-const Header = () => {
+type myprops = {
+  headerOpen: boolean;
+  setHeaderOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
   const [viewprt, setVieport] = React.useState<number>();
   const [menuOpen, setMenuOpen] = React.useState<boolean | undefined>(false);
   React.useEffect(() => {
@@ -14,6 +17,8 @@ const Header = () => {
     return (
       <header className="border z-20 flex justify-around p-4  w-full top-0">
         <details
+          onClick={() => setHeaderOpen(true)}
+          open={headerOpen}
           onToggle={() => {
             menuOpen ? setMenuOpen(false) : setMenuOpen(true);
           }}
@@ -34,26 +39,32 @@ const Header = () => {
             Menu{" "}
           </summary>
           <ul className="flex  flex-row max-w-[500px]:gap-4 gap-2 flex-wrap justify-around font-black mr-3 border ">
-            <li className="navLink">
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
               <Link href={"/"}>Home</Link>
             </li>
-            <Link href={"/decision-maker"} className="navLink">
-              Decition maker
-            </Link>
-            <li className="navLink">
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
+              <Link href={"/decision-maker"} className="navLink">
+                Decition maker
+              </Link>
+            </li>
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
               <Link href={"/daily-wahala"}>Daily wahala tracker</Link>
             </li>{" "}
-            <li className="navLink">
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
               <Link href={"/fake-atm"}>Fake ATM simulations</Link>
             </li>
-            <li className="navLink">
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
               <Link href={"/message-trans"}>Message translation</Link>
             </li>
-            <li className="navLink">
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
               <Link href={"/time-greeting"}>time base behaviour app</Link>
             </li>
-            <li className="navLink">about me</li>
-            <li className="navLink">contact me</li>{" "}
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
+              about me
+            </li>
+            <li className="navLink" onClick={() => setHeaderOpen(false)}>
+              contact me
+            </li>{" "}
           </ul>
         </details>
       </header>

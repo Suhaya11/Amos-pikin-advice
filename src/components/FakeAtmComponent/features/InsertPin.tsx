@@ -23,9 +23,13 @@ type myProps = {
   err: string | undefined;
   benef: boolean;
   qtt?: string;
+  whatTodebitFromCashback: number | undefined;
+  whatTodebitfromBalance: number | undefined;
 };
 
 const InsertPin = ({
+  whatTodebitFromCashback,
+  whatTodebitfromBalance,
   qtt,
   benef,
   setSending,
@@ -98,7 +102,7 @@ const InsertPin = ({
                     ...datanow.atm_simulations.currentUSer.transactionData,
                     totalSpent:
                       datanow.atm_simulations?.currentUSer?.transactionData
-                        ?.totalSpent! + newTransaction?.price!,
+                        ?.totalSpent! + whatTodebitfromBalance!,
                     data: {
                       datas: [...datas],
                       beneficiaries: benef
@@ -109,7 +113,9 @@ const InsertPin = ({
                     cashBack: datanow.atm_simulations.currentUSer
                       .transactionData?.cashBack
                       ? datanow.atm_simulations.currentUSer.transactionData
-                          ?.cashBack + cashback!
+                          ?.cashBack -
+                        whatTodebitFromCashback! +
+                        cashback!
                       : cashback,
                   },
                 };
@@ -166,7 +172,7 @@ const InsertPin = ({
                   ...datanow.atm_simulations.currentUSer.transactionData,
                   totalSpent:
                     datanow.atm_simulations?.currentUSer?.transactionData
-                      ?.totalSpent! + newTransaction?.price!,
+                      ?.totalSpent! + whatTodebitfromBalance!,
                   airtime: {
                     airtimes: [...airtimes],
                     beneficiaries: benef
@@ -177,7 +183,9 @@ const InsertPin = ({
                   cashBack: datanow.atm_simulations.currentUSer.transactionData
                     ?.cashBack
                     ? datanow.atm_simulations.currentUSer.transactionData
-                        ?.cashBack + cashback!
+                        ?.cashBack -
+                      whatTodebitFromCashback! +
+                      cashback!
                     : cashback,
                 },
               };

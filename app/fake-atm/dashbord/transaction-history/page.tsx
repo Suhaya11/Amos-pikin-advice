@@ -124,6 +124,10 @@ const Transaction_history = () => {
                       <span>{airtimetoView?.client}</span>
                     </div>
                     <div className="my-4 flex justify-between">
+                      <span>Network:</span>{" "}
+                      <span>{airtimetoView?.network}</span>
+                    </div>
+                    <div className="my-4 flex justify-between">
                       <span>Cashback:</span>{" "}
                       <span>{airtimetoView?.cashback}$</span>
                     </div>
@@ -223,6 +227,9 @@ const Transaction_history = () => {
                   <div className=" w-10/12  my-2 mx-auto">
                     <div className="my-4 flex justify-between">
                       <span>Reciever:</span> <span>{datatoView?.client}</span>
+                    </div>
+                    <div className="my-4 flex justify-between">
+                      <span>Network:</span> <span>{datatoView?.network}</span>
                     </div>
                     <div className="my-4 flex justify-between">
                       <span>Quantity:</span> <span>{datatoView?.qtt}GB</span>

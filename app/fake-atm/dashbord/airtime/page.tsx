@@ -2,7 +2,6 @@
 import { Data, user } from "@/src/components/data";
 import InsertPin from "@/src/components/FakeAtmComponent/features/InsertPin";
 
-import { Amarante } from "next/font/google";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -23,6 +22,12 @@ const page = () => {
   const [currentUser, setCurrenctUSer] = React.useState<user | undefined>();
   const [err, setErr] = React.useState<string>();
   const [benef, setBenef] = React.useState<boolean>(false);
+  const [usecashback, setusecashback] = React.useState<boolean>(false);
+  const [whatToDebitfromCashback, setWhaToDebitfromcashback] =
+    React.useState<typeof airtimeAmount>(0);
+  const [whatodebitfrombalance, setWhattodebitfrombalace] =
+    React.useState<typeof whatToDebitfromCashback>(0);
+
   React.useEffect(() => {
     const query = localStorage.getItem("AmosIdeaApp");
     if (!query) {
@@ -34,6 +39,24 @@ const page = () => {
       redirect("fake-atm");
     setCurrenctUSer(data.atm_simulations.currentUSer);
   }, []);
+
+  const cashbackusedAmount = (
+    mycashback: number | undefined,
+    amount: typeof mycashback,
+  ) => {
+    if (!mycashback || !amount) return undefined;
+    if (mycashback >= amount) {
+      setWhaToDebitfromcashback(amount);
+      setWhattodebitfrombalace(0);
+    } else {
+      setWhaToDebitfromcashback(mycashback);
+      setWhattodebitfrombalace(amount - mycashback);
+    }
+  };
+  const cashbackNotusedAmount = () => {
+    setWhaToDebitfromcashback(0);
+    setWhattodebitfrombalace(airtimeAmount);
+  };
   return (
     <>
       {!sending ? (
@@ -91,6 +114,7 @@ const page = () => {
                   return;
                 }
                 setErr("");
+
                 setSending(true);
               }}
               className="w-8/12 border my-10 mx-auto"
@@ -112,15 +136,26 @@ const page = () => {
                   }}
                   value={clientNumber ?? ""}
                 />
+                <button onClick={() => cashbackusedAmount(200, 210)}>
+                  letse
+                </button>
+                <span>
+                  what to debit from cashback:{whatToDebitfromCashback}
+                </span>
+                <span>What to debit from balance: {whatodebitfrombalance}</span>
               </div>
               <div className="flex justify-center my-5 gap-3">
                 <label htmlFor="amount">Amount:</label>
                 <input
+                  disabled={
+                    !clientNumber || clientNumber?.toString()?.length < 10
+                  }
                   id="amount"
                   onChange={(e) => {
                     if (
                       isNaN(Number(e.currentTarget.value)) ||
-                      e.currentTarget.value.length > 11
+                      clientNumber?.toString().length! > 11 ||
+                      clientNumber?.toString().length! < 10
                     )
                       return;
                     setAirtimeAmount(Number(e.currentTarget.value));
@@ -168,6 +203,42 @@ const page = () => {
                     size={30}
                   />
                 )}
+                <div className="inline-block mr-0 ml-10">
+                  {" "}
+                  <span onClick={() => setusecashback(!usecashback)}>
+                    Use cashback{" "}
+                  </span>
+                  {!usecashback ? (
+                    <BiSolidToggleLeft
+                      className="inline-block ml-3"
+                      id="benef"
+                      size={30}
+                      onClick={() => {
+                        const query = localStorage.getItem("AmosIdeaApp");
+                        if (!query) redirect("/fake-atm/");
+                        const data: Data = JSON.parse(query);
+
+                        setusecashback(true);
+                        cashbackusedAmount(
+                          data.atm_simulations?.currentUSer?.transactionData
+                            ?.cashBack,
+                          airtimeAmount,
+                        );
+                      }}
+                    />
+                  ) : (
+                    <BiSolidToggleRight
+                      id="benef"
+                      onClick={() => {
+                        setusecashback(false);
+                        cashbackNotusedAmount();
+                      }}
+                      fill="blue"
+                      className="inline-block ml-3"
+                      size={30}
+                    />
+                  )}
+                </div>
               </div>
               <div>
                 <p className="pl-10 capitalize">cahsback: {cashback || 0}</p>
@@ -185,6 +256,8 @@ const page = () => {
         </div>
       ) : (
         <InsertPin
+          whatTodebitFromCashback={whatToDebitfromCashback}
+          whatTodebitfromBalance={whatodebitfrombalance}
           benef={benef}
           err={err}
           setErr={setErr}

@@ -26,6 +26,12 @@ const page = () => {
   const [err, setErr] = React.useState<string>();
   const [benef, setBenef] = React.useState<boolean>(false);
   const [currentUser, setCurrentUser] = React.useState<user | undefined>();
+  const [usecashback, setusecashback] = React.useState<boolean>(false);
+  const [whatToDebitfromCashback, setWhaToDebitfromcashback] = React.useState<
+    number | undefined
+  >(0);
+  const [whatodebitfrombalance, setWhattodebitfrombalace] =
+    React.useState<typeof whatToDebitfromCashback>(0);
   React.useEffect(() => {
     const query = localStorage.getItem("AmosIdeaApp");
     if (!query) redirect("/fake-atm/");
@@ -36,6 +42,23 @@ const page = () => {
     if (locadata.atm_simulations.carriers)
       setDataCarriers(locadata.atm_simulations.carriers);
   }, []);
+  const cashbackusedAmount = (
+    mycashback: number | undefined,
+    amount: typeof mycashback,
+  ) => {
+    if (!mycashback || !amount) return undefined;
+    if (mycashback >= amount) {
+      setWhaToDebitfromcashback(amount);
+      setWhattodebitfrombalace(0);
+    } else {
+      setWhaToDebitfromcashback(mycashback);
+      setWhattodebitfrombalace(amount - mycashback);
+    }
+  };
+  const cashbackNotusedAmount = () => {
+    setWhaToDebitfromcashback(0);
+    setWhattodebitfrombalace(dataPrice);
+  };
   return (
     <ProtectedRoute>
       {!sending ? (
@@ -149,6 +172,8 @@ const page = () => {
                 <option value="9mobile">9Mobile</option>
               </select>
             </div>
+            <span>what to debit from balance: {whatodebitfrombalance}</span>
+            <span>what to debi from cashback: {whatToDebitfromCashback}</span>
             <div className="flex gap-4">
               <label htmlFor="bundles">Bundles</label>
               <select
@@ -194,6 +219,42 @@ const page = () => {
                 size={30}
               />
             )}
+            <div className="inline-block mr-0 ml-10">
+              {" "}
+              <span onClick={() => setusecashback(!usecashback)}>
+                Use cashback{" "}
+              </span>
+              {!usecashback ? (
+                <BiSolidToggleLeft
+                  className="inline-block ml-3"
+                  id="benef"
+                  size={30}
+                  onClick={() => {
+                    const query = localStorage.getItem("AmosIdeaApp");
+                    if (!query) redirect("/fake-atm/");
+                    const data: Data = JSON.parse(query);
+
+                    setusecashback(true);
+                    cashbackusedAmount(
+                      data.atm_simulations?.currentUSer?.transactionData
+                        ?.cashBack,
+                      dataPrice,
+                    );
+                  }}
+                />
+              ) : (
+                <BiSolidToggleRight
+                  id="benef"
+                  onClick={() => {
+                    setusecashback(false);
+                    cashbackNotusedAmount();
+                  }}
+                  fill="blue"
+                  className="inline-block ml-3"
+                  size={30}
+                />
+              )}
+            </div>
             <div>
               <p className="pl-10 capitalize">
                 cahsback: {Math.trunc(cashback || 0.5) || 0}
@@ -211,6 +272,8 @@ const page = () => {
         </div>
       ) : (
         <InsertPin
+          whatTodebitFromCashback={whatToDebitfromCashback}
+          whatTodebitfromBalance={whatodebitfrombalance}
           benef={benef}
           err={err}
           setErr={setErr}
