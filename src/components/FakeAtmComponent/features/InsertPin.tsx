@@ -95,14 +95,17 @@ const InsertPin = ({
                       { id: recipient, bank: network },
                     ]
                   : [{ id: recipient, bank: network }];
-
+                const theBalancelost: typeof whatTodebitfromBalance =
+                  whatTodebitfromBalance ? whatTodebitfromBalance : amount;
+                const theCashbacklost: typeof whatTodebitFromCashback =
+                  whatTodebitFromCashback ? whatTodebitFromCashback : 0;
                 const newCurrentUSer: user = {
                   ...datanow.atm_simulations.currentUSer,
                   transactionData: {
                     ...datanow.atm_simulations.currentUSer.transactionData,
                     totalSpent:
                       datanow.atm_simulations?.currentUSer?.transactionData
-                        ?.totalSpent! + whatTodebitfromBalance!,
+                        ?.totalSpent! + theBalancelost!,
                     data: {
                       datas: [...datas],
                       beneficiaries: benef
@@ -114,15 +117,28 @@ const InsertPin = ({
                       .transactionData?.cashBack
                       ? datanow.atm_simulations.currentUSer.transactionData
                           ?.cashBack -
-                        whatTodebitFromCashback! +
+                        theCashbacklost! +
                         cashback!
                       : cashback,
                   },
                 };
                 const updatedUSers: user[] | undefined =
                   datanow?.atm_simulations?.users?.map((user) => {
-                    if (user.id == newCurrentUSer.id) return newCurrentUSer;
-                    else return user;
+                    if (user.id == newCurrentUSer.id) {
+                      console.error(
+                        "this is the user",
+                        user.id,
+                        newCurrentUSer.id,
+                      );
+                      return newCurrentUSer;
+                    } else {
+                      console.error(
+                        "the user now is suppose to be now same ",
+                        user.id,
+                        newCurrentUSer.id,
+                      );
+                      return user;
+                    }
                   });
                 const updatedData: Data = {
                   ...datanow,
@@ -165,14 +181,17 @@ const InsertPin = ({
                     { id: recipient, bank: network },
                   ]
                 : [{ id: recipient, bank: network }];
-
+              const theBalanceLost: typeof whatTodebitfromBalance =
+                whatTodebitfromBalance ? whatTodebitfromBalance : amount;
+              const theCashbackLost: typeof whatTodebitFromCashback =
+                whatTodebitFromCashback ? whatTodebitFromCashback : 0;
               const newCurrentUSer: user = {
                 ...datanow.atm_simulations.currentUSer,
                 transactionData: {
                   ...datanow.atm_simulations.currentUSer.transactionData,
                   totalSpent:
                     datanow.atm_simulations?.currentUSer?.transactionData
-                      ?.totalSpent! + whatTodebitfromBalance!,
+                      ?.totalSpent! + theBalanceLost!,
                   airtime: {
                     airtimes: [...airtimes],
                     beneficiaries: benef
@@ -184,7 +203,7 @@ const InsertPin = ({
                     ?.cashBack
                     ? datanow.atm_simulations.currentUSer.transactionData
                         ?.cashBack -
-                      whatTodebitFromCashback! +
+                      theCashbackLost! +
                       cashback!
                     : cashback,
                 },

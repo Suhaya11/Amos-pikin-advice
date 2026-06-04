@@ -1,4 +1,5 @@
 "use client";
+export const localstorageApi = "AmosIdeaApp";
 
 export interface Data {
   decisions?: decision[];
@@ -185,6 +186,7 @@ export type user = {
     totalIncome?: number;
     totalSpent?: number;
     cashBack?: number;
+    referralBonus?: number;
   };
   // spent?: {
   //   total?: number;

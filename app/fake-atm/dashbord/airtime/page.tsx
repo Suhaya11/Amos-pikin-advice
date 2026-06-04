@@ -1,5 +1,5 @@
 "use client";
-import { Data, user } from "@/src/components/data";
+import { benef, Data, user } from "@/src/components/data";
 import InsertPin from "@/src/components/FakeAtmComponent/features/InsertPin";
 
 import Link from "next/link";
@@ -26,7 +26,7 @@ const page = () => {
   const [whatToDebitfromCashback, setWhaToDebitfromcashback] =
     React.useState<typeof airtimeAmount>(0);
   const [whatodebitfrombalance, setWhattodebitfrombalace] =
-    React.useState<typeof whatToDebitfromCashback>(0);
+    React.useState<typeof whatToDebitfromCashback>(airtimeAmount);
 
   React.useEffect(() => {
     const query = localStorage.getItem("AmosIdeaApp");
@@ -56,6 +56,11 @@ const page = () => {
   const cashbackNotusedAmount = () => {
     setWhaToDebitfromcashback(0);
     setWhattodebitfrombalace(airtimeAmount);
+  };
+
+  const setBeneficiary = (benef: benef) => {
+    setClintNumber(benef.id);
+    setNetwork(benef.bank as typeof network);
   };
   return (
     <>
@@ -136,13 +141,14 @@ const page = () => {
                   }}
                   value={clientNumber ?? ""}
                 />
-                <button onClick={() => cashbackusedAmount(200, 210)}>
+
+                {/* <button onClick={() => cashbackusedAmount(200, 210)}>
                   letse
                 </button>
                 <span>
                   what to debit from cashback:{whatToDebitfromCashback}
                 </span>
-                <span>What to debit from balance: {whatodebitfrombalance}</span>
+                <span>What to debit from balance: {whatodebitfrombalance}</span> */}
               </div>
               <div className="flex justify-center my-5 gap-3">
                 <label htmlFor="amount">Amount:</label>
@@ -176,6 +182,7 @@ const page = () => {
                   onChange={(el) =>
                     setNetwork(el.currentTarget.value as typeof network)
                   }
+                  value={network ?? ""}
                 >
                   <option>Select</option>
                   <option value="airtel">Airtel</option>
@@ -244,6 +251,20 @@ const page = () => {
                 <p className="pl-10 capitalize">cahsback: {cashback || 0}</p>
               </div>
               <span>{err || ""}</span>
+              <select name="benef" id="benef" className="capitalize">
+                <option value="">select beneficeary</option>
+                {currentUser?.transactionData?.airtime?.beneficiaries?.map(
+                  (benef) => (
+                    <option
+                      key={benef.id}
+                      className="capitalize"
+                      onClick={() => setBeneficiary(benef)}
+                    >
+                      {benef.id}|&nbsp;{benef.bank}
+                    </option>
+                  ),
+                )}
+              </select>
               <div className="text-end pr-3">
                 <input
                   type="submit"

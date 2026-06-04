@@ -120,6 +120,7 @@ const page = () => {
 
   const addUserFunction = () => {
     const user: user = {
+      id: crypto.randomUUID(),
       bankDatails: {
         acc_no: numberValue!,
         acc_name: "",
@@ -156,6 +157,7 @@ const page = () => {
         timeGreetings: [],
         decisions: [],
       };
+
       localStorage.setItem("AmosIdeaApp", JSON.stringify(AmosIdeaApp));
       redirect("/fake-atm/id-validation");
     } else {
@@ -170,7 +172,23 @@ const page = () => {
           ...currentData,
           atm_simulations: {
             currentUSer: user,
-            users: [...updatedUsers, user],
+            users: [
+              ...updatedUsers.map((user) => {
+                // let reward the refferer using his number
+                if (referralCode && referralCode == user.loginInfo?.phoneNumber)
+                  return {
+                    ...user,
+                    transactionData: {
+                      ...user.transactionData,
+                      referralBonus: user.transactionData?.referralBonus
+                        ? user.transactionData.referralBonus + 500
+                        : 500,
+                    },
+                  };
+                else return user;
+              }),
+              user,
+            ],
           },
         };
         localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));

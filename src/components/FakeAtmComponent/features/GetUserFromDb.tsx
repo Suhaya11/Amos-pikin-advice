@@ -2,7 +2,7 @@ import React from "react";
 import { Data, user } from "../../data";
 
 type myProp = {
-  acc_no: string;
+  acc_no: string | undefined | number;
   setPerson_name: React.Dispatch<React.SetStateAction<string | undefined>>;
   bank_name: string | undefined;
 
@@ -20,7 +20,7 @@ const GetUserFromDb = ({
   bank_name,
 }: myProp) => {
   const verifyAcc = () => {
-    if (acc_no.length !== 10 || isNaN(Number(acc_no))) {
+    if (acc_no?.toString().length !== 10 || isNaN(Number(acc_no))) {
       setErr("Invalid Account number");
       setPerson_name("");
       setUserFound(undefined);

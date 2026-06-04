@@ -450,7 +450,10 @@ const FakeAtm = () => {
               </span>
               <span className="w-full">Refferals</span>
               <span className="w-full">
-                40 <span className="uppercase line-through">n</span>
+                {localData.atm_simulations?.currentUSer?.transactionData
+                  ?.referralBonus || 0}{" "}
+                &nbsp;
+                <span className="uppercase line-through">n</span>
               </span>
             </div>
           </div>

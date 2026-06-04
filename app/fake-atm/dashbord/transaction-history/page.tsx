@@ -98,7 +98,9 @@ const Transaction_history = () => {
                     </>
                   ) : (
                     <>
-                      <div className="bg-yellow-400">hi</div>
+                      <div className="bg-gray-200 text-center py-30">
+                        No Transaction to history
+                      </div>
                     </>
                   )}
                 </div>
@@ -206,7 +208,9 @@ const Transaction_history = () => {
                     </>
                   ) : (
                     <>
-                      <div className="bg-yellow-400">hi</div>
+                      <div className="bg-gray-200 text-center py-30">
+                        No Transaction to history
+                      </div>
                     </>
                   )}
                 </div>
@@ -302,7 +306,9 @@ const Transaction_history = () => {
                   </>
                 ) : (
                   <>
-                    <div className="bg-yellow-400">hi</div>
+                    <div className="bg-gray-200 text-center py-30">
+                      No Transaction to history
+                    </div>
                   </>
                 )}
               </div>

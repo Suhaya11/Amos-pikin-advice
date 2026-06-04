@@ -1,5 +1,12 @@
 "use client";
-import { carrier, carriers, Data, myData, user } from "@/src/components/data";
+import {
+  benef,
+  carrier,
+  carriers,
+  Data,
+  myData,
+  user,
+} from "@/src/components/data";
 import InsertPin from "@/src/components/FakeAtmComponent/features/InsertPin";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
 import { redirect } from "next/navigation";
@@ -31,7 +38,7 @@ const page = () => {
     number | undefined
   >(0);
   const [whatodebitfrombalance, setWhattodebitfrombalace] =
-    React.useState<typeof whatToDebitfromCashback>(0);
+    React.useState<typeof whatToDebitfromCashback>(dataPrice);
   React.useEffect(() => {
     const query = localStorage.getItem("AmosIdeaApp");
     if (!query) redirect("/fake-atm/");
@@ -58,6 +65,41 @@ const page = () => {
   const cashbackNotusedAmount = () => {
     setWhaToDebitfromcashback(0);
     setWhattodebitfrombalace(dataPrice);
+  };
+  const setBeneficiary = (benef: benef) => {
+    // if (el.currentTarget.value === "airtel") {
+    //                 setCarrier(dataCarriers?.airtel);
+    //                 return;
+    //               }
+    //               if (el.currentTarget.value === "glo") {
+    //                 setCarrier(dataCarriers?.glo);
+    //                 return;
+    //               }
+    //               if (el.currentTarget.value === "mtn") {
+    //                 setCarrier(dataCarriers?.mtn);
+    //                 return;
+    //               }
+    //               if (el.currentTarget.value === "9mobile") {
+    //                 setCarrier(dataCarriers?.nineMobile);
+    //                 return;
+    //               }
+    //               setCarrier(undefined);
+    //               setDataQtt(undefined);
+    //               setCashback(undefined);
+    //             }}
+    setClintNumber(benef.id);
+    setNetwork(benef.bank as typeof network);
+    switch (benef.bank?.toLocaleLowerCase()) {
+      case "airtel":
+        setCarrier(dataCarriers?.airtel);
+      case "mtn":
+        setCarrier(dataCarriers?.mtn);
+      case "glo":
+        setCarrier(dataCarriers?.glo);
+      case "9mobile":
+        setCarrier(dataCarriers?.nineMobile);
+        return;
+    }
   };
   return (
     <ProtectedRoute>
@@ -164,6 +206,7 @@ const page = () => {
                   setDataQtt(undefined);
                   setCashback(undefined);
                 }}
+                value={network ?? ""}
               >
                 <option value={""}>Select</option>
                 <option value="airtel">Airtel</option>
@@ -172,8 +215,8 @@ const page = () => {
                 <option value="9mobile">9Mobile</option>
               </select>
             </div>
-            <span>what to debit from balance: {whatodebitfrombalance}</span>
-            <span>what to debi from cashback: {whatToDebitfromCashback}</span>
+            {/* <span>what to debit from balance: {whatodebitfrombalance}</span>
+            <span>what to debi from cashback: {whatToDebitfromCashback}</span> */}
             <div className="flex gap-4">
               <label htmlFor="bundles">Bundles</label>
               <select
@@ -261,6 +304,20 @@ const page = () => {
               </p>
             </div>
             <span>{err || ""}</span>
+            <select name="benef" id="benef" className="capitalize">
+              <option value="">select beneficeary</option>
+              {currentUser?.transactionData?.data?.beneficiaries?.map(
+                (benef) => (
+                  <option
+                    key={benef.id}
+                    className="capitalize"
+                    onClick={() => setBeneficiary(benef)}
+                  >
+                    {benef.id}|&nbsp;{benef.bank}
+                  </option>
+                ),
+              )}
+            </select>
             <div className="text-end pr-3">
               <input
                 type="submit"

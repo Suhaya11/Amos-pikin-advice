@@ -1,9 +1,10 @@
 "use client";
-import { Data, user } from "@/src/components/data";
+import { benef, Data, localstorageApi, user } from "@/src/components/data";
 import GetUserFromDb from "@/src/components/FakeAtmComponent/features/GetUserFromDb";
 import SendMoney from "@/src/components/FakeAtmComponent/features/SendMoney";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 import {
   BiSolidLeftArrowAlt,
@@ -13,8 +14,10 @@ import {
 
 const page = () => {
   const [err, setErr] = React.useState<string>("");
-  const [acc_no, setAcc_no] = React.useState<string>("");
-  const [bank_name, setBank_name] = React.useState<string>("suhayaPoint");
+  const [acc_no, setAcc_no] = React.useState<string | number | undefined>("");
+  const [bank_name, setBank_name] = React.useState<string | undefined>(
+    "suhayaPoint",
+  );
   const [person_name, setPerson_name] = React.useState<string | undefined>("");
   const [userFound1, setUSerFound1] = React.useState<user | undefined>();
   const [benef, setBenef] = React.useState<boolean>(false);
@@ -22,6 +25,27 @@ const page = () => {
   const [narration, setNarration] = React.useState<string | undefined>("");
   const [wantToSend, setWantToSend] = React.useState<boolean>(false);
   const [enteredPin, setEnteredPin] = React.useState<string>("");
+  const [currentUser, setCurrentUser] = React.useState<user>();
+  const setBeneficiary = (benef: benef) => {
+    const query = localStorage.getItem(localstorageApi);
+    if (!query) redirect("/fake-atm/");
+    const data: Data = JSON.parse(query);
+    setAcc_no(benef.acc_no);
+    setBank_name(benef.bank);
+    setPerson_name(benef.name);
+    data.atm_simulations?.users?.map((user) => {
+      if (user.id == benef.id) setUSerFound1(user);
+    });
+  };
+  React.useEffect(() => {
+    const query = localStorage.getItem(localstorageApi);
+    if (!query) redirect("/fake-atm");
+    const data: Data = JSON.parse(query);
+    if (!data.atm_simulations?.currentUSer?.loginInfo?.isLoggedIn)
+      redirect("/fake-atm/");
+    setCurrentUser(data.atm_simulations.currentUSer);
+  }, []);
+
   return (
     <ProtectedRoute>
       <div>
@@ -73,6 +97,24 @@ const page = () => {
                   readOnly
                   className="border-4 rounded-2xl bg-gray-200 border-white p-2 outline-none"
                 />
+                {!person_name && (
+                  <select name="benef" id="benef">
+                    <option>select</option>
+                    {currentUser?.transactionData?.beneficiaries?.map(
+                      (benef) => (
+                        <option
+                          key={benef.id}
+                          onClick={() => setBeneficiary(benef)}
+                          className="flex flex-wrap flex-row"
+                        >
+                          {benef.acc_no} &nbsp;&nbsp;
+                          {benef.bank}&nbsp;&nbsp;
+                          {benef.name}&nbsp;&nbsp;
+                        </option>
+                      ),
+                    )}
+                  </select>
+                )}
                 {person_name && (
                   <div>
                     <div>
@@ -161,19 +203,20 @@ const page = () => {
                             const localData: Data = JSON.parse(query);
                             if (
                               userFound1?.bankDatails?.acc_bank != bank_name ||
-                              userFound1.bankDatails.acc_name != person_name ||
-                              userFound1.bankDatails.acc_no != acc_no
+                              userFound1?.bankDatails?.acc_name !=
+                                person_name ||
+                              userFound1?.bankDatails?.acc_no != acc_no
                             ) {
                               setErr("Please check you credentials ");
                               return;
                             }
                             if (
-                              userFound1.bankDatails.acc_bank ==
+                              userFound1?.bankDatails?.acc_bank ==
                                 localData.atm_simulations?.currentUSer
                                   ?.bankDatails?.acc_bank &&
-                              userFound1.bankDatails.acc_no ==
-                                localData.atm_simulations.currentUSer
-                                  .bankDatails.acc_no
+                              userFound1?.bankDatails?.acc_no ==
+                                localData?.atm_simulations?.currentUSer
+                                  ?.bankDatails?.acc_no
                             ) {
                               setErr("You cannot send money to your account");
                               return;

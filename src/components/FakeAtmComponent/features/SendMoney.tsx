@@ -3,9 +3,9 @@ import React from "react";
 import { benef, Data, reciever, transaction, user } from "../../data";
 import { redirect } from "next/navigation";
 type myProps = {
-  acc_no: string;
+  acc_no: string | number | undefined;
   person_name: string | undefined;
-  bank_name: string;
+  bank_name: string | undefined;
   userFound1: user | undefined;
   benef: boolean;
   amount: number | undefined;
@@ -45,7 +45,7 @@ const SendMoney = ({
         user.bankDatails?.acc_name == person_name &&
         user.bankDatails?.acc_no == acc_no &&
         user.loginInfo?.password == userFound1?.loginInfo?.password &&
-        user.bankDatails.acc_bank == bank_name,
+        user.bankDatails?.acc_bank == bank_name,
     );
     if (!reciever) {
       setErr("somethig must have gone wrong");
