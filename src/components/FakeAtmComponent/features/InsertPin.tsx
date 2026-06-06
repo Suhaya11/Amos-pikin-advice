@@ -11,6 +11,7 @@ import {
 import Link from "next/link";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import { redirect } from "next/navigation";
+import ErrorMessage from "./ErrorMessage";
 type myProps = {
   user?: user;
   recipient: string | undefined;
@@ -125,18 +126,8 @@ const InsertPin = ({
                 const updatedUSers: user[] | undefined =
                   datanow?.atm_simulations?.users?.map((user) => {
                     if (user.id == newCurrentUSer.id) {
-                      console.error(
-                        "this is the user",
-                        user.id,
-                        newCurrentUSer.id,
-                      );
                       return newCurrentUSer;
                     } else {
-                      console.error(
-                        "the user now is suppose to be now same ",
-                        user.id,
-                        newCurrentUSer.id,
-                      );
                       return user;
                     }
                   });
@@ -245,9 +236,7 @@ const InsertPin = ({
               value={"Buy " + service}
               className="rounded-lg  px-4 bg-blue-600 border-4 border-blue-600 hover:bg-blue-900 text-white font-bold"
             />
-            <p className="w-full text-center text-red-600 animate-bounce">
-              {err || ""}
-            </p>
+            {err && <ErrorMessage setErr={setErr} err={err} />}
           </form>
         </div>
       ) : (
