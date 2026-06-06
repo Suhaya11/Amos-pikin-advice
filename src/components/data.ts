@@ -145,7 +145,7 @@ export type airtime_Data = {
 };
 export type transaction = {
   id: string;
-  type?: "in" | "out" | "airtime" | "data";
+  type?: "in" | "out" | "airtime" | "data" | "bonus";
   amount?: number;
   client?: {
     name?: string;

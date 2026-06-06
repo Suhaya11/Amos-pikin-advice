@@ -277,31 +277,53 @@ const Transaction_history = () => {
                 {transactions.length ? (
                   <>
                     <div className="bg-gray-200">
-                      {transactions.map(
-                        (transaction) =>
-                          transaction && (
-                            <p
-                              key={transaction.id}
-                              className={` cursor-pointer flex justify-between w-11/12 my-5 mx-auto pt-3`}
-                              onClick={() => {
-                                setTransactiontoview(transaction);
-                                setViewOne(true);
-                              }}
-                            >
-                              <span className="mr">
-                                {transaction.client?.name}
-                              </span>
-                              <span>
-                                {refactorDate(transaction.time!, "-")}
-                              </span>
-                              <span
-                                className={`transaction-${transaction.type} inline-block mr-4`}
+                      {transactions.map((transaction) => {
+                        if (transaction && transaction.type !== "bonus")
+                          return (
+                            <>
+                              <p
+                                key={transaction.id}
+                                className={` cursor-pointer flex justify-between w-11/12 my-5 mx-auto pt-3`}
+                                onClick={() => {
+                                  setTransactiontoview(transaction);
+                                  setViewOne(true);
+                                }}
                               >
-                                {transaction.amount} $
-                              </span>
-                            </p>
-                          ),
-                      )}
+                                <span className="mr">
+                                  {transaction.client?.name}
+                                </span>
+                                <span>
+                                  {refactorDate(transaction.time!, "-")}
+                                </span>
+                                <span
+                                  className={`transaction-${transaction.type} inline-block mr-4`}
+                                >
+                                  {transaction.amount} $
+                                </span>
+                              </p>
+                            </>
+                          );
+
+                        if (transaction && transaction.type == "bonus")
+                          return (
+                            <>
+                              <p
+                                key={transaction.id}
+                                className={` flex justify-between w-11/12 my-5 mx-auto pt-3`}
+                              >
+                                <span className="mr">{transaction.reason}</span>
+                                <span>
+                                  {refactorDate(transaction.time!, "-")}
+                                </span>
+                                <span
+                                  className={`transaction-in inline-block mr-4`}
+                                >
+                                  {transaction.amount} $
+                                </span>
+                              </p>
+                            </>
+                          );
+                      })}
                     </div>
                   </>
                 ) : (

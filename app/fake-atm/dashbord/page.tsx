@@ -1,11 +1,16 @@
 "use client";
-import { Data, masker, user } from "@/src/components/data";
+import { WiDirectionDown } from "react-icons/wi";
+import {
+  Data,
+  localstorageApi,
+  masker,
+  transaction,
+  user,
+} from "@/src/components/data";
 import AddMoneyModal from "@/src/components/FakeAtmComponent/features/AddMoneyModal";
-import Transfer from "@/src/components/FakeAtmComponent/features/Transfer";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
 import Link from "next/link";
 import { redirect, usePathname } from "next/navigation";
-import { Router } from "next/router";
 import React from "react";
 import {
   BiBell,
@@ -25,6 +30,7 @@ import {
   BiVolumeFull,
 } from "react-icons/bi";
 import { BsCoin, BsGrid } from "react-icons/bs";
+import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
 
 const FakeAtm = () => {
   const [showBalance, setShowBalance] = React.useState<boolean>(true);
@@ -36,6 +42,7 @@ const FakeAtm = () => {
   const [totalincome, settotalincome] = React.useState<number | undefined>(0);
   const [totalspent, settotalspent] = React.useState<number | undefined>(0);
   const pathName = usePathname();
+  const [err, setErr] = React.useState<string | undefined>("");
   //   {
   //   atm_simulations: {
   //     currentUSer: {
@@ -219,7 +226,69 @@ const FakeAtm = () => {
     localStorage.setItem("AmosIdeaApp", JSON.stringify(userLoggedOut));
     redirect("/fake-atm/login");
   };
-
+  const withdrawReferral = () => {
+    const query = localStorage.getItem(localstorageApi);
+    if (!query) redirect("/fake-atm");
+    const thedata: Data = JSON.parse(query);
+    if (!thedata.atm_simulations?.currentUSer?.loginInfo?.isLoggedIn) {
+      setErr("User logged out");
+      redirect("fake-atm/login");
+    }
+    if (!thedata.atm_simulations.currentUSer.transactionData?.referralBonus) {
+      setErr("You don't have referral bonus");
+      return;
+    }
+    if (
+      thedata.atm_simulations.currentUSer.transactionData?.referralBonus &&
+      thedata.atm_simulations.currentUSer.transactionData?.referralBonus < 2500
+    ) {
+      setErr(
+        `You must invite 5 people before you redeem your bonus now you invited ${thedata.atm_simulations.currentUSer.transactionData?.referralBonus / 500 == 1 ? `1 Person ` : `${thedata.atm_simulations.currentUSer.transactionData?.referralBonus / 500} peoples`} remain ${5 - thedata.atm_simulations.currentUSer.transactionData?.referralBonus / 500}`,
+      );
+      return;
+    }
+    const newTransaction: transaction = {
+      amount:
+        thedata.atm_simulations.currentUSer.transactionData?.referralBonus,
+      id: crypto.randomUUID(),
+      type: "bonus",
+      reason: "Referral bonus",
+      time: new Date(),
+    };
+    const updatedUser: user = {
+      ...thedata.atm_simulations.currentUSer,
+      transactionData: {
+        ...thedata.atm_simulations.currentUSer.transactionData,
+        totalIncome:
+          thedata.atm_simulations.currentUSer.transactionData?.totalIncome! +
+          thedata.atm_simulations.currentUSer.transactionData?.referralBonus!,
+        transactions: [
+          ...(thedata.atm_simulations.currentUSer.transactionData
+            ?.transactions || []),
+          newTransaction,
+        ],
+        referralBonus: 0,
+      },
+    };
+    const updatedUsers: user[] | undefined =
+      thedata.atm_simulations?.users?.map((user) => {
+        if (user.id == thedata.atm_simulations?.currentUSer?.id)
+          return updatedUser;
+        else return user;
+      });
+    const newData: Data = {
+      ...thedata,
+      atm_simulations: {
+        ...thedata.atm_simulations,
+        currentUSer: updatedUser,
+        users: updatedUsers,
+      },
+    };
+    if (confirm("do you realy want to redeem your refferal bonus ? ")) {
+      setLocalData(newData);
+      localStorage.setItem(localstorageApi, JSON.stringify(newData));
+    }
+  };
   return (
     <ProtectedRoute>
       <div className="bg-gray-50">
@@ -432,28 +501,42 @@ const FakeAtm = () => {
           </div>
           <h3 className="w-10/12 flex my-2 mx-auto">Rewards</h3>
           <div className="w-10/12 flex my-2 mx-auto justify-around">
-            <div className="flex flex-wrap flex-row bg-white p-4 rounded-2xl ">
-              <span className="w-full">
-                <BsCoin size={30} />
-              </span>
-              <span className="w-full">CashBack</span>
-              <span className="w-full">
+            <div
+              className="flex flex-wrap flex-row bg-white p-4 gap-4 rounded-2xl "
+              title="Cashback"
+            >
+              <BsCoin size={30} title="Cashback" />
+              <span>
+                {" "}
                 {localData.atm_simulations?.currentUSer?.transactionData?.cashBack?.toFixed(
                   2,
                 )! || 0}{" "}
                 <span className="uppercase line-through">n</span>
               </span>
             </div>
-            <div className="flex flex-wrap flex-row bg-white p-4 rounded-2xl">
-              <span className="w-full">
-                <BiVolumeFull size={30} />
-              </span>
-              <span className="w-full">Refferals</span>
-              <span className="w-full">
+            <div
+              title="Referrals"
+              className="flex flex-wrap flex-row bg-white p-4 rounded-2xl gap-4"
+            >
+              <BiVolumeFull
+                size={30}
+                title={"Referrals"}
+                className="inline-block font-bold"
+              />
+
+              <span className="">
                 {localData.atm_simulations?.currentUSer?.transactionData
                   ?.referralBonus || 0}{" "}
                 &nbsp;
-                <span className="uppercase line-through">n</span>
+                <span className="uppercase line-through">n</span>{" "}
+                <WiDirectionDown
+                  title="Withdraw"
+                  className="inline-block ml-4 "
+                  fill="blue"
+                  size={40}
+                  onClick={withdrawReferral}
+                />
+                {err && <ErrorMessage err={err} setErr={setErr} />}
               </span>
             </div>
           </div>
