@@ -2,71 +2,63 @@
 
 import Link from "next/link";
 import React from "react";
+import { BiMenu, BiX } from "react-icons/bi";
 type myprops = {
   headerOpen: boolean;
   setHeaderOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
-  const [viewprt, setVieport] = React.useState<number>();
+  const [viewprt, setVieport] = React.useState<number | undefined>();
   const [menuOpen, setMenuOpen] = React.useState<boolean | undefined>(false);
   React.useEffect(() => {
     setVieport(visualViewport?.width);
-  });
-  console.log(viewprt);
+  }, [window.visualViewport?.width]);
+
   if (viewprt && viewprt < 601)
     return (
-      <header className="border z-20 flex justify-around p-4  w-full top-0">
-        <details
-          onClick={() => setHeaderOpen(true)}
-          open={headerOpen}
-          onToggle={() => {
-            menuOpen ? setMenuOpen(false) : setMenuOpen(true);
-          }}
-          className={
-            !menuOpen
-              ? "w-full text-right"
-              : "text-right absolute bg-gray-50 z-30"
-          }
-        >
-          {" "}
-          <summary
-          // className={
-          //   menuOpen
-          //     ? "min-w-[451px]:absolute right-10 bg-brown-400"
-          //     : " relative text-right mr-19  right-0 border"
-          // }
-          >
-            Menu{" "}
-          </summary>
-          <ul className="flex  flex-row max-w-[500px]:gap-4 gap-2 flex-wrap justify-around font-black mr-3 border ">
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              <Link href={"/"}>Home</Link>
-            </li>
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              <Link href={"/decision-maker"} className="navLink">
-                Decition maker
-              </Link>
-            </li>
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              <Link href={"/daily-wahala"}>Daily wahala tracker</Link>
-            </li>{" "}
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              <Link href={"/fake-atm"}>Fake ATM simulations</Link>
-            </li>
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              <Link href={"/message-trans"}>Message translation</Link>
-            </li>
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              <Link href={"/time-greeting"}>time base behaviour app</Link>
-            </li>
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              about me
-            </li>
-            <li className="navLink" onClick={() => setHeaderOpen(false)}>
-              contact me
-            </li>{" "}
-          </ul>
-        </details>
+      <header className="relative border ">
+        <div className={` flex justify-end `}>
+          {headerOpen ? (
+            <>
+              <BiX
+                onClick={() => setHeaderOpen(false)}
+                size={30}
+                className="z-100"
+              />
+              <ul
+                className={`absolute ${headerOpen ? "bg-gray-200" : ""} z-90 right-0 p-5 top-5 capitalize`}
+              >
+                <li>
+                  <span>
+                    <Link href={"/"}> Home</Link>
+                  </span>
+                </li>
+                <li>
+                  <Link href={"/fake-atm"}> fake Atm Simulation </Link>
+                </li>
+                <li>
+                  {" "}
+                  <Link href={"/daily-wahala"}>
+                    {" "}
+                    Daily wahala Tracker{" "}
+                  </Link>{" "}
+                </li>
+                <li>
+                  <Link href={"/decision-maker"}> Decision Maker </Link>
+                </li>
+                <li>
+                  <Link href={"/message-trans"}> Message Translation </Link>
+                </li>
+              </ul>{" "}
+            </>
+          ) : (
+            <BiMenu
+              onClick={() => setHeaderOpen(true)}
+              className=""
+              size={30}
+            />
+          )}
+        </div>{" "}
       </header>
     );
   //  if (viewprt && viewprt < 601)
@@ -97,7 +89,7 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
   else
     return (
       <header>
-        <ul className="flex flex-row gap-3 flex-wrap justify-start  font-black mr-3">
+        <ul className="flex flex-row gap-3 flex-wrap justify-around  font-black mr-3">
           <li>Home</li>
           <li>Decition maker</li>
           <li>Daily wahala tracker</li> <li>Fake ATM simulations</li>{" "}
