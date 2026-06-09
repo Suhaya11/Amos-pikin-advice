@@ -8,7 +8,7 @@ type myProps = {
 function Decided_Modal({ decided }: myProps) {
   if (!decided) redirect("/decision-maker");
   return (
-    <div className="absolute w-screen z-10 h-screen bg-purple-200 top-15 left-0">
+    <div className="absolute w-screen z-10 h-screen bg-purple-200 left-0 top-0">
       <br />
       <br />
       <br />

@@ -7,6 +7,8 @@ import { CgClose } from "react-icons/cg";
 import Decided_Modal from "./Decision-Modal";
 import AddAction from "./AddAction";
 import { BiEdit, BiTrash } from "react-icons/bi";
+import Link from "next/link";
+import { redirect, usePathname } from "next/navigation";
 
 export const theData = [
   {
@@ -32,6 +34,7 @@ const decisionForm = () => {
   const [decisions, setDecisions] = React.useState<
     decision[] | undefined | null
   >();
+  const pathName = usePathname();
   const [addActionOpen, setAddActionOpen] = React.useState<boolean>(false);
   const [choosed, setChoosed] = React.useState<decision[]>([]);
   const [decided, setDecided] = React.useState<decision>();
@@ -94,8 +97,7 @@ const decisionForm = () => {
               {emptyOptionMessage}
             </span>
           )}
-
-          <details className="absolute overflow-y-scroll">
+          {/* <details className="absolute overflow-y-scroll">
             <summary> Choices </summary>{" "}
             {decisions?.map((decision) => (
               <li
@@ -130,8 +132,34 @@ const decisionForm = () => {
             >
               Add Action
             </li>
-          </details>
-
+          </details> */}
+          <h1>Choices</h1>
+          <select className="absolute overflow-y-scroll">
+            <option></option>
+            {decisions?.map((decision) => (
+              <option
+                key={decision?.id}
+                className="list-none cursor-pointer border p-1 my-1 flex justify-around"
+                onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+                  e.stopPropagation();
+                  const alradyExisted = choosed?.some(
+                    (addedDecision) => decision.id === addedDecision.id,
+                  );
+                  if (!alradyExisted) {
+                    addChoice(decision);
+                  }
+                }}
+              >
+                {decision?.todo}
+              </option>
+            ))}
+            <option
+              className="list-none cursor-pointer border p-1 my-1 bg-blue-500 text-white font-bold text-center"
+              onClick={() => redirect(`${pathName}/new`)}
+            >
+              Add Action
+            </option>
+          </select>
           <div className="flex justify-end mr-8 ">
             <button
               onClick={() =>

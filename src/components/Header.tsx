@@ -12,11 +12,11 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
   const [menuOpen, setMenuOpen] = React.useState<boolean | undefined>(false);
   React.useEffect(() => {
     setVieport(visualViewport?.width);
-  }, [window.visualViewport?.width]);
+  }, []);
 
   if (viewprt && viewprt < 601)
     return (
-      <header className="relative border ">
+      <header className="relative  z-150">
         <div className={` flex justify-end `}>
           {headerOpen ? (
             <>
@@ -28,25 +28,23 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
               <ul
                 className={`absolute ${headerOpen ? "bg-gray-200" : ""} z-90 right-0 p-5 top-5 capitalize`}
               >
-                <li>
-                  <span>
-                    <Link href={"/"}> Home</Link>
-                  </span>
+                <li onClick={() => setHeaderOpen(false)}>
+                  <Link href={"/"}> Home</Link>
                 </li>
-                <li>
+                <li onClick={() => setHeaderOpen(false)}>
                   <Link href={"/fake-atm"}> fake Atm Simulation </Link>
                 </li>
-                <li>
+                <li onClick={() => setHeaderOpen(false)}>
                   {" "}
                   <Link href={"/daily-wahala"}>
                     {" "}
                     Daily wahala Tracker{" "}
                   </Link>{" "}
                 </li>
-                <li>
+                <li onClick={() => setHeaderOpen(false)}>
                   <Link href={"/decision-maker"}> Decision Maker </Link>
                 </li>
-                <li>
+                <li onClick={() => setHeaderOpen(false)}>
                   <Link href={"/message-trans"}> Message Translation </Link>
                 </li>
               </ul>{" "}
