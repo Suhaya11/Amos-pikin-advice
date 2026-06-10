@@ -4,10 +4,8 @@ import { Data, decision, localstorageApi } from "@/src/components/data";
 
 import React from "react";
 import { redirect } from "next/navigation";
-type myProps = {
-  setAddActionOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const AddAction = ({ setAddActionOpen }: myProps) => {
+import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
+const AddAction = () => {
   const [grade, setGrade] = React.useState<number>(10);
   const [action, setAction] = React.useState<string>("");
   const [reason, setReason] = React.useState<string>("");
@@ -19,7 +17,7 @@ const AddAction = ({ setAddActionOpen }: myProps) => {
       const mockedData: Data = {
         atm_simulations: {},
         daily_wahala: [],
-        decisions: [],
+        decisions: {},
         timeGreetings: [],
       };
       localStorage.setItem(localstorageApi, JSON.stringify(mockedData));
@@ -49,9 +47,15 @@ const AddAction = ({ setAddActionOpen }: myProps) => {
       return;
     }
     const thedata: Data = JSON.parse(query);
+    const newDecisions: decision[] = thedata.decisions?.decisions?.length
+      ? [...thedata.decisions?.decisions!, newActiontodo]
+      : [newActiontodo];
     const newData: Data = {
       ...thedata,
-      decisions: [...thedata.decisions!, newActiontodo],
+      decisions: {
+        ...thedata.decisions,
+        decisions: newDecisions,
+      },
     };
     localStorage.setItem("AmosIdeaApp", JSON.stringify(newData));
     redirect("/decision-maker");
@@ -64,7 +68,8 @@ const AddAction = ({ setAddActionOpen }: myProps) => {
   return (
     <div className="fixed top-0 w-screen  flex justify-between h-screen bg-emerald-700 left-0 opacity-100 ">
       <form
-        onSubmit={() => {
+        onSubmit={(e) => {
+          e.preventDefault();
           addActionToMMR();
         }}
         className=" max-md:w-9/12 mx-auto my-30 h-70 bg-amber-100 p-2 flex flex-row flex-wrap   rounded-2xl border-amber-50 border-6 drop-shadow-purple-500"
@@ -129,6 +134,7 @@ const AddAction = ({ setAddActionOpen }: myProps) => {
           >
             Add action
           </button>
+          {err && <ErrorMessage err={err} setErr={setErr} />}
         </div>
       </form>
     </div>

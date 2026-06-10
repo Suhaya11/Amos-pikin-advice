@@ -35,9 +35,10 @@ const decisionForm = () => {
     decision[] | undefined | null
   >();
   const pathName = usePathname();
+  const [selectPlaceHolder, setSelectPlaceHolder] = React.useState<"">();
   const [addActionOpen, setAddActionOpen] = React.useState<boolean>(false);
   const [choosed, setChoosed] = React.useState<decision[]>([]);
-  const [decided, setDecided] = React.useState<decision>();
+  const [decided, setDecided] = React.useState<decision | null>();
   const [emptyOptionMessage, setEmptyMessage] = React.useState<string>("");
   const addChoice = (action: decision) => {
     setChoosed([...choosed, action]);
@@ -47,9 +48,7 @@ const decisionForm = () => {
       localStorage.getItem("AmosIdeaApp") || "{}",
     );
     if (typeof localData == typeof myData) {
-      setDecisions(localData.decisions);
-
-      console.log("decisions", localData);
+      setDecisions(localData.decisions?.decisions);
     }
   }, [addActionOpen]);
   console.log("hhh", decisions);
@@ -67,7 +66,7 @@ const decisionForm = () => {
   return (
     <>
       {decided ? (
-        <Decided_Modal decided={decided} />
+        <Decided_Modal setDecided={setDecided} decided={decided} />
       ) : (
         <form
           onSubmit={(e) => {
@@ -134,7 +133,11 @@ const decisionForm = () => {
             </li>
           </details> */}
           <h1>Choices</h1>
-          <select className="absolute overflow-y-scroll">
+          <select
+            className="absolute overflow-y-scroll"
+            value={selectPlaceHolder}
+            onChange={() => setSelectPlaceHolder("")}
+          >
             <option></option>
             {decisions?.map((decision) => (
               <option
@@ -173,7 +176,7 @@ const decisionForm = () => {
           </div>
         </form>
       )}{" "}
-      {addActionOpen && <AddAction setAddActionOpen={setAddActionOpen} />}
+      {/* {addActionOpen && <AddAction setAddActionOpen={setAddActionOpen} />} */}
       <div className="pointer-events-none absolute bottom-0 w-full animate-pulse  left-0 text-center text-red-500 font-bold uppercase p-2">
         In the setting section I'll give user chance to a edit the range and
         increment system for grade and other setings that I might realize that

@@ -1,12 +1,15 @@
 "use client";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
-import { Data } from "../data";
+import {
+  Data,
+  decision,
+  localstorageApi,
+  samplingDataForStarting,
+} from "../data";
 
 import React from "react";
-type myProps = {
-  setAddActionOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-const AddAction = ({ setAddActionOpen }: myProps) => {
+import { redirect } from "next/navigation";
+const AddAction = () => {
   const [grade, setGrade] = React.useState<number>(10);
   const [action, setAction] = React.useState<string>("");
   const [reason, setReason] = React.useState<string>("");
@@ -17,17 +20,34 @@ const AddAction = ({ setAddActionOpen }: myProps) => {
   }, []);
 
   const addActionToMMR = async () => {
-    if (action && Number(grade)) {
-      currentData?.decisions?.push({
-        id: crypto.randomUUID(),
-        todo: action,
-        reason,
-        rank: grade,
-      });
-
-      localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
-      setAddActionOpen(false);
+    const newActionToAdd: decision = {
+      id: crypto.randomUUID(),
+      todo: action,
+      rank: grade,
+      reason,
+    };
+    const dataToAdd: Data = {
+      ...samplingDataForStarting,
+      decisions: {
+        ...samplingDataForStarting.decisions,
+        decisions: [newActionToAdd],
+      },
+    };
+    const query = localStorage.getItem(localstorageApi);
+    if (!query) {
+      localStorage.setItem(localstorageApi, JSON.stringify(dataToAdd));
+      return;
     }
+    const data: Data = JSON.parse(query);
+    const newData: Data = {
+      ...data,
+      decisions: {
+        ...data.decisions,
+        decisions: [...data.decisions?.decisions!, newActionToAdd],
+      },
+    };
+    localStorage.setItem("AmosIdeaApp", JSON.stringify(currentData));
+    redirect("/decision-maker/");
   };
 
   const grades: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

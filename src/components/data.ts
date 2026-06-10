@@ -1,8 +1,16 @@
 "use client";
 export const localstorageApi = "AmosIdeaApp";
 
+export interface decisionHistory {
+  dicision?: decision;
+  time?: Date;
+  id?: string;
+}
 export interface Data {
-  decisions?: decision[];
+  decisions?: {
+    decisions?: decision[];
+    history?: decisionHistory[];
+  };
   daily_wahala?: wahala[];
   atm_simulations?: atm_simulation;
   timeGreetings?: timeGreeting[];
@@ -125,7 +133,10 @@ export const myData: Data = {
       },
     },
   },
-  decisions: [],
+  decisions: {
+    decisions: [],
+    history: [],
+  },
   timeGreetings: [],
 };
 export type reciever = {
@@ -251,7 +262,7 @@ type atm_simulation = {
 };
 export const CalculatedTodaysDate = (date: Date): string =>
   `${new Date(date).getDate() - 1}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
-console.log(CalculatedTodaysDate(new Date()));
+
 export const CalculateSavedDate = (date: Date): string =>
   `${new Date(date).getDate()}/${new Date(date).getMonth()}/${new Date(date).getFullYear()}`;
 export const TodaysWahala = (array: wahala[]): wahala[] =>
@@ -313,8 +324,27 @@ export const alradyExist = (
 // };
 // export const thedaata = dataRetriver();
 export const refactorDate = function (
-  date: Date,
-  seperator: "/" | "-" | ":" | "=" | "_",
+  date: Date = new Date(),
+  seperator: "/" | "-" | ":" | "=" | "_" = "-",
 ): string {
   return `${new Date(date).getDay()}${seperator}${new Date(date).getMonth()}${seperator}${new Date(date).getFullYear()}`;
 };
+
+export const samplingDataForStarting: Data = {
+  decisions: { decisions: [], history: [] },
+  atm_simulations: {
+    currentUSer: {},
+    users: [],
+    carriers: {},
+  },
+  daily_wahala: [],
+  timeGreetings: [],
+};
+
+export const timeForToday = (date?: Date) => {
+  if (date && refactorDate(date) == refactorDate()) {
+    return new Date(date).toLocaleString().split(",").at(1);
+  }
+  if (date) return new Date(date).toLocaleDateString();
+};
+// this is if its today ;
