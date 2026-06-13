@@ -1,9 +1,12 @@
+import Chat from "@/src/components/messageTransComponent/Chat";
 import React from "react";
 
 const MessageTrans = () => {
   return (
     <div>
-      <div className="text-9xl uppercase text-blue-800">message trans</div>
+      <div className="">
+        <Chat />{" "}
+      </div>
     </div>
   );
 };

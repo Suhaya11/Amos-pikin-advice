@@ -12,11 +12,9 @@ export default function RootLayout({
   const [headerOpen, setHeaderOpen] = React.useState<boolean>(false);
 
   return (
-    <html lang="en">
-      <body className={` antialiased bg-gray-50`}>
-        <Wahalaheader />
-        {children}
-      </body>
-    </html>
+    <div className={` antialiased bg-gray-50`}>
+      <Wahalaheader />
+      {children}
+    </div>
   );
 }

@@ -16,7 +16,7 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
 
   if (viewprt && viewprt < 601)
     return (
-      <header className="relative  z-150">
+      <header className="  z-150 sticky top-0">
         <div className={` flex justify-end `}>
           {headerOpen ? (
             <>
@@ -28,7 +28,10 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
               <ul
                 className={`absolute ${headerOpen ? "bg-gray-200" : ""} z-90 right-0 p-5 top-5 capitalize`}
               >
-                <li onClick={() => setHeaderOpen(false)}>
+                <li
+                  onMouseOut={(e) => e.stopPropagation()}
+                  onClick={() => setHeaderOpen(false)}
+                >
                   <Link href={"/"}> Home</Link>
                 </li>
                 <li onClick={() => setHeaderOpen(false)}>

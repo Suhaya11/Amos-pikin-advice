@@ -55,11 +55,14 @@ const History = () => {
       {history?.length ? (
         <>
           <div>
-            <div>
+            <div className="flex justify-around border w-10/12 my-0 mx-auto">
               <span>Name</span> <span>Time</span> <span>Grade</span>
             </div>
             {history.map((decision) => (
-              <div key={decision.id}>
+              <div
+                key={decision.id}
+                className="flex justify-around border w-10/12 my-0 mx-auto"
+              >
                 <span>{decision.dicision?.todo}</span>{" "}
                 <span>
                   {/* {refactorDate(decision?.time, "-")} or {refactorDate()} */}

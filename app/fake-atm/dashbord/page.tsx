@@ -294,15 +294,6 @@ const FakeAtm = () => {
       <div className="bg-gray-50">
         <h1 className=" flex justify-between bg-white">
           <div>
-            <span
-              onClick={() => {
-                if (!prompt("really")) return;
-                localStorage.clear();
-                redirect("/fake-atm/");
-              }}
-            >
-              resetusers
-            </span>
             <BiUser
               onClick={() => setUserOptions(!userOptions)}
               className="text-4xl inline-block mr-3 border p-1 rounded-full"

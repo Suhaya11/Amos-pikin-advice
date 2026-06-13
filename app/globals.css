@@ -121,3 +121,9 @@ strong {
   color: green;
   margin-block: 10px;
 }
+.text-brown {
+  color: brown;
+}
+.bg-brown {
+  background-color: brown;
+}

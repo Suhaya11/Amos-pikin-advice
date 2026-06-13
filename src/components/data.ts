@@ -348,3 +348,24 @@ export const timeForToday = (date?: Date) => {
   if (date) return new Date(date).toLocaleDateString();
 };
 // this is if its today ;
+export type chats = {
+  client: "user" | "bot";
+  message?: string;
+  id?: string;
+  time: Date;
+};
+export type req = {
+  message?: string;
+  time?: Date;
+  client?: "user";
+};
+export type res = {
+  message?: string;
+  time?: Date;
+  client?: "bot";
+};
+export type chatsreqres = {
+  id?: string;
+  req: req;
+  res?: res;
+};
