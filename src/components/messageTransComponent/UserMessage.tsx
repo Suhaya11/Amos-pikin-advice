@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { chats, req, timeForToday } from "../data";
+import { req, timeForToday } from "../data";
 import { BiUser } from "react-icons/bi";
 export type messageProps = {
   message: req;

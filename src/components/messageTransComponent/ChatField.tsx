@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
-import { BiSend, BiUser } from "react-icons/bi";
-import { chats, chatsreqres } from "../data";
+import { BiPlus, BiSend, BiUser } from "react-icons/bi";
+import { chatsreqres, Data, localstorageApi, responsekey } from "../data";
 import ErrorMessage from "../FakeAtmComponent/features/ErrorMessage";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 interface myProps {
   scrollToButtom: React.RefObject<HTMLInputElement | null>;
   chats: chatsreqres[] | undefined;
@@ -12,16 +14,31 @@ const ChatField = ({ scrollToButtom, setChats, chats }: myProps) => {
   const [message, setMessage] = React.useState<string>();
   const [botRes, setBotRes] = React.useState<string>();
   const [err, setErr] = React.useState<string>();
-  // const [hasScrolled, setHasScrolled] = React.useState(false);
-  // const scrollToButtom = React.useRef<HTMLInputElement | null>(null);
-  // React.useEffect(() => {
-  //   if (hasScrolled && scrollToButtom.current) {
-  //     scrollToButtom.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "center",
-  //     });
-  //   }
-  // }, [hasScrolled]);
+
+  const keyandvalues: responsekey[] = [
+    { key: "hi", value: "You greet me" },
+    { key: "hungry", value: "You need food" },
+    { key: " money ", value: "you'r empty pocket" },
+  ];
+
+  const resSetter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!keyandvalues.find((key) => e.currentTarget.value.includes(key.key))) {
+      setBotRes("no response found");
+    }
+    keyandvalues.map((one) => {
+      if (
+        e.currentTarget.value
+          .toLocaleLowerCase()
+          .includes(one.key.toLocaleLowerCase())
+      )
+        setBotRes(one.value);
+    });
+    // if (e?.currentTarget?.value?.toLocaleLowerCase().includes("hi")) {
+    //   setBotRes("hello user. You want to greet me");
+    // } else if (e?.currentTarget.value.toLocaleLowerCase().includes("hungry")) {
+    //   setBotRes("You want to say you need food?. what's your choice");
+    // } else setBotRes("Now i have limited capabilites ");
+  };
 
   return (
     <form
@@ -32,40 +49,68 @@ const ChatField = ({ scrollToButtom, setChats, chats }: myProps) => {
           setErr("Empty Message !!");
           return;
         }
-        if (message.includes("yy")) {
-          setBotRes("this is what i want");
-        } else if (message.toLocaleLowerCase().includes("hungry")) {
-          setBotRes("You want to say you need food?. what's your choice");
-        } else setBotRes("Now i have limited capabilites ");
+        const newChats: chatsreqres[] = chats?.length
+          ? [
+              ...chats!,
+              {
+                id: crypto.randomUUID(),
+                req: {
+                  client: "user",
+                  time: new Date(),
+                  message,
+                },
+                res: {
+                  message: botRes,
+                  time: new Date(),
+                  client: "bot",
+                },
+              },
+            ]
+          : [
+              {
+                id: crypto.randomUUID(),
+                req: {
+                  client: "user",
+                  time: new Date(),
+                  message,
+                },
+                res: {
+                  message: botRes,
+                  time: new Date(),
+                  client: "bot",
+                },
+              },
+            ];
+        const query = localStorage.getItem(localstorageApi);
+        if (!query) redirect("/");
+        const data: Data = JSON.parse(query);
+        botRes && setChats(newChats);
 
-        setTimeout(() => {
-          setChats([
-            ...chats!,
-            {
-              id: crypto.randomUUID(),
-              req: {
-                client: "user",
-                time: new Date(),
-                message,
-              },
-              res: {
-                message: botRes,
-                time: new Date(),
-                client: "bot",
-              },
-            },
-          ]);
-        }, 1000);
+        const newData: Data = {
+          ...data,
+          messageStrans: {
+            ...data.messageStrans,
+            messages: newChats,
+          },
+        };
+
+        localStorage.setItem(localstorageApi, JSON.stringify(newData));
+        setMessage("");
       }}
     >
-      <BiUser size={30} className="mt-2 border rounded-full" />{" "}
+      <Link href={"/message-trans/req-res"}>
+        <BiPlus size={30} className="mt-2 border rounded-full" />
+      </Link>{" "}
       <input
         name=""
         id=""
         className=" border rounded-2xl w-8/12  outline-none p-2"
         placeholder="Message here ....."
         value={message ?? ""}
-        onChange={(e) => setMessage(e.currentTarget.value)}
+        onChange={(e) => {
+          setMessage(e.currentTarget.value);
+          resSetter(e);
+        }}
         ref={scrollToButtom}
       />
       <button>

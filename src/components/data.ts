@@ -14,6 +14,7 @@ export interface Data {
   daily_wahala?: wahala[];
   atm_simulations?: atm_simulation;
   timeGreetings?: timeGreeting[];
+  messageStrans?: messageTrans;
 }
 export interface decision {
   id: string;
@@ -21,6 +22,10 @@ export interface decision {
   rank: number;
   reason?: string;
 }
+export type messageTrans = {
+  messages?: chatsreqres[];
+  responses?: responsekey[];
+};
 export type rating =
   | "difficult"
   | "very difficult"
@@ -348,11 +353,11 @@ export const timeForToday = (date?: Date) => {
   if (date) return new Date(date).toLocaleDateString();
 };
 // this is if its today ;
-export type chats = {
-  client: "user" | "bot";
-  message?: string;
+
+export type responsekey = {
+  key: string;
+  value: string;
   id?: string;
-  time: Date;
 };
 export type req = {
   message?: string;

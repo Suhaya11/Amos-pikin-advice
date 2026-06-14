@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import { chats, chatsreqres } from "../data";
+import { chatsreqres, Data, localstorageApi, responsekey } from "../data";
 import UserMessage from "./UserMessage";
 import BotMessage from "./BotMessage";
 import ChatField from "./ChatField";
+import { redirect } from "next/navigation";
 
 const Chat = () => {
   const [chats, setChats] = React.useState<chatsreqres[] | undefined>([
@@ -30,9 +31,15 @@ const Chat = () => {
       },
     },
   ]);
-  const [hasScrolled, setHasScrolled] = React.useState(false);
+  const [responses, setResponses] = React.useState<responsekey[] | undefined>();
+  const [count, setCount] = React.useState<number>(0);
   const scrollToButtom = React.useRef<HTMLInputElement | null>(null);
   React.useEffect(() => {
+    const query = localStorage.getItem(localstorageApi);
+    if (!query) redirect("/");
+    const data: Data = JSON.parse(query);
+    setResponses(data.messageStrans?.responses);
+    setChats(data.messageStrans?.messages);
     if (chats?.length && scrollToButtom.current) {
       scrollToButtom.current.scrollIntoView({
         behavior: "smooth",
@@ -47,9 +54,9 @@ const Chat = () => {
         <div key={chat.id} className="">
           {
             <>
-              <UserMessage message={chat.req} />
+              {chat.req.message && <UserMessage message={chat.req} />}
 
-              <BotMessage message={chat.res} />
+              {chat.res?.message && <BotMessage message={chat.res} />}
             </>
           }
         </div>
