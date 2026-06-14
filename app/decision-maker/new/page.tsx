@@ -5,6 +5,8 @@ import { Data, decision, localstorageApi } from "@/src/components/data";
 import React from "react";
 import { redirect } from "next/navigation";
 import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
+import { BiLeftArrowAlt } from "react-icons/bi";
+import Link from "next/link";
 const AddAction = () => {
   const [grade, setGrade] = React.useState<number>(10);
   const [action, setAction] = React.useState<string>("");
@@ -67,6 +69,13 @@ const AddAction = () => {
 
   return (
     <div className="fixed top-0 w-screen  flex justify-between h-screen bg-emerald-700 left-0 opacity-100 ">
+      <Link href={"/decision-maker/"}>
+        <BiLeftArrowAlt
+          className="absolute left-4 top-2"
+          fill="white"
+          size={40}
+        />
+      </Link>{" "}
       <form
         onSubmit={(e) => {
           e.preventDefault();

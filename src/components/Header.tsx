@@ -89,15 +89,32 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
   //    );
   else
     return (
-      <header>
-        <ul className="flex flex-row gap-3 flex-wrap justify-around  font-black mr-3">
-          <li>Home</li>
-          <li>Decition maker</li>
-          <li>Daily wahala tracker</li> <li>Fake ATM simulations</li>{" "}
-          <li>Message translation</li>
-          <li>time base behaviour app</li>
-          <li>about me</li>
-          <li>contact me</li>
+      <header className="sticky top-0 w-full">
+        <ul className="flex flex-row gap-3 flex-wrap justify-around  font-black mr-3 p-4 bg-amber-50 ">
+          <li>
+            <Link href={"/"}> Home</Link>
+          </li>
+          <li>
+            <Link href={"/decision-maker/"}> Decition maker </Link>
+          </li>
+          <li>
+            <Link href={"/daily-wahala/"}> Daily wahala tracker </Link>
+          </li>{" "}
+          <li>
+            {" "}
+            <Link href={"/fake-atm/"}>Fake ATM simulations</Link>
+          </li>{" "}
+          <li>
+            <Link href={"/message-trans/"}>Message translation</Link>
+          </li>
+          <li>
+            {" "}
+            <Link href={"/about/"}>about me</Link>
+          </li>
+          <li>
+            {" "}
+            <Link href={"/contact/"}>contact me</Link>
+          </li>
         </ul>
       </header>
     );

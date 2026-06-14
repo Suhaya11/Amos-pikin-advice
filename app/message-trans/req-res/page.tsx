@@ -1,5 +1,6 @@
 "use client";
 import { Data, localstorageApi, responsekey } from "@/src/components/data";
+import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -22,7 +23,11 @@ const page = () => {
       setErr("Invalid value !");
       return;
     }
-    if (data.messageStrans?.responses?.some((itskey) => itskey.key == key)) {
+    if (
+      data.messageStrans?.responses?.some(
+        (itskey) => itskey.key.trim() == key.trim(),
+      )
+    ) {
       setErr("Cannot have duplicate keyword ! ");
       return;
     }
@@ -88,6 +93,7 @@ const page = () => {
           </button>
         </div>
       </form>
+      {err && <ErrorMessage err={err} setErr={setErr} />}
     </div>
   );
 };

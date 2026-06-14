@@ -177,11 +177,11 @@ const decisionForm = () => {
         </form>
       )}{" "}
       {/* {addActionOpen && <AddAction setAddActionOpen={setAddActionOpen} />} */}
-      <div className="pointer-events-none absolute bottom-0 w-full animate-pulse  left-0 text-center text-red-500 font-bold uppercase p-2">
+      {/* <div className="pointer-events-none absolute bottom-0 w-full animate-pulse  left-0 text-center text-red-500 font-bold uppercase p-2">
         In the setting section I'll give user chance to a edit the range and
         increment system for grade and other setings that I might realize that
         they are important
-      </div>
+      </div> */}
     </>
   );
 };

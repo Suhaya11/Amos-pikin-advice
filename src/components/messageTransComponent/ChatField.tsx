@@ -14,24 +14,39 @@ const ChatField = ({ scrollToButtom, setChats, chats }: myProps) => {
   const [message, setMessage] = React.useState<string>();
   const [botRes, setBotRes] = React.useState<string>();
   const [err, setErr] = React.useState<string>();
+  const [responses, setResponses] = React.useState<responsekey[] | undefined>([
+    { key: "hi", value: "You greet me", id: crypto.randomUUID() },
+    { key: "hungry", value: "You need food", id: crypto.randomUUID() },
+    { key: " money ", value: "you'r empty pocket", id: crypto.randomUUID() },
+  ]);
 
-  const keyandvalues: responsekey[] = [
-    { key: "hi", value: "You greet me" },
-    { key: "hungry", value: "You need food" },
-    { key: " money ", value: "you'r empty pocket" },
-  ];
+  React.useEffect(() => {
+    const query = localStorage.getItem(localstorageApi);
+    if (!query) redirect("/");
+    const data: Data = JSON.parse(query);
+    setResponses(data.messageStrans?.responses);
+  }, []);
 
   const resSetter = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!keyandvalues.find((key) => e.currentTarget.value.includes(key.key))) {
+    if (
+      !responses?.find((key) =>
+        e.currentTarget.value
+          .toLocaleLowerCase()
+          .trim()
+          .includes(key.key.trim().toLocaleLowerCase()),
+      )
+    ) {
       setBotRes("no response found");
     }
-    keyandvalues.map((one) => {
+    responses?.map((one) => {
       if (
         e.currentTarget.value
           .toLocaleLowerCase()
-          .includes(one.key.toLocaleLowerCase())
+          .trim()
+          .includes(one.key.trim().toLocaleLowerCase())
       )
         setBotRes(one.value);
+      else console.log(one.key, message);
     });
     // if (e?.currentTarget?.value?.toLocaleLowerCase().includes("hi")) {
     //   setBotRes("hello user. You want to greet me");
@@ -39,63 +54,66 @@ const ChatField = ({ scrollToButtom, setChats, chats }: myProps) => {
     //   setBotRes("You want to say you need food?. what's your choice");
     // } else setBotRes("Now i have limited capabilites ");
   };
+  const handleSubmit = () => {
+    if (!message) {
+      setErr("Empty Message !!");
+      return;
+    }
+    const newChats: chatsreqres[] = chats?.length
+      ? [
+          ...chats!,
+          {
+            id: crypto.randomUUID(),
+            req: {
+              client: "user",
+              time: new Date(),
+              message,
+            },
+            res: {
+              message: botRes,
+              time: new Date(),
+              client: "bot",
+            },
+          },
+        ]
+      : [
+          {
+            id: crypto.randomUUID(),
+            req: {
+              client: "user",
+              time: new Date(),
+              message,
+            },
+            res: {
+              message: botRes,
+              time: new Date(),
+              client: "bot",
+            },
+          },
+        ];
+    const query = localStorage.getItem(localstorageApi);
+    if (!query) redirect("/");
+    const data: Data = JSON.parse(query);
+    botRes && setChats(newChats);
+
+    const newData: Data = {
+      ...data,
+      messageStrans: {
+        ...data.messageStrans,
+        messages: newChats,
+      },
+    };
+
+    localStorage.setItem(localstorageApi, JSON.stringify(newData));
+    setMessage("");
+  };
 
   return (
     <form
       className="scroll-auto relative  flex justify-center gap-5 my-4 mx-auto "
       onSubmit={(e) => {
         e.preventDefault();
-        if (!message) {
-          setErr("Empty Message !!");
-          return;
-        }
-        const newChats: chatsreqres[] = chats?.length
-          ? [
-              ...chats!,
-              {
-                id: crypto.randomUUID(),
-                req: {
-                  client: "user",
-                  time: new Date(),
-                  message,
-                },
-                res: {
-                  message: botRes,
-                  time: new Date(),
-                  client: "bot",
-                },
-              },
-            ]
-          : [
-              {
-                id: crypto.randomUUID(),
-                req: {
-                  client: "user",
-                  time: new Date(),
-                  message,
-                },
-                res: {
-                  message: botRes,
-                  time: new Date(),
-                  client: "bot",
-                },
-              },
-            ];
-        const query = localStorage.getItem(localstorageApi);
-        if (!query) redirect("/");
-        const data: Data = JSON.parse(query);
-        botRes && setChats(newChats);
-
-        const newData: Data = {
-          ...data,
-          messageStrans: {
-            ...data.messageStrans,
-            messages: newChats,
-          },
-        };
-
-        localStorage.setItem(localstorageApi, JSON.stringify(newData));
-        setMessage("");
+        handleSubmit();
       }}
     >
       <Link href={"/message-trans/req-res"}>
