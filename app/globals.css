@@ -127,3 +127,8 @@ strong {
 .bg-brown {
   background-color: brown;
 }
+.AboutLi {
+  margin-left: 40px;
+  margin-block: 20px;
+  list-style: disc;
+}
