@@ -1,10 +1,145 @@
 @import "tailwindcss";
-*{
-
+body {
   box-sizing: border-box;
-  color:white;
 }
-*::placeholder{
-color:gray;
-margin-left: 10px;
+*::placeholder {
+  color: gray;
+  margin-left: 10px;
+}
+
+@layer base {
+  @media (width <= 400px) {
+    html {
+      font-size: 80%;
+    }
+  }
+}
+@media (max-width<= 400px) {
+  /* Reduce all rem-based sizes by ~12.5% (from 16px to 14px) */
+  @layer base {
+    html {
+      font-size: 47.5%;
+    }
+  }
+}
+body {
+  cursor: default;
+}
+input {
+  outline: none;
+}
+.navLink {
+  @apply cursor-pointer bg-violet-200 p-2 rounded-xl text-left w-full;
+}
+.title {
+  @apply font-bold text-center uppercase my-3 mx-auto;
+}
+.container {
+  @apply max-w-10/12 my-2 mx-auto p-2 rounded-xl;
+}
+.Input {
+  @apply bg-white border-white border-2 p-1 text-black w-96/12;
+}
+.viewUnderWahalaSummary {
+  @apply border w-fit mx-auto p-2 rounded-2xl hover:bg-gray-600 hover:text-white;
+}
+.servicesBoxUnderFakeAtmDashbord {
+  @apply p-4 rounded-xl cursor-pointer  bg-white w-11/48 text-center;
+}
+strong {
+  @apply capitalize cursor-pointer;
+}
+.fakeLearningBank {
+  @apply text-sm text-gray-600 left-40 absolute top-12;
+  letter-spacing: 3px;
+}
+.loginHomePage {
+  background: rgba(23, 6, 255, 0.096);
+  padding: 10px;
+  display: inline-block;
+  padding-inline: 3em;
+  color: blue;
+}
+.signupHomePage {
+  background: rgb(23, 6, 255);
+  padding: 10px;
+  display: inline-block;
+  padding-inline: 3em;
+  color: rgb(255, 255, 255);
+}
+.referralSpace {
+  @apply my-2 mx-auto w-10/12 p-2 rounded-2xl  flex flex-row  flex-wrap justify-around;
+  background: rgba(0, 102, 255, 0.151);
+}
+
+.otp {
+  @apply bg-gray-200 w-10 rounded-xl h-10 text-2xl outline-none p-2;
+}
+.resendOTP {
+  background-color: rgba(0, 0, 255, 0.158);
+}
+.OtpNotification {
+  animation: slowlyShowNotification 60s ease-in 1 forwards;
+}
+@keyframes slowlyShowNotification {
+  0% {
+    top: -200px;
+  }
+  5% {
+    top: 100px;
+  }
+  7% {
+    top: 90px;
+  }
+  10% {
+    top: 100px;
+  }
+  48% {
+    top: 100px;
+  }
+  50% {
+    top: -200px;
+  }
+  100% {
+    top: -200px;
+  }
+}
+.keyStroke {
+  @apply cursor-pointer p-3 font-bold text-2xl select-none;
+}
+.idInfoInput {
+  @apply w-29 outline-none border p-1 rounded-md focus:border-blue-700;
+}
+.idInfoInputNoWidth {
+  @apply outline-none border p-1 rounded-md  focus:border-blue-700;
+}
+.transaction-out {
+  color: red;
+  margin-block: 10px;
+}
+.transaction-in {
+  color: green;
+  margin-block: 10px;
+}
+.text-brown {
+  color: brown;
+}
+.bg-brown {
+  background-color: brown;
+}
+.AboutLi {
+  margin-left: 40px;
+  margin-block: 20px;
+  list-style: disc;
+}
+ul[class="aboutLinks"] > li > a {
+  color: blue;
+  text-decoration: underline;
+  list-style: square;
+  margin-left: 20px;
+  cursor: pointer;
+}
+ul[class="aboutLinks"] > li {
+  list-style: disc;
+  margin-left: 20px;
 }

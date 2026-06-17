@@ -1,0 +1,40 @@
+"use client";
+import React from "react";
+type myProps = {
+  numberValue: string | undefined;
+  setNumberValue: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
+const NumberFieldInForm = ({ numberValue, setNumberValue }: myProps) => {
+  const [country, setCountry] = React.useState("Ng");
+  return (
+    <div className="bg-gray-100 rounded-xl w-10/12 my-2 mx-auto flex gap-2">
+      <span className="rounded-full border uppercase p-2">{country}</span>
+      <select
+        className="w-4/24"
+        onChange={(e) => setCountry(e.currentTarget.value)}
+      >
+        <option value="Ng">+234</option>
+        <option value="NR">+023</option>
+        <option value="KD">+443</option>
+        <option value="KN">+064</option>
+      </select>
+      <input
+        type="text"
+        value={numberValue ?? ""}
+        name="text"
+        id="number"
+        placeholder="Phone number"
+        className="outline-none"
+        onChange={(e) => {
+          const val = e.target.value;
+          // Only allow digits and limit to 11 characters
+          if (/^\d*$/.test(val) && val.length <= 10) {
+            setNumberValue(val === "" ? undefined : Number(val).toString());
+          }
+        }}
+      />
+    </div>
+  );
+};
+
+export default NumberFieldInForm;

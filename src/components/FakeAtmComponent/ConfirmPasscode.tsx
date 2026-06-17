@@ -1,0 +1,85 @@
+"use client";
+import React from "react";
+import { BiRightArrowAlt, BiSolidLeftArrowAlt } from "react-icons/bi";
+import {
+  BsFillBackspaceFill,
+  BsFillExclamationCircleFill,
+  BsFillTelephoneFill,
+} from "react-icons/bs";
+import OtpInput from "./OtpInput";
+type myProps = {
+  maskNumberStart(numb: number): string;
+  numberValue: string | undefined;
+  passcodeNotSame: boolean;
+  passcodeValue: string;
+  setPasscodeValue: React.Dispatch<React.SetStateAction<string>>;
+  setEmailAdded: React.Dispatch<React.SetStateAction<boolean>>;
+  otpCompleted(text: string): void;
+  setPasscodeInserted: React.Dispatch<React.SetStateAction<boolean>>;
+};
+const ConfirmPasscode = (props: myProps) => {
+  const [defaultKeybord, setDefaultKeybord] = React.useState(false);
+  return (
+    <div>
+      <div className="flex justify-between text-blue-700">
+        <BiSolidLeftArrowAlt
+          title="Back"
+          size={40}
+          className="cursor-pointer"
+          onClick={() => props.setPasscodeInserted(false)}
+        />
+        <span className="cursor-pointer mr-4 resendOTP p-2 rounded-2xl">
+          <BsFillTelephoneFill className="inline-block" />{" "}
+          {props.maskNumberStart(Number(props.numberValue!))}
+        </span>
+      </div>
+      <main>
+        <h2 className="title">Confirm your passcode</h2>
+        <p className="text-sm text-gray-500 text-center">
+          Confirm your 6 digit passcode
+        </p>
+        <OtpInput length={6} onOTPComplete={props.otpCompleted} />
+        {props.passcodeNotSame && (
+          <p className="text-center animate-pulse text-red-600">
+            Passorword mismatch{" "}
+            <BsFillExclamationCircleFill
+              fill="red"
+              className="inline animate-pulse"
+            />
+          </p>
+        )}
+        {defaultKeybord && (
+          <div>
+            <div className="flex mt-30 my-4 mx-auto w-10/12 justify-around">
+              <span className={"keyStroke"}>1</span>
+              <span className={"keyStroke"}>2</span>
+
+              <span className={"keyStroke"}>3</span>
+            </div>
+            <div className="flex my-4 mx-auto w-10/12 justify-around">
+              <span className={"keyStroke"}>4</span>
+              <span className={"keyStroke"}>5</span>
+              <span className={"keyStroke"}>6</span>
+            </div>
+            <div className="flex my-4 mx-auto w-10/12 justify-around">
+              <span className={"keyStroke"}>7</span>
+              <span className={"keyStroke"}>8</span>
+              <span className={"keyStroke"}>9</span>
+            </div>
+            <div className="flex my-4 mx-auto w-10/12 justify-around">
+              <span className={"keyStroke"}>
+                <BsFillBackspaceFill />
+              </span>
+              <span className={"keyStroke"}>0</span>
+              <span className={"keyStroke"}>
+                <BiRightArrowAlt />
+              </span>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default ConfirmPasscode;

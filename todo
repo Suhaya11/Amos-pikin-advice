@@ -1,0 +1,8 @@
+git commit -m some features added -m I've just added 
+history section and reciept printing functionality next I'm going to implement airtime and cashback 
+system which is togather with data and then refferal
+ and i think i'll just stop there and look for other 
+ project to continue learning thanks suhaya 
+[recovered-decision-components c7cdfc5] some features added
+ 13 files changed, 346 insertions(+), 200 deletions(-)
+ create mode 100644 app/fake-atm/dashbord/transaction-history/view/[id]/page.tsx

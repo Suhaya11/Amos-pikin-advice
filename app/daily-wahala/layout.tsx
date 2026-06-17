@@ -1,5 +1,6 @@
 "use client";
-import "./globals.css";
+
+import Wahalaheader from "@/src/components/Daily-wahalaComponents/Wahalaheader";
 import Header from "@/src/components/Header";
 import React from "react";
 
@@ -11,11 +12,9 @@ export default function RootLayout({
   const [headerOpen, setHeaderOpen] = React.useState<boolean>(false);
 
   return (
-    <html lang="en">
-      <body className={` antialiased bg-gray-50`}>
-        <Header headerOpen={headerOpen} setHeaderOpen={setHeaderOpen} />
-        <div onScroll={() => setHeaderOpen(false)}>{children}</div>
-      </body>
-    </html>
+    <div className={` antialiased bg-gray-50`}>
+      <Wahalaheader />
+      {children}
+    </div>
   );
 }
