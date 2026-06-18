@@ -20,7 +20,7 @@ const DailyWahala = () => {
   const [date, setDate] = React.useState<Date>(new Date());
   const [causer, setCouser] = React.useState<string>("Me");
   const [localData, setLocalData] = React.useState<Data>({
-    decisions: [],
+    decisions: {},
     daily_wahala: [],
     atm_simulations: {},
     timeGreetings: [],

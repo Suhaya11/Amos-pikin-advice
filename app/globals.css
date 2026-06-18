@@ -8,13 +8,13 @@ body {
 }
 
 @layer base {
-  @media (width <= 400px) {
+  @media (width: 400px) {
     html {
       font-size: 80%;
     }
   }
 }
-@media (max-width<= 400px) {
+@media (max-width <= 400px) {
   /* Reduce all rem-based sizes by ~12.5% (from 16px to 14px) */
   @layer base {
     html {

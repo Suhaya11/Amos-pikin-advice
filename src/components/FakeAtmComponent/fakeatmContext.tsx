@@ -144,7 +144,7 @@ const FakeAtmContext = (children: React.ReactElement): React.ReactNode => {
         },
         daily_wahala: [],
         timeGreetings: [],
-        decisions: [],
+        decisions: {},
       };
       localStorage.setItem("AmosIdeaApp", JSON.stringify(AmosIdeaApp));
       redirect("/fake-atm/id-validation");
