@@ -6,6 +6,7 @@ import {
   status,
   wahala,
 } from "@/src/components/data";
+import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
 
 import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
@@ -19,6 +20,7 @@ const DailyWahala = () => {
   const [description, setDiscription] = React.useState<string>("");
   const [date, setDate] = React.useState<Date>(new Date());
   const [causer, setCouser] = React.useState<string>("Me");
+  const [err, setErr] = React.useState<string>();
   const [localData, setLocalData] = React.useState<Data>({
     decisions: {},
     daily_wahala: [],
@@ -31,17 +33,15 @@ const DailyWahala = () => {
   React.useEffect(() => {
     const localStora = localStorage.getItem("AmosIdeaApp");
     if (localStora) setLocalData(JSON.parse(localStora));
-    // else
-    //   localStorage.setItem(
-    //     "AmosIdeaApp",
-    //     JSON.stringify({
-    //       decisions: [],
-    //       daily_wahala: [],
-    //       atm_simulations: {},
-    //       timeGreetings: [],
-    //     }),
-    //   );
-    // localStorage.clear();
+    else {
+      const data: Data = {
+        decisions: {},
+        daily_wahala: [],
+        atm_simulations: {},
+        timeGreetings: [],
+      };
+      localStorage.setItem("AmosIdeaApp", JSON.stringify(data));
+    }
   }, []);
 
   const handleSubmit = (currentData: Data | undefined = localData) => {
@@ -187,11 +187,18 @@ const DailyWahala = () => {
               name="date"
               id="date"
               className=" bg-amber-50 text-black p-2 outline-0 rounded-2xl "
-              onChange={(e) =>
-                new Date(e.currentTarget.value)?.getDate()
-                  ? setDate(new Date(e.currentTarget.value))
-                  : null
-              }
+              onChange={(e) => {
+                if (
+                  new Date(e.currentTarget.value)?.getTime() >
+                  new Date().getTime()
+                ) {
+                  setErr("Max date value reached !!!");
+                  return;
+                } else {
+                  setDate(new Date(e.currentTarget.value));
+                  setErr("");
+                }
+              }}
               required
             />
           </div>
@@ -244,6 +251,7 @@ const DailyWahala = () => {
           />
         </div>
       </form>
+      <ErrorMessage err={err} setErr={setErr} />
     </div>
   );
 };

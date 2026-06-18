@@ -16,7 +16,9 @@ const DecisionHeader = () => {
         <li>
           <Link href={"/decision-maker/history"}> History</Link>
         </li>
-        <li>About</li>
+        <li>
+          <Link href={"/decision-maker/about"}> About</Link>
+        </li>
       </ul>
     </div>
   );

@@ -4,44 +4,7 @@ import React from "react";
 import { BiPrinter } from "react-icons/bi";
 
 const DailyWahalaTrackingComponent = () => {
-  const [wahalas, setWahalas] = React.useState<wahala[]>([
-    {
-      id: "crypto.randomUUID()",
-      date: new Date(),
-      name: "machine spoiled",
-
-      desctiption: "Our machine was spoiled",
-      causer: "Natural",
-      status: "unsolved",
-      decision:
-        "I'll make sure that my bycle were fine before the next data inshaAllah",
-      rating: "difficult",
-    },
-    {
-      id: "crypto.randomUUID()1",
-      date: new Date(),
-      name: "machine spoiled",
-
-      desctiption: "Our machine was spoiled",
-      causer: "me",
-      status: "unsolved",
-      decision:
-        "I'll make sure that my bycle were fine before the next data inshaAllah",
-      rating: "difficult",
-    },
-    {
-      id: "crypto.randomUUID()2",
-      date: new Date(),
-      name: "second Trieal",
-
-      desctiption: "Our machine was spoiled",
-      causer: "me",
-      status: "unsolved",
-      decision:
-        "I'll make sure that my bycle were fine before the next data inshaAllah",
-      rating: "difficult",
-    },
-  ]);
+  const [wahalas, setWahalas] = React.useState<wahala[]>([]);
 
   React.useEffect(() => {
     const queryLocalStorage = localStorage.getItem("AmosIdeaApp");
@@ -51,7 +14,7 @@ const DailyWahalaTrackingComponent = () => {
       if (localData?.daily_wahala?.length) setWahalas(localData.daily_wahala);
     }
   }, []);
-  console.log(wahalas);
+
   const calculateDate = (date: Date) => {
     if (
       new Date(date).getDate() === new Date().getDate() &&

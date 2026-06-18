@@ -7,8 +7,15 @@ import { BiX } from "react-icons/bi";
 type myProps = {
   decided: decision;
   setDecided: React.Dispatch<React.SetStateAction<decision | undefined | null>>;
+  SetemptyError: React.Dispatch<React.SetStateAction<string>>;
+  setChoosed: React.Dispatch<React.SetStateAction<decision[]>>;
 };
-function Decided_Modal({ decided, setDecided }: myProps) {
+function Decided_Modal({
+  decided,
+  setDecided,
+  SetemptyError,
+  setChoosed,
+}: myProps) {
   if (!decided) redirect("/decision-maker");
   const addToHistory = () => {
     const query = localStorage.getItem(localstorageApi);
@@ -29,11 +36,17 @@ function Decided_Modal({ decided, setDecided }: myProps) {
     };
     localStorage.setItem(localstorageApi, JSON.stringify(newData));
     setDecided(null);
+    SetemptyError("");
+    setChoosed([]);
   };
   return (
     <div className="absolute w-screen z-10 h-screen bg-purple-200 left-0 top-0">
       <BiX
-        onClick={() => setDecided(null)}
+        onClick={() => {
+          setChoosed([]);
+          setDecided(null);
+          SetemptyError("");
+        }}
         className="absolute top-20 right-10 bg-red-600 cursor-pointer text-white p-1 "
         size={30}
       />
