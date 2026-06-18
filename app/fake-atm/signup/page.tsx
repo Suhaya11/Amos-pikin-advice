@@ -155,7 +155,7 @@ const page = () => {
         },
         daily_wahala: [],
         timeGreetings: [],
-        decisions: [],
+        decisions: {},
       };
 
       localStorage.setItem("AmosIdeaApp", JSON.stringify(AmosIdeaApp));
