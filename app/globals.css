@@ -132,3 +132,14 @@ strong {
   margin-block: 20px;
   list-style: disc;
 }
+ul[class="aboutLinks"] > li > a {
+  color: blue;
+  text-decoration: underline;
+  list-style: square;
+  margin-left: 20px;
+  cursor: pointer;
+}
+ul[class="aboutLinks"] > li {
+  list-style: disc;
+  margin-left: 20px;
+}

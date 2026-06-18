@@ -313,6 +313,9 @@ const FakeAtm = () => {
                   >
                     LogOut
                   </li>
+                  <li className="cursor-pointer hover:underline text-blue-700">
+                    <Link href={"/fake-atm/about"}>About</Link>
+                  </li>
                 </ul>
               )}
             </div>

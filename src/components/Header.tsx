@@ -50,6 +50,9 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
                 <li onClick={() => setHeaderOpen(false)}>
                   <Link href={"/message-trans"}> Message Translation </Link>
                 </li>
+                <li onClick={() => setHeaderOpen(false)}>
+                  <Link href={"/about"}> About </Link>
+                </li>{" "}
               </ul>{" "}
             </>
           ) : (
