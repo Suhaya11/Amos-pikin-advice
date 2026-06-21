@@ -66,7 +66,12 @@ const decisionForm = () => {
   return (
     <>
       {decided ? (
-        <Decided_Modal setDecided={setDecided} decided={decided} />
+        <Decided_Modal
+          SetemptyError={setEmptyMessage}
+          setChoosed={setChoosed}
+          setDecided={setDecided}
+          decided={decided}
+        />
       ) : (
         <form
           onSubmit={(e) => {

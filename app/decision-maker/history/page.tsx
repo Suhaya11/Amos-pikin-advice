@@ -44,6 +44,7 @@ const History = () => {
         decisions: { ...theData.decisions, history: [] },
       };
       if (confirm("Do you really want to delete all your Decisions history")) {
+        setHistory(undefined);
         localStorage.setItem(localstorageApi, JSON.stringify(newData));
         redirect(pathname);
       }
@@ -74,7 +75,9 @@ const History = () => {
           </div>
         </>
       ) : (
-        <></>
+        <>
+          <h1 className="my-50 mx-auto text-center">No decision history</h1>
+        </>
       )}
     </div>
   );

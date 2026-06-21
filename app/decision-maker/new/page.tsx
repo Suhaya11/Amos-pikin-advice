@@ -8,7 +8,7 @@ import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessag
 import { BiLeftArrowAlt } from "react-icons/bi";
 import Link from "next/link";
 const AddAction = () => {
-  const [grade, setGrade] = React.useState<number>(10);
+  const [grade, setGrade] = React.useState<number>(0);
   const [action, setAction] = React.useState<string>("");
   const [reason, setReason] = React.useState<string>("");
   const [currentData, setCurrentData] = React.useState<Data>();

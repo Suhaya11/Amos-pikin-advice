@@ -16,7 +16,9 @@ const Wahalaheader = () => {
         <li>
           <Link href={"/daily-wahala/history"}> History</Link>
         </li>
-        <li>About</li>
+        <li>
+          <Link href={"/daily-wahala/about"}>About</Link>
+        </li>
       </ul>
     </div>
   );

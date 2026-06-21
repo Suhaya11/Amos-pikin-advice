@@ -74,9 +74,9 @@ const About = () => {
       </p>
       <h3 className="title">About the project</h3>
       <p>
-        This project I named it AmosIdeaApp becouse I get the idea of building
-        it from a nigerian developer Sanmi Amos i.e{" "}
-        <a href="#">Amos Pikin</a>{" "}
+        This project is built with Next.Ts wit tailwind css and I named it
+        AmosIdeaApp becouse I get the idea of building it from a nigerian
+        developer Sanmi Amos i.e <a href="#">Amos Pikin</a>{" "}
       </p>
       <p>The project countain following sections</p>
       <ul className="aboutLinks">

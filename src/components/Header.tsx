@@ -16,7 +16,7 @@ const Header = ({ headerOpen, setHeaderOpen }: myprops) => {
 
   if (viewprt && viewprt < 601)
     return (
-      <header className="  z-150 sticky top-0">
+      <header className="  z-150 sticky top-0 bg-white">
         <div className={` flex justify-end `}>
           {headerOpen ? (
             <>
