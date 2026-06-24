@@ -10,7 +10,7 @@ type myProps = {
   benef: boolean;
   amount: number | undefined;
   narration: string | undefined;
-  setErr: React.Dispatch<React.SetStateAction<string>>;
+  setErr: React.Dispatch<React.SetStateAction<string | undefined>>;
   enteredPin: string;
 };
 const SendMoney = ({

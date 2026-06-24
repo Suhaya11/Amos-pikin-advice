@@ -4,11 +4,11 @@ const About = () => {
   return (
     <div>
       <h2 className="title">Fake Atm Simulation</h2>
-      <p>
+      <p className="my-2 mx-auto w-10/12">
         This is the most interesting and time consuming part of this great
         project of mine
       </p>
-      <p>
+      <p className="my-2 mx-auto w-10/12">
         It's a partial clone of a popular digital bank here in Nigeria i.e{" "}
         <strong>Monipoint micro finance bank</strong> although it's just some
         part of it

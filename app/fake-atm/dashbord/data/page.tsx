@@ -7,13 +7,19 @@ import {
   myData,
   user,
 } from "@/src/components/data";
+import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
 import InsertPin from "@/src/components/FakeAtmComponent/features/InsertPin";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { send } from "process";
 
 import React from "react";
-import { BiSolidToggleLeft, BiSolidToggleRight } from "react-icons/bi";
+import {
+  BiLeftArrowAlt,
+  BiSolidToggleLeft,
+  BiSolidToggleRight,
+} from "react-icons/bi";
 
 const page = () => {
   const [dataCarriers, setDataCarriers] = React.useState<carriers | undefined>(
@@ -105,6 +111,11 @@ const page = () => {
     <ProtectedRoute>
       {!sending ? (
         <div>
+          <div className="text-8xl">
+            <Link href={"/fake-atm/dashbord"}>
+              <BiLeftArrowAlt size={40} fill="blue"></BiLeftArrowAlt>
+            </Link>
+          </div>
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -133,6 +144,15 @@ const page = () => {
                 return;
               }
               if (
+                network != "mtn" &&
+                network != "glo" &&
+                network != "airtel" &&
+                network != "9mobile"
+              ) {
+                setErr("please select the right network");
+                return;
+              }
+              if (
                 dataPrice >
                 currentUser?.transactionData?.totalIncome -
                   currentUser?.transactionData?.totalSpent!
@@ -143,7 +163,7 @@ const page = () => {
               setErr("");
               setSending(true);
             }}
-            className="w-8/12 border my-10 mx-auto"
+            className="w-8/12  my-10 mx-auto"
           >
             <div className="flex justify-center gap-3">
               <label htmlFor="recipient">Recipient:</label>
@@ -217,7 +237,7 @@ const page = () => {
             </div>
             {/* <span>what to debit from balance: {whatodebitfrombalance}</span>
             <span>what to debi from cashback: {whatToDebitfromCashback}</span> */}
-            <div className="flex gap-4">
+            <div className="flex justify-center gap-3">
               <label htmlFor="bundles">Bundles</label>
               <select
                 name="bundle"
@@ -246,78 +266,84 @@ const page = () => {
                 <option value="20"> 20 GB == {carrier?.price! * 20}</option>
               </select>
             </div>
-            {!benef ? (
-              <BiSolidToggleLeft
-                className="inline-block ml-3"
-                id="benef"
-                size={30}
-                onClick={() => setBenef(true)}
-              />
-            ) : (
-              <BiSolidToggleRight
-                id="benef"
-                onClick={() => setBenef(false)}
-                fill="blue"
-                className="inline-block ml-3"
-                size={30}
-              />
-            )}
-            <div className="inline-block mr-0 ml-10">
-              {" "}
-              <span onClick={() => setusecashback(!usecashback)}>
-                Use cashback{" "}
-              </span>
-              {!usecashback ? (
+            <div className="flex justify-center gap-3">
+              <label htmlFor="benef">Save as benefiary</label>
+              {!benef ? (
                 <BiSolidToggleLeft
                   className="inline-block ml-3"
                   id="benef"
                   size={30}
-                  onClick={() => {
-                    const query = localStorage.getItem("AmosIdeaApp");
-                    if (!query) redirect("/fake-atm/");
-                    const data: Data = JSON.parse(query);
-
-                    setusecashback(true);
-                    cashbackusedAmount(
-                      data.atm_simulations?.currentUSer?.transactionData
-                        ?.cashBack,
-                      dataPrice,
-                    );
-                  }}
+                  onClick={() => setBenef(true)}
                 />
               ) : (
                 <BiSolidToggleRight
                   id="benef"
-                  onClick={() => {
-                    setusecashback(false);
-                    cashbackNotusedAmount();
-                  }}
+                  onClick={() => setBenef(false)}
                   fill="blue"
                   className="inline-block ml-3"
                   size={30}
                 />
               )}
             </div>
-            <div>
+            <div className="flex justify-center gap-3">
+              {" "}
+              <span onClick={() => setusecashback(!usecashback)}>
+                Use cashback{" "}
+              </span>{" "}
+              <div className="flex justify-center gap-3">
+                {!usecashback ? (
+                  <BiSolidToggleLeft
+                    className="inline-block ml-3"
+                    id="benef"
+                    size={30}
+                    onClick={() => {
+                      const query = localStorage.getItem("AmosIdeaApp");
+                      if (!query) redirect("/fake-atm/");
+                      const data: Data = JSON.parse(query);
+
+                      setusecashback(true);
+                      cashbackusedAmount(
+                        data.atm_simulations?.currentUSer?.transactionData
+                          ?.cashBack,
+                        dataPrice,
+                      );
+                    }}
+                  />
+                ) : (
+                  <BiSolidToggleRight
+                    id="benef"
+                    onClick={() => {
+                      setusecashback(false);
+                      cashbackNotusedAmount();
+                    }}
+                    fill="blue"
+                    className="inline-block ml-3"
+                    size={30}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="flex justify-center gap-3">
               <p className="pl-10 capitalize">
                 cahsback: {Math.trunc(cashback || 0.5) || 0}
               </p>
             </div>
-            <span>{err || ""}</span>
-            <select name="benef" id="benef" className="capitalize">
-              <option value="">select beneficeary</option>
-              {currentUser?.transactionData?.data?.beneficiaries?.map(
-                (benef) => (
-                  <option
-                    key={benef.id}
-                    className="capitalize"
-                    onClick={() => setBeneficiary(benef)}
-                  >
-                    {benef.id}|&nbsp;{benef.bank}
-                  </option>
-                ),
-              )}
-            </select>
+            <div className="flex justify-center gap-3">
+              <select name="benef" id="benef" className="capitalize">
+                <option value="">select beneficeary</option>
+                {currentUser?.transactionData?.data?.beneficiaries?.map(
+                  (benef) => (
+                    <option
+                      key={benef.id}
+                      className="capitalize"
+                      onClick={() => setBeneficiary(benef)}
+                    >
+                      {benef.id}|&nbsp;{benef.bank}
+                    </option>
+                  ),
+                )}
+              </select>
+            </div>
             <div className="text-end pr-3">
               <input
                 type="submit"
@@ -326,6 +352,7 @@ const page = () => {
               />
             </div>
           </form>
+          {err && <ErrorMessage err={err} setErr={setErr} />}
         </div>
       ) : (
         <InsertPin

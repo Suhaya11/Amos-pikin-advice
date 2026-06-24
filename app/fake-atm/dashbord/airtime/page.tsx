@@ -1,5 +1,6 @@
 "use client";
 import { benef, Data, user } from "@/src/components/data";
+import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
 import InsertPin from "@/src/components/FakeAtmComponent/features/InsertPin";
 
 import Link from "next/link";
@@ -103,6 +104,15 @@ const page = () => {
                   return;
                 }
                 if (
+                  network != "mtn" &&
+                  network != "glo" &&
+                  network != "airtel" &&
+                  network != "9mobile"
+                ) {
+                  setErr("please select the right network");
+                  return;
+                }
+                if (
                   airtimeAmount >
                   currentUser?.transactionData?.totalIncome -
                     currentUser?.transactionData?.totalSpent!
@@ -122,7 +132,7 @@ const page = () => {
 
                 setSending(true);
               }}
-              className="w-8/12 border my-10 mx-auto"
+              className="w-8/12  my-10 mx-auto"
             >
               <div className="flex justify-center gap-3">
                 <label htmlFor="recipient">Recipient:</label>
@@ -192,25 +202,29 @@ const page = () => {
                 </select>
               </div>
               <div>
-                {" "}
-                <span onClick={() => setBenef(!benef)}>Save beneficiary </span>
-                {!benef ? (
-                  <BiSolidToggleLeft
-                    className="inline-block ml-3"
-                    id="benef"
-                    size={30}
-                    onClick={() => setBenef(true)}
-                  />
-                ) : (
-                  <BiSolidToggleRight
-                    id="benef"
-                    onClick={() => setBenef(false)}
-                    fill="blue"
-                    className="inline-block ml-3"
-                    size={30}
-                  />
-                )}
-                <div className="inline-block mr-0 ml-10">
+                <div className="flex justify-center gap-3">
+                  {" "}
+                  <span onClick={() => setBenef(!benef)}>
+                    Save beneficiary{" "}
+                  </span>
+                  {!benef ? (
+                    <BiSolidToggleLeft
+                      className="inline-block ml-3"
+                      id="benef"
+                      size={30}
+                      onClick={() => setBenef(true)}
+                    />
+                  ) : (
+                    <BiSolidToggleRight
+                      id="benef"
+                      onClick={() => setBenef(false)}
+                      fill="blue"
+                      className="inline-block ml-3"
+                      size={30}
+                    />
+                  )}
+                </div>
+                <div className="flex justify-center gap-3">
                   {" "}
                   <span onClick={() => setusecashback(!usecashback)}>
                     Use cashback{" "}
@@ -247,24 +261,26 @@ const page = () => {
                   )}
                 </div>
               </div>
-              <div>
+              <div className="flex justify-center gap-3">
                 <p className="pl-10 capitalize">cahsback: {cashback || 0}</p>
               </div>
-              <span>{err || ""}</span>
-              <select name="benef" id="benef" className="capitalize">
-                <option value="">select beneficeary</option>
-                {currentUser?.transactionData?.airtime?.beneficiaries?.map(
-                  (benef) => (
-                    <option
-                      key={benef.id}
-                      className="capitalize"
-                      onClick={() => setBeneficiary(benef)}
-                    >
-                      {benef.id}|&nbsp;{benef.bank}
-                    </option>
-                  ),
-                )}
-              </select>
+
+              <div className="flex justify-center gap-3">
+                <select name="benef" id="benef" className="capitalize">
+                  <option value="">select beneficeary</option>
+                  {currentUser?.transactionData?.airtime?.beneficiaries?.map(
+                    (benef) => (
+                      <option
+                        key={benef.id}
+                        className="capitalize"
+                        onClick={() => setBeneficiary(benef)}
+                      >
+                        {benef.id}|&nbsp;{benef.bank}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </div>
               <div className="text-end pr-3">
                 <input
                   type="submit"
@@ -274,6 +290,7 @@ const page = () => {
               </div>
             </form>
           </div>
+          {err && <ErrorMessage err={err} setErr={setErr} />}
         </div>
       ) : (
         <InsertPin

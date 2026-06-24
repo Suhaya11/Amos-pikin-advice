@@ -278,7 +278,8 @@ const Transaction_history = () => {
                   <>
                     <div className="bg-gray-200">
                       {transactions.map((transaction) => {
-                        if (transaction && transaction.type !== "bonus")
+                        if (transaction && transaction.type !== "bonus") {
+                          console.error(transaction);
                           return (
                             <>
                               <p
@@ -303,7 +304,7 @@ const Transaction_history = () => {
                               </p>
                             </>
                           );
-
+                        }
                         if (transaction && transaction.type == "bonus")
                           return (
                             <>

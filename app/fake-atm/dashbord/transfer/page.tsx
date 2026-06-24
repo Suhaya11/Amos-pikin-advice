@@ -1,5 +1,6 @@
 "use client";
 import { benef, Data, localstorageApi, user } from "@/src/components/data";
+import ErrorMessage from "@/src/components/FakeAtmComponent/features/ErrorMessage";
 import GetUserFromDb from "@/src/components/FakeAtmComponent/features/GetUserFromDb";
 import SendMoney from "@/src/components/FakeAtmComponent/features/SendMoney";
 import ProtectedRoute from "@/src/components/FakeAtmComponent/ProtectedRoutes";
@@ -13,7 +14,7 @@ import {
 } from "react-icons/bi";
 
 const page = () => {
-  const [err, setErr] = React.useState<string>("");
+  const [err, setErr] = React.useState<string | undefined>();
   const [acc_no, setAcc_no] = React.useState<string | number | undefined>("");
   const [bank_name, setBank_name] = React.useState<string | undefined>(
     "suhayaPoint",
@@ -49,6 +50,7 @@ const page = () => {
   return (
     <ProtectedRoute>
       <div>
+        {err && <ErrorMessage err={err} setErr={setErr} />}
         <Link href={"/fake-atm/dashbord"}>
           <BiSolidLeftArrowAlt size={60} fill="blue" />
         </Link>
@@ -62,7 +64,7 @@ const page = () => {
               }}
               className="w-10/12 my-8 mx-auto"
             >
-              <div className="my-3 mx-auto ">
+              <div className="  flex justify-center">
                 <label htmlFor="acc_no">Account No.:</label>
                 <input
                   value={acc_no}
@@ -78,7 +80,7 @@ const page = () => {
                   className=" my-0 mx-2 border-white bg-gray-200 border-10 p-2 outline-none rounded-2xl"
                 />
               </div>
-              <div className="my-3 mx-auto">
+              <div className="  flex justify-center">
                 <label htmlFor="bank_name">Bank:</label>
                 <select
                   onChange={(e) => setBank_name(e.currentTarget.value)}
@@ -90,33 +92,37 @@ const page = () => {
                 </select>
               </div>
               <div>
-                <label htmlFor="name">Name</label>{" "}
-                <input
-                  value={person_name}
-                  type="text"
-                  readOnly
-                  className="border-4 rounded-2xl bg-gray-200 border-white p-2 outline-none"
-                />
-                {!person_name && (
-                  <select name="benef" id="benef">
-                    <option>select</option>
-                    {currentUser?.transactionData?.beneficiaries?.map(
-                      (benef) => (
-                        <option
-                          key={benef.id}
-                          onClick={() => setBeneficiary(benef)}
-                          className="flex flex-wrap flex-row"
-                        >
-                          {benef.acc_no} &nbsp;&nbsp;
-                          {benef.bank}&nbsp;&nbsp;
-                          {benef.name}&nbsp;&nbsp;
-                        </option>
-                      ),
-                    )}
-                  </select>
-                )}
+                <div className="  flex justify-center">
+                  <label htmlFor="name">Name</label>{" "}
+                  <input
+                    value={person_name}
+                    type="text"
+                    readOnly
+                    className="border-4 rounded-2xl bg-gray-200 border-white p-2 outline-none"
+                  />
+                </div>
+                <div className="  flex justify-center">
+                  {!person_name && (
+                    <select name="benef" id="benef">
+                      <option>select</option>
+                      {currentUser?.transactionData?.beneficiaries?.map(
+                        (benef) => (
+                          <option
+                            key={benef.id}
+                            onClick={() => setBeneficiary(benef)}
+                            className="flex flex-wrap flex-row"
+                          >
+                            {benef.acc_no} &nbsp;&nbsp;
+                            {benef.bank}&nbsp;&nbsp;
+                            {benef.name}&nbsp;&nbsp;
+                          </option>
+                        ),
+                      )}
+                    </select>
+                  )}
+                </div>
                 {person_name && (
-                  <div>
+                  <div className="  flex justify-center">
                     <div>
                       <label htmlFor="amount">Amount</label>
                       <input
@@ -151,6 +157,7 @@ const page = () => {
                           }
                           if (e.currentTarget.value.length > 30) {
                             setErr("maximum narration is 30 characters");
+                            return;
                           }
                           setErr("");
                           setNarration(e.currentTarget.value);
@@ -221,6 +228,15 @@ const page = () => {
                               setErr("You cannot send money to your account");
                               return;
                             }
+                            if (!amount) {
+                              setErr("Please Enter amount");
+                              return;
+                            }
+                            if (amount < 100) {
+                              setErr("The minimum transfer amount is 100");
+                              return;
+                            }
+                            setErr("");
                             setWantToSend(true);
                           }}
                           className="border-3 p-2 px-4 bg-blue-600 hover:bg-blue-900 text-white font-bold capitalize text-xl rounded-3xl border-blue-500"
@@ -232,8 +248,6 @@ const page = () => {
                   </>
                 )}
               </div>
-
-              <div>{err}</div>
             </form>
           </div>
         ) : (
@@ -247,10 +261,10 @@ const page = () => {
                   setWantToSend(false);
                 }}
               />
-              <div>
+              <div className="my-20 mx-auto">
                 <form
                   action=""
-                  className="w-8/12 my-40 border mx-auto"
+                  className=" gap-3 flex justify-center"
                   onSubmit={(e) => e.preventDefault()}
                 >
                   <input
@@ -268,7 +282,7 @@ const page = () => {
                       setEnteredPin(e.currentTarget.value);
                     }}
                   />
-                  <p>{err || <>&nbsp;</>}</p>
+                  {err && <ErrorMessage err={err} setErr={setErr} />}
                   <SendMoney
                     enteredPin={enteredPin}
                     setErr={setErr}

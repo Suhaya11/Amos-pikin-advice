@@ -8,7 +8,7 @@ type myProp = {
 
   setUserFound: React.Dispatch<React.SetStateAction<user | undefined>>;
 
-  setErr: React.Dispatch<React.SetStateAction<string>>;
+  setErr: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 const GetUserFromDb = ({
   setErr,
